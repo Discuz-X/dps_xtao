@@ -1,0 +1,11 @@
+.whole { width: 65%; margin: 0 auto }
+
+.pt20 { padding-top: 30px }
+
+.tdside { width: 100px; height: 60px; text-align: center; border-right: 1px solid #F2F2F2; text-align: right; padding-right: 30px }
+
+.tdborder { border-bottom: 1px solid #F2F2F2 }
+
+.tdvalue { padding-left: 60px }
+
+.tdinput { width: 240px; height: 22px; line-height: 22px }

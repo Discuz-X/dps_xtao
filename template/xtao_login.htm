@@ -1,0 +1,173 @@
+{subtemplate common/header}
+<link rel="stylesheet" type="text/css" href="source/plugin/dps_xtao/template/css/main.css"/>
+<div class="mn" style="padding-top:20px;">
+	<div class="bm" style="padding:0 0 20px;">
+		<div class="bm_h bbs">
+			<h3 class="xs2">{lang dps_xtao:bind_taobao}</h3></div>
+		<ul class="tb cl whole pt20">{lang dps_xtao:taobao_user}: {$token['respond_array']['taobao_user_nick']}
+			<li id="one1" class="a" onclick="dps_setTab(this)"><a href="javascript:;">{lang dps_xtao:bind_exist_user}</a></li>
+			<li id="one2" onclick="dps_setTab(this)"><a href="javascript:;">{lang dps_xtao:bind_new_user}</a></li>
+		</ul>
+		<div id="trash" style="display: none;">
+			<table id="con_one_1" style="margin-top:20px" width="100%">
+				<tr>
+					<td class="tdside tdborder">{lang dps_xtao:username}</td>
+					<td colspan="2" class="tdborder tdvalue"
+							><input type="text" name="dps_username" class="tdinput" id="nameone1" value=""
+							/><span class="rq">*</span></td>
+				</tr>
+				<tr>
+					<td class="tdside tdborder">{lang dps_xtao:password}</td>
+					<td colspan="2" class="tdborder tdvalue"
+							><input type="password" name="dps_password" value="" class="tdinput"
+							/><span class="rq">*</span></td>
+				</tr>
+				<tr>
+					<td colspan="3" align="center"
+							><input type="button" class="pn pnc" value=" {lang dps_xtao:submit} "
+							onclick="dps_bind()" style="width:50px;margin:30px" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="whole">
+			<form id="bind_form" name="bindb" action='plugin.php?id=dps_xtao:connect&op=bind' method="post">
+				<input type="hidden" name="user_exist" value="0" />
+				<input type="hidden" name="taobao_user_id" value="{$token['respond_array']['taobao_user_id']}" />
+				<input type="hidden" name="taobao_user_nick" value="{$token['respond_array']['taobao_user_nick']}" />
+				<table id="con_one_2" style="margin-top:20px" width="100%">
+					<tr>
+						<td class="tdside tdborder">{lang dps_xtao:username}</td>
+						<td colspan="2" class="tdborder tdvalue"
+							><input type="text" class="tdinput" name="dps_username" id="nameone2" value="{$token['respond_array']['taobao_user_nick']}"
+							/><span class="rq">*</span></td>
+					</tr>
+					<tr>
+						<td class="tdside tdborder">{lang dps_xtao:password}</td>
+						<td colspan="2" class="tdborder tdvalue"
+							><input type="password" class="tdinput" name="dps_password" id="psdone2" value=""
+							/><span class="rq">*</span></td>
+					</tr>
+					<tr id="repassword_tr">
+						<td class="tdside tdborder">{lang dps_xtao:repassword}</td>
+						<td colspan="2" class="tdborder tdvalue"
+							><input type="password" name="dps_repassword" value="" class="tdinput"
+							/><span class="rq">*</span></td>
+					</tr>
+					<tr id="email_tr">
+						<td class="tdside tdborder">{lang dps_xtao:email}</td>
+						<td colspan="2" class="tdborder tdvalue"
+							><input type="text" name="dps_email" value="" class="tdinput"
+							/><span class="rq">*</span></td>
+					</tr>
+					<tr id="submit_tr">
+						<td colspan="3" align="center"
+							><input type="button" class="pn pnc" value=" {lang dps_xtao:submit} "
+							onclick="dps_bind()" style="width:50px;margin:30px" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="bind_status" style="display:none"></div>
+<script type="text/javascript">
+	dps_setTab(2);
+	function dps_setTab(name) {
+		if(typeof name == 'object') {
+			name = name.id.slice(3);
+		}
+		var style = ($('bind_form').getElementsByTagName('INPUT')[0]);
+		style.value = 2-name;
+		$('trash').appendChild($('con_one_1'));
+		$('trash').appendChild($('con_one_2'));
+		$('bind_form').appendChild($('con_one_' + name));
+		$('one1').className = '';
+		$('one2').className = '';
+		$('one' + name).className = 'a';
+		if(name == 1) {
+			var pre = 'name';
+		} else if(name == 2) {
+			var pre = 'psd';
+		}
+		$(pre + 'one' + name).focus();
+		return false;
+	}
+	function dps_bind() {
+		$('bind_status').innerHTML = '';
+		if (checkblank('bind_form') == false) {
+			showDialog('{lang dps_xtao:typeall}');
+			return;
+		}
+		ajaxpost('bind_form', 'bind_status', 'bind_status', '', '', dps_bind_back);
+	}
+	function dps_bind_back() {
+		var res = $('bind_status').innerHTML;
+		switch (res) {
+			case '-1':
+				showDialog('{lang dps_xtao:illegal_post}', 'alert');
+				break;
+			case '0':
+				showDialog('{lang dps_xtao:bindsuccess}', 'right', '', redirect);
+				break;
+			case '1'://user not found
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:usernotfound}', 'alert');
+				break;
+			case '2'://wrong password
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:wrongpassword}', 'alert');
+				break;
+			case '3':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:bindedyet}', 'alert');
+				break;
+			case '4':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:fatalerror}', 'alert');
+				break;
+			case '10':
+				showDialog('{lang dps_xtao:bindsuccess}', 'right', '', redirect);
+				break;
+			case '11':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:username_duplicate}', 'alert');
+				break;
+			case '12':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_add_illegal}', 'alert');
+				break;
+			case '13':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_username_protect}', 'alert');
+				break;
+			case '14':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_email_illegal}', 'alert');
+				break;
+			case '15':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_email_domain_illegal}', 'alert');
+				break;
+			case '16':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_email_duplicate}', 'alert');
+				break;
+			case '17':
+				showDialog('{lang dps_xtao:bindfailure}{lang dps_xtao:members_add_passwordwrong}', 'alert');
+				break;
+			default:
+				showDialog(res);
+				break;
+		}
+	}
+	function redirect() {
+		location.href = '{$referer}';
+	}
+	function checkblank(form) {
+		var controls;
+		var obj = form;
+		if (form == 'binda') {
+			controls = new Array('dps_username', 'dps_password');
+		} else {
+			controls = new Array('dps_username', 'dps_password', 'dps_repassword', 'dps_email');
+		}
+		for (i = 0; i < controls.length; i++) {
+			obj = eval("document." + form + '.' + controls[i]);
+			if (obj.value == '') {
+				return false;
+			}
+		}
+		return true;
+	}
+</script>
+{subtemplate common/footer}
