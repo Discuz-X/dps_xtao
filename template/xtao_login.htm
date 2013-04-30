@@ -154,18 +154,22 @@
 		location.href = '{$referer}';
 	}
 	function checkblank(form) {
+
+		var style = ($('bind_form').getElementsByTagName('INPUT')[0]);
 		var controls;
 		var obj = form;
-		if (form == 'binda') {
+		var Form
+		if (style.value == 1) {
 			controls = new Array('dps_username', 'dps_password');
-		} else {
+		} else if (style.value == 0) {
 			controls = new Array('dps_username', 'dps_password', 'dps_repassword', 'dps_email');
 		}
 		for (i = 0; i < controls.length; i++) {
-			obj = eval("document." + form + '.' + controls[i]);
+			alert($('bind_form').elements[controls[i]]);
+			/*obj = eval("document." + form + '.' + controls[i]);
 			if (obj.value == '') {
 				return false;
-			}
+			}*/
 		}
 		return true;
 	}
