@@ -2,6 +2,7 @@
 /**
  * TOP SDK 入口文件
  * 请不要修改这个文件，除非你知道怎样修改以及怎样恢复
+ *
  * @author wuxiao
  */
 
@@ -13,8 +14,7 @@
  * SDK工作目录
  * 存放日志，TOP缓存数据
  */
-if (!defined("TOP_SDK_WORK_DIR"))
-{
+if(!defined("TOP_SDK_WORK_DIR")) {
 	define("TOP_SDK_WORK_DIR", "/tmp/");
 }
 /**
@@ -22,9 +22,8 @@ if (!defined("TOP_SDK_WORK_DIR"))
  * 在你自己电脑上开发程序的时候千万不要设为false，以免缓存造成你的代码修改了不生效
  * 部署到生产环境正式运营后，如果性能压力大，可以把此常量设定为false，能提高运行速度（对应的代价就是你下次升级程序时要清一下缓存）
  */
-if (!defined("TOP_SDK_DEV_MODE"))
-{
-	define("TOP_SDK_DEV_MODE", true);
+if(!defined("TOP_SDK_DEV_MODE")) {
+	define("TOP_SDK_DEV_MODE", TRUE);
 }
 /**
  * 定义常量结束
@@ -34,10 +33,10 @@ if (!defined("TOP_SDK_DEV_MODE"))
  * 找到lotusphp入口文件，并初始化lotusphp
  * lotusphp是一个第三方php框架，其主页在：lotusphp.googlecode.com
  */
-$lotusHome = dirname(__FILE__) . DIRECTORY_SEPARATOR . "lotusphp_runtime" . DIRECTORY_SEPARATOR;
-include($lotusHome . "Lotus.php");
-$lotus = new Lotus;
-$lotus->option["autoload_dir"] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'top';
-$lotus->devMode = TOP_SDK_DEV_MODE;
-$lotus->defaultStoreDir = TOP_SDK_WORK_DIR;
+$lotusHome = dirname(__FILE__).DIRECTORY_SEPARATOR."lotusphp_runtime".DIRECTORY_SEPARATOR;
+include($lotusHome."Lotus.php");
+$lotus                         = new Lotus;
+$lotus->option["autoload_dir"] = dirname(__FILE__).DIRECTORY_SEPARATOR.'TOP';
+$lotus->devMode                = TOP_SDK_DEV_MODE;
+$lotus->defaultStoreDir        = TOP_SDK_WORK_DIR;
 $lotus->init();
