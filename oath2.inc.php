@@ -28,7 +28,7 @@ define('HACKTOR_PRE', 'taobao_');
 $op = empty($_GET['op']) ? 'redirect' : $_GET['op'];
 isset($_GET['code']) && !empty($_GET['code']) && $op = 'login';
 
-$redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':connect';
+$redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':oath2';
 
 if($op == 'init') {
 	if(!$config['app_key'] || !$config['app_secret']) {
@@ -151,15 +151,15 @@ if($op == 'init') {
 			}
 		} else { //not binded baiduuser,now bind
 			if($_G['uid']) { //bind loginned forum user?
-				$sql     = 'SELECT forum_uid FROM '.DB::table('forum_baidu_user')." WHERE forum_uid='".$_G['uid']."'"; //exam loginned forum user binded or not
+				$sql     = 'SELECT forum_uid FROM '.DB::table('forum_taobao_user')." WHERE forum_uid='".$_G['uid']."'"; //exam loginned forum user binded or not
 				$examuid = DB::fetch_first($sql);
 				if(empty($examuid)) { //loginned forum user not binded
 					$bind_u_info = array('forum_uid' => $_G['uid'], 'taobao_uid' => $token['respond_array']['taobao_user_id'], 'taobao_name' => $token['respond_array']['taobao_user_nick']);
 					$rtn         = addbindinfo($bind_u_info);
 					if($rtn) {
 						showmessage(
-							lang('plugin/'.IDENTIFIER, 'bindsuccess')
-								.lang('plugin/'.IDENTIFIER, 'baiduuser')
+							lang('plugin/'.IDENTIFIER, 'bind_success')
+								.lang('plugin/'.IDENTIFIER, 'taobao_user').'： '
 								.$token['respond_array']['taobao_user_nick'],
 							getcookie('xtao_refer'),
 							array(),
@@ -287,6 +287,7 @@ if($op == 'init') {
 							echo '16';
 						}
 					} else {
+						exit('pause here');
 						$sql        = "SELECT * FROM ".DB::table('common_usergroup').' WHERE groupid=\''.$_G['cache']['plugin']['niuc_baiduconnect']['baiduugroup'].'\'';
 						$group      = DB::fetch_first($sql);
 						$newadminid = in_array($group['radminid'], array(1, 2, 3)) ? $group['radminid'] : ($group['type'] == 'special' ? -1 : 0);
@@ -318,6 +319,22 @@ if($op == 'init') {
 	}
 
 	include template('common/footer_ajax');
+} elseif($op == 'unbind'){
+	if($_G['uid']) {
+		$sql    = 'SELECT userid FROM '.DB::table('forum_taobao_user').' WHERE forum_uid=\''.$_G['uid'].'\'';
+		$binded = DB::fetch_first($sql);
+		if(!$binded) {
+			showmessage(lang('plugin/'.IDENTIFIER, 'not_binded'));
+		} else {
+			DB::delete('forum_taobao_user', "forum_uid='".$_G['uid']."'");
+			include $__path.'medal.class.php';
+			$medal = new medal($_G['uid'], $_G['setting']['version'], $__path);
+			$medal->recyclemedal();
+			showmessage(lang('plugin/'.IDENTIFIER, 'unbind_success'), $_SERVER['HTTP_REFERER'], array(), array('timeout' => '1', 'alert' => 'right'));
+		}
+	} else {
+		showmessage(lang('plugin/'.IDENTIFIER, 'need_login'), '', array(), array('login' => TRUE));
+	}
 }
 if($op == 'redirect') {
 	$uri = 'https://oauth.taobao.com/authorize?response_type=code&client_id='.$config['app_key'];
@@ -368,104 +385,15 @@ if($op == 'main') {
 }
 
 
-function hacktor_addmember($uid, $username, $password, $email, $ip, $groupid, $extdata, $adminid = 0) {
-	$credits            = isset($extdata['credits']) ? $extdata['credits'] : array();
-	$profile            = isset($extdata['profile']) ? $extdata['profile'] : array();
-	$base               = array(
-		'uid'         => $uid,
-		'username'    => (string)$username,
-		'password'    => (string)$password,
-		'email'       => (string)$email,
-		'adminid'     => intval($adminid),
-		'groupid'     => intval($groupid),
-		'regdate'     => TIMESTAMP,
-		'emailstatus' => intval($extdata['emailstatus']),
-		'credits'     => intval($credits[0]),
-		'timeoffset'  => 9999
-	);
-	$status             = array(
-		'uid'          => $uid,
-		'regip'        => (string)$ip,
-		'lastip'       => (string)$ip,
-		'lastvisit'    => TIMESTAMP,
-		'lastactivity' => TIMESTAMP,
-		'lastpost'     => 0,
-		'lastsendmail' => 0
-	);
-	$count              = array(
-		'uid'         => $uid,
-		'extcredits1' => intval($credits[1]),
-		'extcredits2' => intval($credits[2]),
-		'extcredits3' => intval($credits[3]),
-		'extcredits4' => intval($credits[4]),
-		'extcredits5' => intval($credits[5]),
-		'extcredits6' => intval($credits[6]),
-		'extcredits7' => intval($credits[7]),
-		'extcredits8' => intval($credits[8])
-	);
-	$profile['uid']     = $uid;
-	$field_forum['uid'] = $uid;
-	$field_home['uid']  = $uid;
-	DB::insert('common_member', $base, TRUE);
-	DB::insert('common_member_status', $status, TRUE);
-	DB::insert('common_member_count', $count, TRUE);
-	DB::insert('common_member_profile', $profile, TRUE);
-	DB::insert('common_member_field_forum', $field_forum, TRUE);
-	DB::insert('common_member_field_home', $field_home, TRUE);
-	DB::insert('common_setting', array('skey' => 'lastmember', 'svalue' => $username), FALSE, TRUE);
-	manyoulog('user', $uid, 'add');
-	$totalmembers = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_member'));
-	$userstats    = array('totalmembers' => $totalmembers, 'newsetuser' => stripslashes($username));
-	save_syscache('userstats', $userstats);
-}
 
-function hacktor_connect_login($connect_member) {
-	global $_G;
-	$member = DB::fetch_first('SELECT * FROM '.DB::table('common_member')." WHERE uid='$connect_member[uid]'");
-	if(!($member = getuserbyuid($connect_member['uid'], 1))) {
-		return FALSE;
-	} else {
-		if(isset($member['_inarchive'])) {
-			C::t('common_member_archive')->move_to_master($member['uid']);
-		}
-	}
-	require_once libfile('function/member');
-	$cookietime = 2592000;
-	setloginstatus($member, $cookietime);
 
-	return TRUE;
-}
-
-function hacktor_manageaftlogin($niuc_uinfo) {
-	global $_G;
-	DB::update(('common_member_status'), array('lastip' => $_G['clientip'], 'lastvisit' => TIMESTAMP, 'lastactivity' => TIMESTAMP), 'uid=\''.$niuc_uinfo['uid'].'\'');
-	$ucsynlogin = '';
-	if($_G['setting']['allowsynlogin']) {
-		loaducenter();
-		$ucsynlogin = uc_user_synlogin($_G['uid']);
-	}
-}
 
 ?>
 <?php
 
 
 if($op == 'disconnect') {
-	if($_G['uid']) {
-		$sql    = 'SELECT userid FROM '.DB::table('forum_baidu_user').' WHERE forum_uid=\''.$_G['uid'].'\'';
-		$binded = DB::fetch_first($sql);
-		if(!$binded) {
-			showmessage(lang('plugin/'.IDENTIFIER, 'notbinded'));
-		} else {
-			DB::delete('forum_baidu_user', "forum_uid='".$_G['uid']."'");
-			include $__path.'medal.class.php';
-			$medal = new medal($_G['uid'], $_G['setting']['version'], $__path);
-			$medal->recyclemedal();
-			showmessage(lang('plugin/'.IDENTIFIER, 'disbindsuccess'), $_SERVER['HTTP_REFERER'], array(), array('timeout' => '1', 'alert' => 'right'));
-		}
-	} else {
-		showmessage(lang('plugin/'.IDENTIFIER, 'needlogin'), '', array(), array('login' => TRUE));
-	}
+
 } elseif($op == 'init' || $op == 'bindaccount') { //start
 	if(!$apikey || !$redirecturi || !$secretkey) {
 		showmessage(lang('plugin/'.IDENTIFIER, 'notconfiged'));

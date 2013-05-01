@@ -1,0 +1,10 @@
+<link rel="stylesheet" type="text/css" href="source/plugin/{IDENTIFIER}/template/css/main.css" />
+<p class="bm2_b bw0 hm" style="padding-top:100px">
+    <!--{if $binded}-->
+        <a href="plugin.php?id={IDENTIFIER}:oath2&op=unbind"><img src="source/plugin/{IDENTIFIER}/img/disbind.png" align="absmiddle" style="cursor:pointer"></a><br>
+        <span class="mtn xg1"><!--{$bindedtip}-->{$rs['taobao_name']}</span>
+    <!--{else}-->
+        <a href="plugin.php?id={IDENTIFIER}:oath2&op=init"><img src="source/plugin/{IDENTIFIER}/img/login-long.png" align="absmiddle" style="cursor:pointer"></a><br>
+        <span class="mtn xg1">{lang dps_xtao:user_set_nav_bind}</span>
+    <!--{/if}-->
+</p>
