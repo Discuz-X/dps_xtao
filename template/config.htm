@@ -1,0 +1,19 @@
+<tr><th><form name="medal" action="admin.php?action=plugins&identifier=niuc_baiduconnect&pmod=config&todo=save" method="post">
+<select multiple="multiple" name="medals[]" id="medals" size="16" style="width:130px">
+    <optgroup label="--"></optgroup>
+    <!--{loop $medal $med}-->
+        <option value="$med['medalid']">$med['name']</option>
+    <!--{/loop}-->
+</select><br />
+<input type="submit" value=" {lang niuc_baiduconnect:submit} " class="btn" />
+</form></th></tr>
+<script type="text/javascript">
+    var medal = new Array({$medalstr});
+    for (i = 0; i < $('medals').options.length; i++) {
+        for (j = 0; j < medal.length; j++) {
+            if ($('medals').options[i].value == medal[j]) {
+                $('medals').options[i].selected = true;
+            }
+        }
+    }
+</script>

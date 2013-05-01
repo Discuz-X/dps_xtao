@@ -1,0 +1,75 @@
+<script type="text/javascript">
+    function checkallOrNot(ischecked) {
+        if (typeof(ischecked) == 'undefined') {
+            ischecked = true;
+        }
+        if (BROWSER.firefox) {
+            var checks = document.getElementsByName('check');
+        } else {
+            var checks = document.all['check'];
+        }
+        for (var i = 0; i < checks.length - 1; i++) {
+            if (checks[i].style.display != 'none') {
+                if (ischecked == false) {
+                    checks[i].checked = false;
+                } else {
+                    checks[i].checked = checks[checks.length - 1].checked;
+                }
+            } else {
+                checks[i].checked = false;
+            }
+        }
+    }
+    function niuc_del() {
+        showDialog('{lang niuc_baiduconnect:delconfrm}', 'confirm', '', niuc_dodel, '1');
+    }
+    function niuc_dodel() {
+        if (BROWSER.firefox) {
+            var checks = document.getElementsByName('check');
+        } else {
+            var checks = document.all['check'];
+        }
+        var checked = "";
+        for (var i = 0; i < checks.length - 1; i++) {
+            if (checks[i].checked == true) {
+                checked += checks[i].value + ",";
+            }
+        }
+        if (checked == '') {
+            return;
+        }
+        $('chkdelvalue').value = checked;
+        ajaxpost('chkdel', 'statusid', 'statusid', '', '', niuc_dodel_callback);
+    }
+    function niuc_dodel_callback() {
+        var res = $('statusid').innerHTML;
+        var bindarr = res.split(',');
+        $('chkdelvalue').value = '';
+        for (var i in bindarr) {
+            if (bindarr[i]) {
+                $('chk_' + bindarr[i]).checked = false;
+                $('chk_' + bindarr[i]).style.display = 'none';
+                $('tr_' + bindarr[i]).style.display = 'none';
+            }
+        }
+    }
+</script>
+<div style="display:none"><form name="chkdel" id="chkdel" action='admin.php?action=plugins&identifier=niuc_baiduconnect&pmod=manage&op=del' method="post"><input type="text" name="bindid" id="chkdelvalue" value="" /></form></div>
+<!--{loop $bindrows $user}-->
+    <tr id="tr_{$user['userid']}">
+        <td><input type="checkbox" name="check" class="checkbox" id="chk_{$user['userid']}" value="{$user['userid']}|{$user['forumuid']}" /></td>
+        <td>{$user['forumuid']}</td>
+        <td><a target="_blank" href="home.php?mod=space&uid={$user['forumuid']}">{$user['username']}</a></td>
+        <td>{$user['baiduuid']}</td>
+        <td>{$user['baiduname']}</td>
+        <td><a href="javascript:;" onclick="checkallOrNot(false);$('chk_{$user['userid']}').checked=true;niuc_del();">{$lang_del}</a></td>
+    </tr>
+<!--{/loop}-->
+<tr>
+<td colspan="6">
+    <label><input type="checkbox" name="check" class="checkbox" onclick="checkallOrNot()" />{lang niuc_baiduconnect:selall}</label>
+    <input type="button" value="{$lang_del}" class="btn" onclick="niuc_del()" />
+    <div id="statusid" style="display:none"></div>
+</td>
+</tr>
+<tr><td align="center" colspan="6">{$pagestr}</td></tr>
