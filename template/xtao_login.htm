@@ -30,7 +30,7 @@
 			</table>
 		</div>
 		<div class="whole">
-			<form id="bind_form" name="bindb" action='plugin.php?id=dps_xtao:connect&op=bind' method="post">
+			<form id="bind_form" name="bindb" action='plugin.php?id=dps_xtao:oath2&op=bind' method="post">
 				<input type="hidden" name="user_exist" value="0" />
 				<input type="hidden" name="taobao_user_id" value="{$token['respond_array']['taobao_user_id']}" />
 				<input type="hidden" name="taobao_user_nick" value="{$token['respond_array']['taobao_user_nick']}" />
@@ -71,7 +71,7 @@
 </div>
 <div id="bind_status" style="display:none"></div>
 <script type="text/javascript">
-	dps_setTab(2);
+	dps_setTab(1);
 	function dps_setTab(name) {
 		if(typeof name == 'object') {
 			name = name.id.slice(3);
