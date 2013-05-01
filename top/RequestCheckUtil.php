@@ -1,13 +1,13 @@
 <?php
 /**
- * API��ξ�̬�����
- * ���Զ�API�Ĳ������͡����ȡ����ֵ�Ƚ���У��
+ * API入参静态检查类
+ * 可以对API的参数类型、长度、最大值等进行校验
  *
  **/
 class RequestCheckUtil {
 
 	/**
-	 * У���ֶ� fieldName ��ֵ$value�ǿ�
+	 * 校验字段 fieldName 的值$value非空
 	 *
 	 **/
 	public static function checkNotNull($value, $fieldName) {
@@ -18,7 +18,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * �����ֶ�fieldName��ֵvalue �ĳ���
+	 * 检验字段fieldName的值value 的长度
 	 *
 	 **/
 	public static function checkMaxLength($value, $maxLength, $fieldName) {
@@ -28,7 +28,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * �����ֶ�fieldName��ֵvalue������б?��
+	 * 检验字段fieldName的值value的最大列表长度
 	 *
 	 **/
 	public static function checkMaxListSize($value, $maxSize, $fieldName) {
@@ -43,7 +43,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * �����ֶ�fieldName��ֵvalue �����ֵ
+	 * 检验字段fieldName的值value 的最大值
 	 *
 	 **/
 	public static function checkMaxValue($value, $maxValue, $fieldName) {
@@ -59,7 +59,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * �����ֶ�fieldName��ֵvalue ����Сֵ
+	 * 检验字段fieldName的值value 的最小值
 	 *
 	 **/
 	public static function checkMinValue($value, $minValue, $fieldName) {
@@ -75,7 +75,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * �����ֶ�fieldName��ֵvalue�Ƿ���number
+	 * 检验字段fieldName的值value是否是number
 	 *
 	 **/
 	protected static function checkNumeric($value, $fieldName) {
@@ -84,7 +84,7 @@ class RequestCheckUtil {
 	}
 
 	/**
-	 * У��$value�Ƿ�ǿ�
+	 * 校验$value是否非空
 	 *  if not set ,return true;
 	 *    if is null , return true;
 	 *
