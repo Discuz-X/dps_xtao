@@ -13,9 +13,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `{$table}` (
   `userid` mediumint(9) NOT NULL AUTO_INCREMENT,
-  `forumuid` mediumint(9) NOT NULL,
-  `taobaouid` bigint(20) NOT NULL,
-  `taobaoname` varchar(30) DEFAULT NULL,
+  `forum_uid` mediumint(9) NOT NULL,
+  `taobao_uid` bigint(20) NOT NULL,
+  `taobao_name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`userid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
