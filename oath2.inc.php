@@ -5,10 +5,10 @@ error_reporting(E_ALL ^ E_NOTICE);
 global $_G;
 
 define('IDENTIFIER', basename(dirname(__FILE__))); //统一管理插件标识符
-$config = $_G['cache']['plugin'][IDENTIFIER]; //读取设置
+$_C = $_G['cache']['plugin'][IDENTIFIER]; //读取设置
 
 //未开启淘宝登录
-!$config['allow'] && exit('disabled');
+!$_C['allow'] && exit('disabled');
 /*
 $referer = dreferer();
 $__path  = str_replace('\\', '/', dirname(__FILE__)).'/';
@@ -31,13 +31,15 @@ isset($_GET['code']) && !empty($_GET['code']) && $op = 'login';
 $redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':oath2';
 
 if($op == 'init') {
-	if(!$config['app_key'] || !$config['app_secret']) {
+	if(!$_C['app_key'] || !$_C['app_secret']) {
 		showmessage(lang('plugin/'.IDENTIFIER, 'not_configed'));
 		exit;
 	}
 
-	header('Location: https://oauth.taobao.com/authorize?response_type=code&client_id='.$config['app_key'].'&redirect_uri='.$redirect_uri);
+	header('Location: https://oauth.taobao.com/authorize?response_type=code&client_id='.$_C['app_key'].'&redirect_uri='.$redirect_uri);
 	exit;
+
+
 	$tmp = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
 	dsetcookie('xtao_refer', '');
 	if(strpos($tmp, 'mod=register') === FALSE && strpos($tmp, 'mod=logging') === FALSE) {
@@ -50,8 +52,8 @@ if($op == 'init') {
 	$token['postfields'] = array(
 		'response_type' => 'token',
 		'grant_type'    => 'authorization_code',
-		'client_id'     => $config['app_key'],
-		'client_secret' => $config['app_secret'],
+		'client_id'     => $_C['app_key'],
+		'client_secret' => $_C['app_secret'],
 		'code'          => $_GET['code'],
 		'redirect_uri'  => $redirect_uri
 	);
@@ -337,7 +339,7 @@ if($op == 'init') {
 	}
 }
 if($op == 'redirect') {
-	$uri = 'https://oauth.taobao.com/authorize?response_type=code&client_id='.$config['app_key'];
+	$uri = 'https://oauth.taobao.com/authorize?response_type=code&client_id='.$_C['app_key'];
 	$uri = $uri.'&redirect_uri='.$redirect_uri;
 	header('Location: '.$uri);
 	exit;
@@ -363,8 +365,8 @@ if($op == 'main') {
 		hacktor_manageaftlogin($connect_member);
 		showmessage('欢迎您 '.$nick, '/');
 	} else {
-		if(empty($config['group_id'])) {
-			$config['group_id'] = 0;
+		if(empty($_C['group_id'])) {
+			$_C['group_id'] = 0;
 		}
 
 		$password = md5(md5($username));
@@ -375,7 +377,7 @@ if($op == 'main') {
 		if($uid <= 0) {
 			showmessage('注册失败', '/');
 		} else {
-			hacktor_addmember($uid, $username, $password, $email, $ip, $config['group_id'], NULL);
+			hacktor_addmember($uid, $username, $password, $email, $ip, $_C['group_id'], NULL);
 			$connect_member['uid'] = $uid;
 			hacktor_connect_login($connect_member);
 			hacktor_manageaftlogin($connect_member);
@@ -386,139 +388,6 @@ if($op == 'main') {
 
 
 
-
-
-?>
-<?php
-
-
-if($op == 'disconnect') {
-
-} elseif($op == 'init' || $op == 'bindaccount') { //start
-	if(!$apikey || !$redirecturi || !$secretkey) {
-		showmessage(lang('plugin/'.IDENTIFIER, 'notconfiged'));
-		exit;
-	}
-	$tmp = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
-	dsetcookie('xtao_refer', '');
-	if(strpos($tmp, 'mod=register') === FALSE && strpos($tmp, 'mod=logging') === FALSE) {
-		dsetcookie('xtao_refer', $_SERVER['HTTP_REFERER']);
-	}
-	header('Location: https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id='.$apikey.'&redirect_uri='.$redirecturi.'&scope=super_msg&display=page');
-} elseif($op == 'bind') { //bind
-	include template('common/header_ajax');
-	$style = isset($_GET['style']) ? $_GET['style'] : '';
-
-	if($style == '0') { //binded or not??
-		if(safecheck()) {
-			echo '-1'; //unsafe e.g. ' " \ % union select...
-		} else {
-			$_POST['taobao_user_id']   = addslashes($_POST['taobao_user_id']);
-			$_POST['taobao_user_nick'] = addslashes($_POST['taobao_user_nick']);
-			$_POST['dps_username']     = addslashes($_POST['dps_username']);
-			if(function_exists('fetch_uid_by_username')) {
-				$uidfromun = C::t('common_member')->fetch_uid_by_username($_POST['niuc_username']);
-			} else {
-				$uidfromun = niuc_fetch_uid_by_username($_POST['niuc_username']);
-			}
-			$sql = 'SELECT forum_uid FROM '.DB::table('forum_baidu_user')." WHERE baiduuid='".$_POST['taobao_user_id']."' or forum_uid='$uidfromun'";
-			$rs  = DB::fetch_first($sql);
-			if(!empty($rs)) {
-				echo '3'; //binded yet
-			} else {
-				//not binded, bind existing forum user
-				//get salt
-				$sql  = 'SELECT salt FROM '.DB::table('ucenter_members')." WHERE username='".$_POST['niuc_username']."'";
-				$rs   = DB::fetch_first($sql);
-				$salt = $rs['salt'];
-				if(!empty($rs)) { //salt found
-					$sql = 'SELECT uid,password FROM '.DB::table('ucenter_members')." WHERE username='".$_POST['niuc_username']."'"; //verify password?
-					$rs  = DB::fetch_first($sql);
-					if(md5(md5($_POST['niuc_password']).$salt) == $rs['password']) {
-						//true password,begin bind
-						$bind_u_info = array('forum_uid' => $rs['uid'], 'baiduuid' => $_POST['taobao_user_id'], 'taobao_name' => $_POST['taobao_user_nick']);
-						$insertid    = addbindinfo($bind_u_info); //bind info insert database
-						if($insertid) {
-							$niuc_uinfo = array('uid' => $rs['uid']);
-							connect_login($niuc_uinfo); //login
-							manageaftlogin($niuc_uinfo); //login extra
-							echo '0'; // OK
-						} else {
-							echo '4'; //fatal error
-						}
-					} else {
-						echo '2'; //wrong password
-					}
-				} else {
-					echo '1'; //salt not found
-				}
-			}
-		}
-	} elseif($style == '1') {
-		//bind new user
-		if(safecheck()) {
-			echo '-1'; //unsafe e.g. ' " \ % union select...
-		} else {
-			$newusername               = addslashes(trim($_POST['niuc_username']));
-			$newpassword               = addslashes(trim($_POST['niuc_password']));
-			$newrepassword             = trim($_POST['niuc_repassword']);
-			$newemail                  = strtolower(addslashes(trim($_POST['niuc_email'])));
-			$_POST['taobao_user_nick'] = addslashes($_POST['taobao_user_nick']);
-			$_POST['taobao_user_id']   = addslashes($_POST['taobao_user_id']);
-			if($newpassword != $newrepassword || $newpassword == '') {
-				echo '17';
-			} else {
-				if(niuc_fetch_uid_by_username($newusername)) {
-					echo '11'; //username_duplicate
-				} else {
-					loaducenter();
-					$uid = uc_user_register($newusername, $newpassword, $newemail);
-					if($uid <= 0) {
-						if($uid == -1) {
-							echo '12';
-						} elseif($uid == -2) {
-							echo '13';
-						} elseif($uid == -3) {
-							echo '11';
-						} elseif($uid == -4) {
-							echo '14';
-						} elseif($uid == -5) {
-							echo '15';
-						} elseif($uid == -6) {
-							echo '16';
-						}
-					} else {
-						$sql        = "SELECT * FROM ".DB::table('common_usergroup').' WHERE groupid=\''.$_G['cache']['plugin']['niuc_baiduconnect']['baiduugroup'].'\'';
-						$group      = DB::fetch_first($sql);
-						$newadminid = in_array($group['radminid'], array(1, 2, 3)) ? $group['radminid'] : ($group['type'] == 'special' ? -1 : 0);
-						loadcache('fields_register');
-						$init_arr = explode(',', $_G['setting']['initcredits']);
-						$password = md5(random(10));
-						addmember($uid, $newusername, $password, $newemail, $_SERVER['REMOTE_ADDR'], $_G['cache']['plugin']['niuc_baiduconnect']['baiduugroup'], array('credits' => $init_arr), $newadminid);
-						if($_G['cache']['plugin']['niuc_baiduconnect']['baiducredit']) {
-							$credit_style = $_G['cache']['plugin']['niuc_baiduconnect']['baiducredit'];
-							$sql          = 'SELECT extcredits'.$credit_style.' FROM '.DB::table('common_member_count')." WHERE uid='$uid'";
-							$ucredit      = DB::fetch_first($sql);
-							$data         = array('extcredits'.$credit_style => $ucredit['extcredits'.$credit_style] + $_G['cache']['plugin']['niuc_baiduconnect']['baiducredit_quan']);
-							DB::update("common_member_count", $data, "uid='$uid'");
-						}
-						$bind_u_info = array('forum_uid' => $uid, 'taobao_uid' => $_POST['taobao_user_id'], 'taobao_name' => $_POST['taobao_user_nick']);
-						$insertid    = addbindinfo($bind_u_info); //add to bind table
-						if($insertid) {
-							$niuc_uinfo = array('uid' => $uid);
-							connect_login($niuc_uinfo, getcookie('xtao_refer'));
-							manageaftlogin($niuc_uinfo);
-							echo '10'; //ok
-						} else {
-							echo '4'; //fatalerror
-						}
-					}
-				}
-			}
-		}
-	}
-	include template('common/footer_ajax');
-}
 function niuc_login($uarray, $referer) {
 	global $_G;
 	connect_login($uarray);
