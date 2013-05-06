@@ -1,0 +1,72 @@
+<!--{template common/header}-->
+
+<link rel="stylesheet" type="text/css" href="source/plugin/abis_shops/static/css/normal.css" />
+<script src="./source/plugin/abis_shops/static/js/shop.js"></script>
+<script src="./source/plugin/abis_shops/static/js/base64.js"></script>
+
+<!--{template abis_shops:header}-->
+
+<div class="wp cl">
+    <div class="list_right">
+        <div class="goods_info">
+            <div class="goods_info_img">
+                <a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;" onfocus="this.blur()"><img src='$item[item]['pic_url']'  alt='$item[item]['title']' title='$item[item]['title']' style='width:500px;' /></a>
+            </div>
+            <div class="goods_info_div">
+                <div>
+                    <a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;" onfocus="this.blur()">
+                        <div class="goodstitle">
+                            <img src="./source/plugin/abis_shops/static/img/tb.png" alt="" align="absmiddle">$item[item][title]
+                        </div>
+                    </a>
+                </div>
+                <hr size="1" style="color: blue; border-style: dotted; width: 360px" />
+                <div class="go_buy">
+                    <a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;">
+                        <img src="./source/plugin/abis_shops/static/img/buy.gif" /></a>
+                    <a href="javascript:;" onclick="clickurl('{$item[shop_click_url]}'); return false;">
+                        <img src="./source/plugin/abis_shops/static/img/shop.gif" /></a>
+                </div>
+                <ul>
+                    <li>{lang abis_shops:fakeprice}$item[item][fakeprice]{lang abis_shops:yuan}</li>
+                    <li>{lang abis_shops:price}$item[item][price]{lang abis_shops:yuan}</li>
+                    <li>{lang abis_shops:nick}<a target='_blank' href='http://web.im.alisoft.com/msg.aw?v=2&uid={$item[nick]}&site=cnalichn&s=1'>
+                        <img src="./source/plugin/abis_shops/static/img/wwd.gif" />$item[item][nick]</a></li>
+                    <li>{lang abis_shops:seller_credit}$item[seller_credit_score]</li>
+                    <li>{lang abis_shops:location}$item[item][location][state] $item[item][location][city]</li>
+                    <li>{lang abis_shops:fee}{lang abis_shops:post_fee}$item[item][post_fee] {lang abis_shops:express_fee}$item[item][express_fee] {lang abis_shops:ems_fee}$item[item][ems_fee]</li>
+                </ul>
+                <div>
+                    <!-- Baidu Button BEGIN -->
+                    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare">
+                        <a class="bds_qzone"></a>
+                        <a class="bds_tsina"></a>
+                        <a class="bds_tqq"></a>
+                        <a class="bds_renren"></a>
+                        <a class="bds_t163"></a>
+                        <span class="bds_more"></span>
+                        <a class="shareCount"></a>
+                    </div>
+                    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6583292"></script>
+                    <script type="text/javascript" id="bdshell_js"></script>
+                    <script type="text/javascript">
+                        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+                    </script>
+                    <!-- Baidu Button END -->
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="bm">
+            <div class="bm_h">{lang abis_shops:product_detail} - $item[item][title]</div>
+            <div class="bm_c">
+                $item[item][desc]
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--{template abis_shops:footer}-->
+<!--{template common/footer}-->

@@ -1,0 +1,105 @@
+<!--{template common/header}-->
+
+<link rel="stylesheet" type="text/css" href="source/plugin/abis_shops/static/css/normal.css" />
+<script src="./source/plugin/abis_shops/static/js/shop.js"></script>
+<script src="./source/plugin/abis_shops/static/js/base64.js"></script>
+<script type="text/javascript" src="source/plugin/abis_shops/static/js/show.js"></script>
+
+<!--{template abis_shops:header}-->
+
+<div id="mtsw_show" class="cl">
+    <div class="mtsw_con">
+        <ul id="waterfall" class="waterfall cl">
+            <li class="li_tag" style="float: left; overflow: hidden;">
+                <div class="li_tag_con cl" style="width: 220px;">
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=commissionNum_desc&keyword={$keywordencode}" target="_self">{lang abis_shops:commissionNum_desc}</a>
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=credit_desc&keyword={$keywordencode}" target="_self">{lang abis_shops:credit_desc}</a>
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=price_asc&keyword={$keywordencode}" target="_self">{lang abis_shops:price_asc}</a>
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=price_desc&keyword={$keywordencode}" target="_self">{lang abis_shops:price_desc}</a>
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=commissionVolume_desc&keyword={$keywordencode}" target="_self">{lang abis_shops:commissionVolume_desc}</a>
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=delistTime_desc&keyword={$keywordencode}" target="_self">{lang abis_shops:delistTime_desc}</a>
+                </div>
+            </li>
+            <li class="li_tag" style="overflow: hidden;">
+                <div class="li_tag_con cl" style="width: 700px;">
+                    <!--{loop $keywords $k $item}-->
+                    <a href="plugin.php?id=abis_shops:tb_goods_search&sort=commissionNum_desc&keyword={$item[1]}" target="_self" ><b>$item[0]</b></a>
+                    <!--{/loop}-->
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="mtsw_show" class="cl">
+    <div class="mtsw_con">
+        <ul id="waterfall" class="waterfall cl">
+
+            <!--得到商品明细-->
+            <!--{loop $items $item}-->
+            <li class="wf_li" style="width: 240px; float: left; overflow: hidden; padding: 0px 0px 10px 0px">
+                <div class="wf_main">
+                    <div class="wf_pic" id="div$item[num_iid]" onmouseover="showDiv('subDiv$item[num_iid]')" onmouseout="hiddenDiv('subDiv$item[num_iid]')">
+                        <div class="mshare" id="subDiv$item[num_iid]" style="display: none;">
+                            <div class="collbtn">
+                                <a href="javascript:;" id="k_favorite" onclick="addFavorite(window.location.host + '/' + 'plugin.php?id=abis_shops:tb_goods_detail&amp;iid={$item[num_iid]}','{$item[title]}-{$_G[setting][bbname]}');">{lang abis_shops:favorite} <sup><span id="favoritenumber">$item[commission_num]</span></sup>
+                                </a>
+                                <div class="bkmask"></div>
+                            </div>
+                        </div>
+                        <div class="wf_info_left"><span style="cursor: pointer">$item[discount]{lang abis_shops:discount}</span></div>
+                        <div class="wf_info"><span title="$item[title] {lang abis_shops:commission_num}$item[commission_num]{lang abis_shops:jian}" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')"  style="cursor: pointer">{lang abis_shops:commission_num}$item[volume]{lang abis_shops:jian}</span></div>
+                        <a href="plugin.php?id=abis_shops:tb_goods_detail&iid={$item[num_iid]}" onclick="clickurl('$item[click_url]'); return false;"><img src='$item[pic_url]'  alt='$item[title]' title='$item[title]' style='width:220px;' /></a>
+                    </div>
+
+                    <!--标题+喜欢-->
+                    <div class="wf_title">
+                        <dl class="cl">
+                            <dd class="dd1"><a href="plugin.php?id=abis_shops:tb_goods_detail&iid={$item[num_iid]}" onclick="clickurl('$item[click_url]'); return false;" target="_blank">$item[title]</a></dd>
+                            <dd class="dd2">
+                                <a href="plugin.php?id=abis_shops:tb_goods_detail&iid={$item[num_iid]}" target="_blank" class="pt_up"><i></i>
+                                    <span id="recommendv_add_$item[num_iid]">{lang abis_shops:product_area}$item[item_location]</span></a>
+                            </dd>
+                            <dd class="dd3"></dd>
+                    </div>
+
+                    <!--店主信息-->
+                    <div class="wf_author">
+                        <dl>
+                            <dt>
+                                <a href="#" onclick="clickurl('$item[shop_click_url]'); return false;">
+                                    <img src="source/plugin/abis_shops/static/img/dian.gif" align="absmiddle" title="{$item[nick]}" /></a>
+                            </dt>
+                            <dd>
+                                <a href="home.php?uid=$thread[authorid]" target="_blank">$thread[author]</a> {lang abis_shops:fakeprice}$item[fakeprice]{lang abis_shops:yuan}
+							
+                                <br />
+                                {lang abis_shops:price}$item[price]{lang abis_shops:yuan}
+                            
+							</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="wf_shadow"></div>
+            </li>
+            <!--{/loop}-->
+        </ul>
+    </div>
+
+    <!--搜索及分页-->
+    <div style="width: 100%; margin: 0 auto; overflow: auto; _display: inline-block;">
+        <div style="width: 230px; float: left;">{template abis_shops:tbsearch}</div>
+        <div style="margin-left: 160px;">$multi</div>
+    </div>
+
+    <div class="clear"></div>
+    
+
+</div>
+
+
+
+
+<!--{template abis_shops:footer}-->
+<!--{template common/footer}-->
+

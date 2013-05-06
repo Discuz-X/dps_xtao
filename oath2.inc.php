@@ -1,11 +1,6 @@
-<?php
-!defined('IN_DISCUZ') && exit('Access Denied');
-error_reporting(E_ALL ^ E_NOTICE);
+<?php !defined('IN_DISCUZ') && exit('Access Denied');
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Config.php';
 
-global $_G;
-
-define('IDENTIFIER', basename(dirname(__FILE__))); //统一管理插件标识符
-$_C = $_G['cache']['plugin'][IDENTIFIER]; //读取设置
 
 //未开启淘宝登录
 !$_C['allow'] && exit('disabled');
@@ -23,9 +18,11 @@ if($op == '' && $code == '' && $_GET['error'] == '') {
 !function_exists('curl_init') && showmessage(lang('plugin/'.IDENTIFIER, 'function_curl_not_exist'));
 !function_exists('json_decode') && showmessage(lang('plugin/'.IDENTIFIER, 'function_json_decode_not_exist'));
 
+
+
 define('HACKTOR_PRE', 'taobao_');
 
-$op = empty($_GET['op']) ? 'redirect' : $_GET['op'];
+$op = empty($_GET['op']) ? 'init' : $_GET['op'];
 isset($_GET['code']) && !empty($_GET['code']) && $op = 'login';
 
 $redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':oath2';
@@ -36,16 +33,13 @@ if($op == 'init') {
 		exit;
 	}
 
-	header('Location: https://oauth.taobao.com/authorize?response_type=code&client_id='.$_C['app_key'].'&redirect_uri='.$redirect_uri);
-	exit;
-
-
 	$tmp = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
 	dsetcookie('xtao_refer', '');
 	if(strpos($tmp, 'mod=register') === FALSE && strpos($tmp, 'mod=logging') === FALSE) {
 		dsetcookie('xtao_refer', $_SERVER['HTTP_REFERER']);
 	}
-	header('Location: https://openapi.baidu.com/oauth/2.0/authorize?response_type=code&client_id='.$apikey.'&redirect_uri='.$redirecturi.'&scope=super_msg&display=page');
+	header('Location: https://oauth.taobao.com/authorize?response_type=code&client_id='.$_C['app_key'].'&redirect_uri='.$redirect_uri);
+	exit;
 } elseif($op == 'login') {
 	$token               = array();
 	$token['url']        = 'https://oauth.taobao.com/token';
@@ -96,7 +90,6 @@ if($op == 'init') {
 		$token['respond_array'] = (array)json_decode(curl_http_request($token['url'], $token['postfields']), TRUE);
 		//$_G['hacktor_taobao'] = $token;
 		if(!$token['respond_array']['access_token']) {
-			define('VERSION', $_G['setting']['plugins']['version'][IDENTIFIER]);
 			if($result == '') {
 				showmessage(lang('plugin/'.IDENTIFIER, 'function_curl_not_exist'));
 			} else {
@@ -114,7 +107,7 @@ if($op == 'init') {
 						'<br />error: '.$token['respond_array']['error'].
 						'<br />error discription: '.
 						$token['respond_array']['error_description'].
-						'<br />version: '.VERSION
+						'<br />version: '.PLUGIN_VERSION
 				);
 			}
 		}
@@ -156,8 +149,12 @@ if($op == 'init') {
 				$sql     = 'SELECT forum_uid FROM '.DB::table('forum_taobao_user')." WHERE forum_uid='".$_G['uid']."'"; //exam loginned forum user binded or not
 				$examuid = DB::fetch_first($sql);
 				if(empty($examuid)) { //loginned forum user not binded
-					$bind_u_info = array('forum_uid' => $_G['uid'], 'taobao_uid' => $token['respond_array']['taobao_user_id'], 'taobao_name' => $token['respond_array']['taobao_user_nick']);
-					$rtn         = addbindinfo($bind_u_info);
+					$bind_user_info = array(
+						'forum_uid'   => $_G['uid'],
+						'taobao_uid'  => $token['respond_array']['taobao_user_id'],
+						'taobao_name' => $token['respond_array']['taobao_user_nick']
+					);
+					$rtn            = addbindinfo($bind_user_info);
 					if($rtn) {
 						showmessage(
 							lang('plugin/'.IDENTIFIER, 'bind_success')
@@ -197,7 +194,7 @@ if($op == 'init') {
 } elseif($op == 'bind') {
 	//bind
 
-	function is_unsafe() { //safe exam
+	function is_not_safe() { //safe exam
 		foreach($_POST as $key => $value) {
 			if(dps_safe($_POST[$key]) == 'dps_Forbidden') {
 				return 1; //unsafe
@@ -216,7 +213,7 @@ if($op == 'init') {
 
 	include template('common/header_ajax');
 
-	if(is_unsafe()) {
+	if(is_not_safe()) {
 		echo '-1'; //unsafe e.g. ' " \ % union select...
 	} else {
 		$_POST['taobao_user_id']   = addslashes($_POST['taobao_user_id']);
@@ -246,8 +243,12 @@ if($op == 'init') {
 					$rs  = DB::fetch_first($sql);
 					if(md5(md5($_POST['dps_password']).$salt) == $rs['password']) {
 						//true password,begin bind
-						$bind_u_info = array('forum_uid' => $rs['uid'], 'taobao_uid' => $_POST['taobao_user_id'], 'taobao_name' => $_POST['taobao_user_nick']);
-						$insertid    = addbindinfo($bind_u_info); //bind info insert database
+						$bind_user_info = array(
+							'forum_uid'   => $rs['uid'],
+							'taobao_uid'  => $_POST['taobao_user_id'],
+							'taobao_name' => $_POST['taobao_user_nick']
+						);
+						$insertid       = addbindinfo($bind_user_info); //bind info insert database
 						if($insertid) {
 							$niuc_uinfo = array('uid' => $rs['uid']);
 							connect_login($niuc_uinfo); //login
@@ -304,8 +305,12 @@ if($op == 'init') {
 							$data         = array('extcredits'.$credit_style => $ucredit['extcredits'.$credit_style] + $_G['cache']['plugin']['niuc_baiduconnect']['baiducredit_quan']);
 							DB::update("common_member_count", $data, "uid='$uid'");
 						}
-						$bind_u_info = array('forum_uid' => $uid, 'taobao_uid' => $_POST['taobao_user_id'], 'taobao_name' => $_POST['taobao_user_nick']);
-						$insertid    = addbindinfo($bind_u_info); //add to bind table
+						$bind_user_info = array(
+							'forum_uid'   => $uid,
+							'taobao_uid'  => $_POST['taobao_user_id'],
+							'taobao_name' => $_POST['taobao_user_nick']
+						);
+						$insertid       = addbindinfo($bind_user_info); //add to bind table
 						if($insertid) {
 							$niuc_uinfo = array('uid' => $uid);
 							connect_login($niuc_uinfo, getcookie('xtao_refer'));
@@ -321,7 +326,7 @@ if($op == 'init') {
 	}
 
 	include template('common/footer_ajax');
-} elseif($op == 'unbind'){
+} elseif($op == 'unbind') {
 	if($_G['uid']) {
 		$sql    = 'SELECT userid FROM '.DB::table('forum_taobao_user').' WHERE forum_uid=\''.$_G['uid'].'\'';
 		$binded = DB::fetch_first($sql);
@@ -337,12 +342,6 @@ if($op == 'init') {
 	} else {
 		showmessage(lang('plugin/'.IDENTIFIER, 'need_login'), '', array(), array('login' => TRUE));
 	}
-}
-if($op == 'redirect') {
-	$uri = 'https://oauth.taobao.com/authorize?response_type=code&client_id='.$_C['app_key'];
-	$uri = $uri.'&redirect_uri='.$redirect_uri;
-	header('Location: '.$uri);
-	exit;
 }
 
 if($op == 'main') {
@@ -385,7 +384,6 @@ if($op == 'main') {
 		}
 	}
 }
-
 
 
 function niuc_login($uarray, $referer) {

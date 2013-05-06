@@ -1,0 +1,55 @@
+.keyword_list li{float: left;}
+.list_goodslist{margin:0 auto;clear:both;}
+.goods_list{width:220px; float:left; padding:12px 9px; background-image: url(../img/taodi/goods_line.gif);background-repeat: repeat-x;background-position: bottom;}
+.goods_list_img{width:220px; height:220px; margin:0 auto; padding:4px; border-top: #D2D2D2 1px solid;border-bottom: #D2D2D2 1px solid;border-left: #D2D2D2 1px solid;border-right: #D2D2D2 1px solid; text-align:center;display:block; overflow:hidden; margin:0 auto;}
+.goods_list_img_hover{width:220px; height:220px; margin:0 auto; padding:4px; border-top: #e10c3a 1px solid;border-bottom: #e10c3a 1px solid;border-left: #e10c3a 1px solid;border-right: #e10c3a 1px solid; text-align:center;display:block; overflow:hidden;}
+.goods_list_img_hover a{width:210px; height:220px; display:block;}
+
+.goods_list_title{width:220px; padding-top:5px; height:40px; line-height:20px; overflow:hidden;}
+.goods_list_title a{color:#3366cc;text-decoration:none;}
+.goods_list_title a:hover{text-decoration:none;}
+
+.goods_list_item{width:220px; background-color:#f7f7f7;}
+
+/*goods_list_price*/
+.goods_list_price{width:220px; padding-top:10px;overflow:hidden;}
+.goods_list_pricel{width:156px; float:left; overflow:hidden;}
+.goods_list_pricer{width:60px; float:right; overflow:hidden;}
+
+.goods_list_priceleft{width:100px; float:left; overflow:hidden;}
+.goods_list_priceright{width:120px; float:right; overflow:hidden;}
+
+.goods_list_scprice{height:22px; line-height:22px; overflow:hidden;}
+.goods_list_scprice img{padding-right:5px;}
+.goods_list_scprice span{text-decoration:line-through}
+
+.goods_list_tbprice{height:22px; line-height:22px; overflow:hidden;}
+.goods_list_tbprice img{padding-right:5px;}
+.goods_list_tbprice span{color:#e20c3a; font-weight:bold;}
+
+.goods_list_num{height:22px; line-height:22px; overflow:hidden;}
+.goods_list_num img{padding-right:5px;}
+.goods_list_num span{color:#009900; font-weight:bold;}
+
+.goods_list_button{height:22px; line-height:22px; overflow:hidden;}
+
+.list_right{width:960px; margin: 0 auto; overflow:hidden;background: url(../static/img/list_bg.gif) no-repeat;}
+.goods_info{ border: #e7e7e7 1px solid; overflow:hidden;clear:both;}
+.goods_info_img{float:left;width:500px; padding:10px; text-align:center;background-color:#f8f8f8;}
+.goodstitle{width:360px; margin-top:20px; line-height:20px; font-size:14px; font-weight:bold; color:blue;}
+.goods_info_div{float:right; overflow:hidden;margin-right:40px;}
+.goods_info_div li{height:24px; line-height:20px; font-size:14px;}
+.go_buy{margin:20px auto;}
+.go_buy img{margin-right:10px;}
+
+/*list_class*/
+.list_class{overflow:hidden;}
+.list_class_catalogs {margin:5px auto; padding:2px;background-color:#F3F3F3;border: 1px solid #D2D2D2;}
+.list_class_catalogs li {width:180px; float:left; text-align:left; color:#999; line-height:22px; height:22px; overflow:hidden;}
+.list_class_catalogs li img{padding-left:8px; padding-top:5px;}
+.list_class_catalogs li a { padding-left:5px; color:#333333;}
+
+
+.clear {clear:both; margin:0; height:4px; overflow:hidden;}
+
+

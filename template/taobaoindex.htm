@@ -1,0 +1,216 @@
+<!--{template common/header}-->
+
+<link rel="stylesheet" type="text/css" href="source/plugin/dps_xtao/CSS/style.css"/>
+<script src="./source/plugin/dps_xtao/JavaScript/shop.js"></script>
+<script src="./source/plugin/dps_xtao/Javascript/base64.js"></script>
+
+<div id="pt" class="bm cl">
+	<div class="z">
+		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a>
+		<em>&raquo;</em><a href="plugin.php?id=dps_xtao:taobaoindex">$plugintitle</a>
+		<em>&raquo;</em>$thisnav
+	</div>
+	<div class="y">
+		<b>{lang dps_xtao:pagememo}</b> <a href="http://www.pgirl.cn" target="_blank" color="red"><b>{lang dps_xtao:authorpage}</b></a>
+	</div>
+</div>
+
+<style type="text/css">
+	div {
+		margin: 0;
+		padding: 0;
+	}
+
+	#container {
+		height: 30px;
+		line-height: 30px;
+		border: 0px solid #ccc;
+	}
+
+	#container .right {
+		float: left;
+		margin-left: 10px;
+	}
+
+	#container .left {
+		float: left;
+	}
+</style>
+
+<div class="wp cl">
+	<!--{if $mod != 'view'}-->
+	<div id="container">
+		<div class="left">{template dps_xtao:tbsearch}</div>
+		<div class="right">
+			<!--{loop $keywords $item}-->
+			<a href="plugin.php?id=dps_xtao:taobaoindex&cid=&keyword={$item}&sort=commissionVolume_desc"><b>$item</b></a>,
+			<!--{/loop}-->
+		</div>
+	</div>
+	<div id="Div1">
+		<div class="left">
+			<div class="bm_c keyword_list cl">
+				<ul class="xl">
+
+					<li>
+						<a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=commissionNum_desc">{lang dps_xtao:commissionNum_desc}</a></li>
+					<li><span class="pipe">|</span></li>
+					<li><a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=credit_desc">{lang dps_xtao:credit_desc}</a></li>
+					<li><span class="pipe">|</span></li>
+					<li><a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=price_desc">{lang dps_xtao:price_desc}</a></li>
+					<li><span class="pipe">|</span></li>
+					<li><a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=price_asc">{lang dps_xtao:price_asc}</a></li>
+					<li><span class="pipe">|</span></li>
+					<li><a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=delistTime_desc">{lang dps_xtao:delistTime_desc}</a></li>
+					<li><span class="pipe">|</span></li>
+					<li>
+						<a href="plugin.php?id=dps_xtao:taobaoindex&cid={$cid}&keyword={$keyword}&sort=commissionVolume_desc">{lang dps_xtao:commissionVolume_desc}</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="right"></div>
+	</div>
+	<div class="wp cl">
+		<div class="list_goodslist cl">
+			<!--{loop $items $item}-->
+			<div class="goods_list">
+				<div class="goods_list_img">
+					<!--
+					<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}" onclick="clickurl('$item[click_url]'); return false;"><img src="{$item[pic_url]}_220x220.jpg"/></a>
+					-->
+					<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
+					   onclick="clickurl('$item[click_url]'); return false;">
+						<img src="{$item[pic_url]}_220x220.jpg"/></a>
+
+				</div>
+				<div class="goods_list_price">
+					<div class="goods_list_priceleft">
+						<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}" target="_blank">
+							<img src="./source/plugin/dps_xtao/Image/go.gif"/>
+						</a>
+					</div>
+					<div class="goods_list_priceright">
+						<div class="goods_list_scprice">{lang dps_xtao:fakeprice}$item[fakeprice]{lang dps_xtao:yuan}
+						</div>
+						<div class="goods_list_tbprice">{lang dps_xtao:price}$item[price]{lang dps_xtao:yuan}</div>
+					</div>
+				</div>
+				<div class="goods_list_title">
+					<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
+					   onclick="clickurl('$item[click_url]'); return false;" target="_blank">$item[title]</a>
+				</div>
+				<div class="goods_list_price">
+					<div class="goods_list_pricel">
+						<div class="goods_list_scprice">
+							<img src="./source/plugin/dps_xtao/Image/list_ioc01.gif">{lang dps_xtao:product_area}$item[item_location]
+						</div>
+						<div class="goods_list_tbprice">
+							<img src="./source/plugin/dps_xtao/Image/ww.gif">{lang dps_xtao:product_ww}<a
+								target='_blank'
+								href='http://web.im.alisoft.com/msg.aw?v=2&uid={$item[nick]}&site=cnalichn&s=1'>$item[nick]</a>
+						</div>
+						<div class="goods_list_num">
+							<img src="./source/plugin/dps_xtao/Image/list_ioc03.gif">{lang dps_xtao:commission_num}$item[commission_num]{lang dps_xtao:jian}
+						</div>
+					</div>
+					<div class="goods_list_pricer">
+						<div class="goods_list_button">
+							<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
+							   onclick="clickurl('$item[click_url]'); return false;">
+								<img src="./source/plugin/dps_xtao/Image/list_ioc05.gif" align="absmiddle"
+									 alt="{lang dps_xtao:altbuy}"></a>
+						</div>
+						<div class="goods_list_button">
+							<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
+							   onclick="clickurl('$item[shop_click_url]'); return false;">
+								<img src="./source/plugin/dps_xtao/Image/list_ioc06.gif" align="absmiddle"
+									 alt="{lang dps_xtao:altshop}"></a>
+						</div>
+						<div class="goods_list_button">
+							<a href="javascript:;"
+							   onclick="addFavorite(window.location.host + '/' + 'plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}','{$item[title]}-{$_G[setting][bbname]}');">
+								<img src="./source/plugin/dps_xtao/Image/list_ioc07.gif" align="absmiddle"
+									 alt="{lang dps_xtao:altfav}"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div>
+	$multi
+
+
+	{template dps_xtao:taobaosearch}
+	<!--{else}-->
+	<div class="wp cl">
+		<div class="list_right">
+			<div class="goods_info">
+				<div class="goods_info_img">
+					<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;"
+					   onfocus="this.blur()">
+						<img src="{$item[item][pic_url]}" alt="" align="absmiddle"
+							 onload="this.width=Math.min(this.width,500)"/></a>
+				</div>
+				<div class="goods_info_div">
+					<div>
+						<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;"
+						   onfocus="this.blur()">
+							<div class="goodstitle">
+								<img src="./source/plugin/dps_xtao/Image/tb.png" alt="" align="absmiddle">$item[item][title]
+							</div>
+						</a>
+					</div>
+					<hr size="1" style="color: blue; border-style: dotted; width: 360px"/>
+					<div class="go_buy">
+						<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;">
+							<img src="./source/plugin/dps_xtao/Image/buy.gif"/></a>
+						<a href="javascript:;" onclick="clickurl('{$item[shop_click_url]}'); return false;">
+							<img src="./source/plugin/dps_xtao/Image/shop.gif"/></a>
+					</div>
+					<ul>
+						<li>{lang dps_xtao:fakeprice}$item[item][fakeprice]{lang dps_xtao:yuan}</li>
+						<li>{lang dps_xtao:price}$item[item][price]{lang dps_xtao:yuan}</li>
+						<li>{lang dps_xtao:nick}<a target='_blank'
+												   href='http://web.im.alisoft.com/msg.aw?v=2&uid={$item[nick]}&site=cnalichn&s=1'>
+							<img src="./source/plugin/dps_xtao/Image/wwd.gif">$item[item][nick]</a></li>
+						<li>{lang dps_xtao:seller_credit}$item[seller_credit_score]</li>
+						<li>{lang dps_xtao:location}$item[item][location][state] $item[item][location][city]</li>
+						<li>{lang dps_xtao:fee}{lang dps_xtao:post_fee}$item[item][post_fee] {lang dps_xtao:express_fee}$item[item][express_fee] {lang dps_xtao:ems_fee}$item[item][ems_fee]
+						</li>
+					</ul>
+					<div>
+						<!-- Baidu Button BEGIN -->
+						<div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare">
+							<a class="bds_qzone"></a>
+							<a class="bds_tsina"></a>
+							<a class="bds_tqq"></a>
+							<a class="bds_renren"></a>
+							<a class="bds_t163"></a>
+							<span class="bds_more"></span>
+							<a class="shareCount"></a>
+						</div>
+						<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6583292"></script>
+						<script type="text/javascript" id="bdshell_js"></script>
+						<script type="text/javascript">
+							document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+						</script>
+						<!-- Baidu Button END -->
+					</div>
+
+				</div>
+			</div>
+			<div class="clear"></div>
+			<br/>
+
+			<div class="bm">
+				<div class="bm_h">{lang dps_xtao:product_detail} - $item[item][title]</div>
+				<div class="bm_c">
+					$item[item][desc]
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+</div>
+<!--{template common/footer}-->

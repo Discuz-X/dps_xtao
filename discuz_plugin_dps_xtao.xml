@@ -2,21 +2,33 @@
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
 	<item id="Version"><![CDATA[X3 RC]]></item>
-	<item id="Time"><![CDATA[2013-04-29 20:01]]></item>
+	<item id="Time"><![CDATA[2013-05-02 22:34]]></item>
 	<item id="From"><![CDATA[试炼人生 Try and Error (http://tryanderror.cn/bbs/)]]></item>
 	<item id="Data">
 		<item id="plugin">
 			<item id="available"><![CDATA[1]]></item>
-			<item id="adminid"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[0]]></item>
 			<item id="name"><![CDATA[DPS!淘宝数据接入管理]]></item>
 			<item id="identifier"><![CDATA[dps_xtao]]></item>
 			<item id="description"><![CDATA[]]></item>
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[dps_xtao/]]></item>
 			<item id="copyright"><![CDATA[Discuz! Perfect Sense]]></item>
-			<item id="version"><![CDATA[0.01]]></item>
+			<item id="version"><![CDATA[0.02]]></item>
 			<item id="__modules">
 				<item id="0">
+					<item id="name"><![CDATA[binding]]></item>
+					<item id="menu"><![CDATA[淘宝绑定]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[7]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+				<item id="1">
 					<item id="name"><![CDATA[hook]]></item>
 					<item id="menu"><![CDATA[]]></item>
 					<item id="url"><![CDATA[]]></item>
@@ -30,7 +42,7 @@
 				</item>
 			</item>
 		</item>
-		<item id="version"><![CDATA[X3 RC]]></item>
+		<item id="version"><![CDATA[X3]]></item>
 		<item id="var">
 			<item id="0">
 				<item id="displayorder"><![CDATA[0]]></item>
@@ -41,29 +53,226 @@
 				<item id="value"><![CDATA[1]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="1">
+			<item id="3">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[导航名称]]></item>
+				<item id="description"><![CDATA[导航名称]]></item>
+				<item id="variable"><![CDATA[navtitle]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[逛街啦]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="4">
 				<item id="displayorder"><![CDATA[1]]></item>
-				<item id="title"><![CDATA[APP KEY]]></item>
-				<item id="description"><![CDATA[]]></item>
+				<item id="title"><![CDATA[淘宝用户名]]></item>
+				<item id="description"><![CDATA[淘宝网用户名]]></item>
+				<item id="variable"><![CDATA[taoke_username]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[sqgelin]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="5">
+				<item id="displayorder"><![CDATA[2]]></item>
+				<item id="title"><![CDATA[淘宝客PID]]></item>
+				<item id="description"><![CDATA[阿里妈妈里可见，地址  http://www.alimama.com/]]></item>
+				<item id="variable"><![CDATA[taoke_pid]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[31219083]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="6">
+				<item id="displayorder"><![CDATA[3]]></item>
+				<item id="title"><![CDATA[淘宝app_key]]></item>
+				<item id="description"><![CDATA[这里的值为测试用的，正式用的时候请改为您的值， 以免不必要的佣金纠纷。申请地址 http://my.open.taobao.com]]></item>
 				<item id="variable"><![CDATA[app_key]]></item>
 				<item id="type"><![CDATA[text]]></item>
 				<item id="value"><![CDATA[21141544]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-			<item id="2">
-				<item id="displayorder"><![CDATA[2]]></item>
-				<item id="title"><![CDATA[APP SECRET]]></item>
-				<item id="description"><![CDATA[]]></item>
+			<item id="7">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[淘宝客app_secret]]></item>
+				<item id="description"><![CDATA[这里的值为测试用的，正式用的时候请改为您的值， 以免不必要的佣金纠纷。申请地址 http://my.open.taobao.com]]></item>
 				<item id="variable"><![CDATA[app_secret]]></item>
 				<item id="type"><![CDATA[text]]></item>
 				<item id="value"><![CDATA[f243c6fac6650159c74e06e80c636f49]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
-		</item>
-		<item id="language">
-			<item id="templatelang">
-				<item id="not_configed"><![CDATA[与淘宝通信的必要设置（APP KEY或APP SECRET）缺失，无法完成请求]]></item>
+			<item id="8">
+				<item id="displayorder"><![CDATA[81]]></item>
+				<item id="title"><![CDATA[市场价设定1]]></item>
+				<item id="description"><![CDATA[100元以下商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod1]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.3]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="9">
+				<item id="displayorder"><![CDATA[82]]></item>
+				<item id="title"><![CDATA[市场价设定2]]></item>
+				<item id="description"><![CDATA[100-500元商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod2]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.4]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="10">
+				<item id="displayorder"><![CDATA[83]]></item>
+				<item id="title"><![CDATA[市场价设定3]]></item>
+				<item id="description"><![CDATA[500-1000元商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod3]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.3]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="11">
+				<item id="displayorder"><![CDATA[84]]></item>
+				<item id="title"><![CDATA[市场价设定4]]></item>
+				<item id="description"><![CDATA[1000-3000元商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod4]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.2]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="12">
+				<item id="displayorder"><![CDATA[85]]></item>
+				<item id="title"><![CDATA[市场价设定5]]></item>
+				<item id="description"><![CDATA[3000-5000元商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod5]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="13">
+				<item id="displayorder"><![CDATA[86]]></item>
+				<item id="title"><![CDATA[市场价设定6]]></item>
+				<item id="description"><![CDATA[5000元以上商品，以此比率显示原价或市场价]]></item>
+				<item id="variable"><![CDATA[price_mod6]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[1.05]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="14">
+				<item id="displayorder"><![CDATA[90]]></item>
+				<item id="title"><![CDATA[首页显示的商品名]]></item>
+				<item id="description"><![CDATA[首页默认显示的商品]]></item>
+				<item id="variable"><![CDATA[indexgoods]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[日系]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="15">
+				<item id="displayorder"><![CDATA[91]]></item>
+				<item id="title"><![CDATA[搜索商品关键字列表]]></item>
+				<item id="description"><![CDATA[搜索旁边显示的商品名。请用半角逗号“,”隔开]]></item>
+				<item id="variable"><![CDATA[goodkeywords]]></item>
+				<item id="type"><![CDATA[textarea]]></item>
+				<item id="value"><![CDATA[女装,女裤,包包,运动,鞋子,裙子,暖手宝,打火机,零食,休闲装,durex,针织衫,内衣,春装,饰品,家居饰品]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="16">
+				<item id="displayorder"><![CDATA[92]]></item>
+				<item id="title"><![CDATA[每页商品数]]></item>
+				<item id="description"><![CDATA[每页显示的商品数]]></item>
+				<item id="variable"><![CDATA[page_size]]></item>
+				<item id="type"><![CDATA[number]]></item>
+				<item id="value"><![CDATA[24]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="17">
+				<item id="displayorder"><![CDATA[99]]></item>
+				<item id="title"><![CDATA[开启调试模式]]></item>
+				<item id="description"><![CDATA[用来查看从淘宝返回的JSON，正式使用时请选择“否”]]></item>
+				<item id="variable"><![CDATA[is_debug]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[0]]></item>
+				<item id="extra"><![CDATA[]]></item>
 			</item>
 		</item>
+		<item id="language">
+			<item id="scriptlang">
+				<item id="not_configed"><![CDATA[与淘宝通信的必要设置（APP KEY或APP SECRET）缺失，无法完成请求]]></item>
+				<item id="invalid_request"><![CDATA[无效的参数传递。请检查访问的登录地址是否正确，后台设置是否正确。]]></item>
+				<item id="function_curl_not_exist"><![CDATA[站点所在服务器并不支持curl函数，程序无法继续]]></item>
+				<item id="function_json_decode_not_exist"><![CDATA[站点所在服务器并不支持json_decode函数，程序无法继续]]></item>
+				<item id="taobao_user"><![CDATA[淘宝账户]]></item>
+				<item id="bind_success"><![CDATA[成功绑定]]></item>
+				<item id="unbind_success"><![CDATA[成功解除绑定]]></item>
+				<item id="binded_user"><![CDATA[已绑定账户]]></item>
+				<item id="homepage"><![CDATA[首页]]></item>
+				<item id="keyword_setting"><![CDATA[设置关键词]]></item>
+				<item id="keyword"><![CDATA[关键词]]></item>
+				<item id="isuse"><![CDATA[可用]]></item>
+				<item id="displayorder"><![CDATA[显示顺序]]></item>
+				<item id="catetile"><![CDATA[分类名称]]></item>
+				<item id="cateid"><![CDATA[淘宝类别号]]></item>
+			</item>
+			<item id="templatelang">
+				<item id="invalid_request"><![CDATA[无效的参数传递。请检查访问的登录地址是否正确，后台设置是否正确。]]></item>
+				<item id="bind_taobao"><![CDATA[绑定淘宝账户]]></item>
+				<item id="bind_exist_user"><![CDATA[绑定我在本站的用户]]></item>
+				<item id="bind_new_user"><![CDATA[在本站创建新的用户并绑定]]></item>
+				<item id="taobao_user"><![CDATA[淘宝账户]]></item>
+				<item id="username"><![CDATA[用户名]]></item>
+				<item id="password"><![CDATA[密码]]></item>
+				<item id="repassword"><![CDATA[确认密码]]></item>
+				<item id="email"><![CDATA[邮箱]]></item>
+				<item id="submit"><![CDATA[提交]]></item>
+				<item id="user_set_nav_bind"><![CDATA[绑定账户]]></item>
+				<item id="fakeprice"><![CDATA[原价: ￥]]></item>
+				<item id="price"><![CDATA[现价: ￥]]></item>
+				<item id="commission_num"><![CDATA[10天销售: ]]></item>
+				<item id="nick"><![CDATA[卖家: ]]></item>
+				<item id="seller_credit"><![CDATA[信用: ]]></item>
+				<item id="location"><![CDATA[地区: ]]></item>
+				<item id="fee"><![CDATA[运费: ]]></item>
+				<item id="post_fee"><![CDATA[平邮: ]]></item>
+				<item id="express_fee"><![CDATA[快递: ]]></item>
+				<item id="ems_fee"><![CDATA[EMS: ]]></item>
+				<item id="yuan"><![CDATA[ 元]]></item>
+				<item id="jian"><![CDATA[ 件]]></item>
+				<item id="altbuy"><![CDATA[点击购买此商品]]></item>
+				<item id="altshop"><![CDATA[点击访问卖家店铺]]></item>
+				<item id="altfav"><![CDATA[收藏商品到收藏夹]]></item>
+				<item id="product_detail"><![CDATA[商品详细信息]]></item>
+				<item id="product_area"><![CDATA[地区：]]></item>
+				<item id="product_ww"><![CDATA[旺旺：]]></item>
+				<item id="commissionNum_desc"><![CDATA[销量从高到低]]></item>
+				<item id="credit_desc"><![CDATA[信用从高到低]]></item>
+				<item id="price_desc"><![CDATA[价格从高到低]]></item>
+				<item id="price_asc"><![CDATA[价格从低到高]]></item>
+				<item id="delistTime_desc"><![CDATA[时间从高到低]]></item>
+				<item id="commissionVolume_desc"><![CDATA[折扣从高到低]]></item>
+				<item id="authorpage"><![CDATA[[漂亮女孩]]]></item>
+				<item id="pagememo"><![CDATA[更多商品详见：]]></item>
+				<item id="about_title"><![CDATA[欢迎使用商业版！请关注官方的最新动态！]]></item>
+				<item id="about_title_footer"><![CDATA[查看更多帮助]]></item>
+				<item id="adminshout"><![CDATA[您可以通过收听官方微博了解插件的最新动态(或者论坛专贴)]]></item>
+				<item id="abis_shops_weibo"><![CDATA[查看官方微博]]></item>
+				<item id="abis_shops_title"><![CDATA[查看官方最新演示]]></item>
+				<item id="abis_shops_url"><![CDATA[http://www.PGirl.cn]]></item>
+				<item id="about"><![CDATA[关于本插件...]]></item>
+				<item id="thistitle"><![CDATA[ABIS淘宝客免费版]]></item>
+				<item id="thistitleval"><![CDATA[插件名称：]]></item>
+				<item id="thiscopyright"><![CDATA[漂亮女孩官方网站]]></item>
+				<item id="thiscopyrightval"><![CDATA[版权所有：]]></item>
+				<item id="thisurl"><![CDATA[http://www.PGirl.cn]]></item>
+				<item id="thisurlval"><![CDATA[网址：]]></item>
+				<item id="thisverdate"><![CDATA[2013年2月14日.]]></item>
+				<item id="thisverdateval"><![CDATA[版本日期：]]></item>
+				<item id="thissybsm"><![CDATA[商业版说明：]]></item>
+				<item id="thissybmemo"><![CDATA[多appkey调用、伪静态、淘宝图片加工、缓存功用、导航、自定义推广等等，欢迎购买！]]></item>
+				<item id="thistabao"><![CDATA[详细介绍]]></item>
+				<item id="QQ"><![CDATA[联系QQ：9411526，123456037]]></item>
+				<item id="thistabaourl"><![CDATA[http://item.taobao.com/item.htm?id=17790119711]]></item>
+				<item id="thissyb"><![CDATA[商业版动态：]]></item>
+				<item id="thissyburl"><![CDATA[http://www.pgirl.cn/forum-46-1.html]]></item>
+				<item id="plugintitle"><![CDATA[逛街啦！]]></item>
+				<item id="favorite"><![CDATA[收藏]]></item>
+				<item id="search"><![CDATA[搜索]]></item>
+				<item id="discount"><![CDATA[折]]></item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
 	</item>
 </root>
