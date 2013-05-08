@@ -1,4 +1,4 @@
-<?php
+<?php !defined('IN_DISCUZ') && exit('Access Denied');
 /**
  * Created by IntelliJ IDEA.
  * User: Administrator
@@ -6,9 +6,6 @@
  * Time: 下午11:37
  * To change this template use File | Settings | File Templates.
  */
-if (!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 class plugin_dps_xtao_base {
 

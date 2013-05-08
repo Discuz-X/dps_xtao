@@ -18,6 +18,7 @@ if($op == '' && $code == '' && $_GET['error'] == '') {
 !function_exists('curl_init') && showmessage(lang('plugin/'.IDENTIFIER, 'function_curl_not_exist'));
 !function_exists('json_decode') && showmessage(lang('plugin/'.IDENTIFIER, 'function_json_decode_not_exist'));
 
+$redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':oath2';
 
 
 define('HACKTOR_PRE', 'taobao_');
@@ -25,7 +26,6 @@ define('HACKTOR_PRE', 'taobao_');
 $op = empty($_GET['op']) ? 'init' : $_GET['op'];
 isset($_GET['code']) && !empty($_GET['code']) && $op = 'login';
 
-$redirect_uri = $_G['siteurl'].'plugin.php?id='.IDENTIFIER.':oath2';
 
 if($op == 'init') {
 	if(!$_C['app_key'] || !$_C['app_secret']) {

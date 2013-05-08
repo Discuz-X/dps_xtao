@@ -1,5 +1,4 @@
-<?php
-!defined('IN_DISCUZ') && exit('Access Denied');
+<?php !defined('IN_DISCUZ') && exit('Access Denied');
 
 
 include 'lib/functions.php';

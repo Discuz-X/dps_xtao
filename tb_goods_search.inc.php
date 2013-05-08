@@ -122,10 +122,10 @@ foreach($shopslistjson->taobaoke_items->taobaoke_item as $i){
 	$items[] = $item;
 }
 
-$pageurl = 'plugin.php?id=abis_shops:tb_goods_search&sort='.$sort.'&keyword='.$keywordencode.'';
+$pageurl = 'plugin.php?id=dps_xtao:tb_goods_search&sort='.$sort.'&keyword='.$keywordencode.'';
 $multi = multi($total, $ppp, $page, $pageurl);
 $navtitle = $keyword.' - '. $navtitle;
 
-include template('abis_shops:goods_search_normal');
+include template('dps_xtao:goods_search_normal');
 
-?>
+

@@ -1,5 +1,4 @@
-<?php
-!defined('IN_DISCUZ') && exit('Access Denied');
+<?php !defined('IN_DISCUZ') && exit('Access Denied');
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Config.php';
 
 
@@ -30,5 +29,3 @@ $price_mod6 = !empty($_C['price_mod6']) ? (float)($_C['price_mod6']) : 1 ;
 //广告代码
 $headeraddcode = !empty($_C['headeraddcode']) ? $_C['headeraddcode'] : '';
 $footeraddcode = !empty($_C['footeraddcode']) ? $_C['footeraddcode'] : '';
-
-?>
