@@ -1,0 +1,50 @@
+<!--{block return}-->
+<style>
+	<!--
+	.goods-3 { float: left; width: 210px; height: 288px; margin: 0 16px 22px 0; padding: 3px; color: #999; background-color: #fff; box-shadow: 0 1px 5px rgba(0, 0, 0, .1); _display: inline }
+
+	.goods-pic-2 { overflow: hidden; position: relative; width: 210px; height: 210px }
+
+	.goods-stat-2 { overflow: hidden; height: 20px; line-height: 20px; padding-top: 10px; padding-bottom: 10px }
+
+	.comm-num-3 { float: right; }
+
+	.comments-1 { width: 210px; }
+
+	.like-num-2 { color: #D9478E;
+		float: left;
+		padding-left: 13px;
+		background: url(source/plugin/tkb/images/like-icon.png) no-repeat scroll left center transparent
+	}
+
+	ol, ul {
+		list-style: none outside none;
+		font: 12px/1.5;
+	}
+
+	-->
+</style>
+
+
+<div>
+	<!--{loop $items $item}-->
+	<div class="goods-3">
+		<div class="goods-pic-2">
+			<a target="_blank" class="mm-link" href="plugin.php?id=tkb:go&tkid=$item[id]">
+				<img height="210px" src="$item[pic_url]">
+			</a>
+		</div>
+		<div class="goods-stat-2">
+			<span class="like-num-2">喜欢: <em class="like-count">$item[like_count]</em></span>
+			<span class="comm-num-3">价格: $item[price]</span>
+		</div>
+		<ul class="comments-1" style="margin:0;padding:0">
+			<li style="list-style: none;font-size:12px">$item[title]</li>
+		</ul>
+	</div>
+	<!--{/loop}-->
+</div>
+
+<div style="clear:both"></div>
+
+<!--{/block}-->

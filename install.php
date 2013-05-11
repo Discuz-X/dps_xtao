@@ -22,6 +22,26 @@ CREATE TABLE IF NOT EXISTS `{$table}` (
 --
 -- 转存表中的数据 `pre_forum_taobao_user`
 --
+DROP TABLE IF EXISTS cdb_tkb_items;
+CREATE TABLE cdb_tkb_items (
+  `id` int(10) auto_increment NOT NULL,
+  `fid` int(10)  NOT NULL,
+  `type` int(10)  NOT NULL default 0,
+  `num_iid` int(10)  NOT NULL,
+  `like_count` int(10)  NOT NULL,
+  `commission_num` int(10)  NOT NULL,
+  `commission` double  NOT NULL,
+  `commission_rate` double  NOT NULL,
+  `commission_volume` int(10)  NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `price` double NOT NULL DEFAULT '0.0',
+  `pic_url` varchar(255) NOT NULL,
+  `click_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY  fid (`fid`),
+  KEY `tname` (`title`)
+);
+
 EOF;
 
 runquery($sql);

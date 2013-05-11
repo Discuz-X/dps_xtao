@@ -1,0 +1,224 @@
+<style>
+	<!--
+	DIV.digg {
+		PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; MARGIN: 3px; PADDING-TOP: 3px; TEXT-ALIGN: center
+	}
+
+	DIV.digg A {
+		BORDER-RIGHT: #aaaadd 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #aaaadd 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #aaaadd 1px solid; COLOR: #000099; PADDING-TOP: 2px; BORDER-BOTTOM: #aaaadd 1px solid; TEXT-DECORATION: none
+	}
+
+	DIV.digg A:hover {
+		BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid; BORDER-LEFT: #000099 1px solid; COLOR: #000; BORDER-BOTTOM: #000099 1px solid
+	}
+
+	DIV.digg A:active {
+		BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid; BORDER-LEFT: #000099 1px solid; COLOR: #000; BORDER-BOTTOM: #000099 1px solid
+	}
+
+	DIV.digg SPAN.current {
+		BORDER-RIGHT: #000099 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #000099 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #000099 1px solid; COLOR: #fff; PADDING-TOP: 2px; BORDER-BOTTOM: #000099 1px solid; BACKGROUND-COLOR: #000099
+	}
+
+	DIV.digg SPAN.disabled {
+		BORDER-RIGHT: #eee 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #eee 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; MARGIN: 2px; BORDER-LEFT: #eee 1px solid; COLOR: #ddd; PADDING-TOP: 2px; BORDER-BOTTOM: #eee 1px solid
+	}
+
+	td, th { border: 1px solid #ccc }
+
+	.pic { height: 80px; width: 80px }
+
+	-->
+</style>
+
+<script type="text/javascript">
+	function selectAll(obj) {
+		var allcheck = document.getElementsByName("item[]");
+
+		for(var i = 0; i < allcheck.length; i++) {
+			allcheck[i].checked = obj.checked;
+		}
+	}
+
+	function check() {
+		var count = 0;
+		var allcheck = document.getElementsByName("item[]");
+
+		for(var i = 0; i < allcheck.length; i++) {
+			if(allcheck[i].checked) {
+				count++;
+			}
+		}
+		if(count == 0) {
+			alert("至少选择一个商品");
+			return false;
+		}
+
+		var fid = document.getElementById("fid").value;
+		if(fid <= 0) {
+			alert("必须选择关联板块");
+			return false;
+		}
+		return true;
+	}
+
+</script>
+
+
+<form method="post">
+
+	<table>
+
+
+		<tr>
+			<td>
+				搜索关键词
+			</td>
+			<td colspan="2">
+				<input type="text" name="keyword" id="keyword" value="$keyword"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				佣金比例
+			</td>
+			<td>
+				<input id="commission_rate" name="startCommissionRate" value=""/>%-
+			</td>
+			<td>
+				<input id="end_commission_rate" name="endCommissionRate" value=""/>%
+			</td>
+		</tr>
+
+
+		<tr>
+			<td>
+				30天推广量
+			</td>
+			<td>
+				<input id="total_num" name="startCommissionNum" value=""/>-
+			</td>
+			<td>
+				<input id="end_total_num" name="endCommissionNum" value=""/>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td>
+				<label for="price" class="searchformheader">价格</label>
+			</td>
+			<td>
+				<input id="price" name="startPrice" value="1"/> -
+			</td>
+			<td>
+				<input id="end_price" name="endPrice" value="500"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				排序：
+			</td>
+			<td colspan="2">
+				<select name="sort" id="sort">
+					<option value="default">默认排序</option>
+					<option value="price_desc">价格从高到低</option>
+					<option value="price_asc">价格从低到高</option>
+					<option value="credit_desc">信用等级从高到低</option>
+					<option value="commissionRate_desc">佣金比率从高到低</option>
+					<option value="commissionRate_asc">佣金比率从低到高</option>
+					<option value="commissionNum_desc">成交量成高到低</option>
+					<option value="commissionNum_asc">成交量从低到高</option>
+					<option value=" commissionVolume_desc">总支出佣金从高到低</option>
+					<option value="commissionVolume_asc">总支出佣金从低到高</option>
+					<option value="delistTime_desc">商品下架时间从高到低</option>
+					<option value="delistTime_asc">商品下架时间从低到高</option>
+				</select>
+			</td>
+
+		</tr>
+	</table>
+	<br/>
+
+	<input type="submit" value="提交搜索条件"/>
+</form>
+<br/>
+
+<hr>
+<!--{if $totalcount > 0}-->
+
+
+<form action="admin.php?action=plugins&operation=config&do=11&identifier=tkb&pmod=import2db" method="post"
+	  name="itemsform" onsubmit="return check();">
+
+	<input type="submit" value="保存"/> 当前页所选数据 到 栏目：
+
+
+	<select name="fid" id="fid">
+		<option value="-1">请选择</option>
+		<!--{if $type == 0}-->
+		<!--{loop $forumscat $forum}-->
+		<option value="$forum['fid']">$forum['name']</option>
+		<!--{/loop}-->
+		<!--{elseif $type == 1 }-->
+		<!--{loop $portalcat $cat}-->
+		<option value="$cat['catid']">$cat['catname']</option>
+		<!--{/loop}-->
+		<!-- {/if} -->
+	</select>
+
+
+	<span style="float:right">总共有 $totalcount 个结果</span>
+
+
+	<br/>
+
+	<table>
+		<tr>
+			<th width="70">
+				<input type="checkbox" onclick="selectAll(this);">全选</input>
+			</th>
+			<th align="left">商品推广信息</th>
+			<th width="75" align="right" style="text-align:center"><span class="list-sort " cat="bid">单价<i
+					class="arrow-up"></i><i class="arrow-down"></i></span></th>
+			<th width="75" align="right" style="text-align:center"><span class="list-sort " cat="commrate">佣金比率<i
+					class="arrow-up"></i><i class="arrow-down"></i></span></th>
+			<th width="75" align="right" style="text-align:center">佣金</th>
+			<th width="75" align="right" style="text-align:center"><span class="list-sort " cat="totalnum">30天推广量<i
+					class="arrow-up"></i><i class="arrow-down"></i></span></th>
+			<th width="90" align="right" style="text-align:center"><span class="list-sort " cat="totalfee">30天支出佣金<i
+					class="arrow-up"></i><i class="arrow-down"></i></span></th>
+
+		</tr>
+		<!--{loop $items $item}-->
+		<tr class="">
+			<td>
+				<input type="checkbox" name="item[]" value="$item->jsonstr"/>
+			</td>
+			<td align="left">
+				<div class="list-info">
+					<a href="http://item.taobao.com:80/item.htm?id=$item->num_iid" class="pic" target="_blank"
+					   lzlinkno="87"><img src="$item->pic_url" width="80px" height="80px"></a>
+					<a href="http://item.taobao.com:80/item.htm?id=$item->num_iid" target="_blank" lzlinkno="88">$item->title</a>
+				</div>
+			</td>
+			<td align="right">$item->price 元</td>
+			<td align="right">$item->commission_rate %</td>
+			<td align="right"><span class="ok">$item->commission 元</span></td>
+			<td align="right">$item->commission_num 件</td>
+			<td align="right">$item->commission_volume 元</td>
+
+		</tr>
+
+		<!--{/loop}-->
+
+	</table>
+
+	<input type="hidden" name="back_url" value="$back_url"/>
+	<input type="hidden" name="type" value="$type"/>
+</form>
+<!--{else}-->
+
+<!--{/if}-->
