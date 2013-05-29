@@ -3,7 +3,7 @@
  * TOP API: taobao.taobaoke.items.relate.get request
  *
  * @author auto create
- * @since  1.0, 2012-09-11 16:34:52
+ * @since  1.0, 2013-05-29 16:35:09
  */
 class TaobaokeItemsRelateGetRequest {
 
@@ -36,22 +36,26 @@ class TaobaokeItemsRelateGetRequest {
 	 **/
 	private $outerCode;
 	/**
-	 * 用户的pid,必须是mm_xxxx_0_0这种格式中间的"xxxx". 注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20
+	 * 用户的pid,必须是mm_xxxx_0_0这种格式中间的"xxxx". 注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20。第一次调用接口的用户，推荐该入参不要填写，使用nick=（淘宝账号）的方式去获取，以免出错。
 	 **/
 	private $pid;
+	/**
+	 * 点击串跳转类型，1：单品，2：单品中间页（无线暂无）
+	 **/
+	private $referType;
 	/**
 	 * <p>推荐类型.</p>
 	<p>1:同类商品推荐;此时必须得输入num_iid</p>
 	<p>2:异类商品推荐;此时必须得输入num_iid</p>
 	<p>3:同店商品推荐;此时必须得输入num_iid</p>
 	<p>4:店铺热门推荐;此时必须得输入seller_id，这里的seller_id得通过<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:10449">taobao.taobaoke.shops.get</a>
-	跟<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:134">taobao.taobaoke.shops.convert</a>这两个接口去获取user_id字段</p>
+	跟<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:21419">taobao.taobaoke.widget.shops.convert</a>这两个接口去获取user_id字段</p>
 	<p>5:类目热门推荐;此时必须得输入cid</p>
 	 **/
 	private $relateType;
 	/**
 	 * 卖家的用户id，这里的seller_id得通过<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:10449">taobao.taobaoke.shops.get</a>
-	跟<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:134">taobao.taobaoke.shops.convert</a>这两个接口去获取user_id字段。
+	跟<a href="http://api.taobao.com/apidoc/api.htm?path=cid:38-apiId:21419">taobao.taobaoke.widget.shops.convert</a>这两个接口去获取user_id字段。
 	注：推荐类型为4时seller_id不能为空
 	 **/
 	private $sellerId;
@@ -139,6 +143,15 @@ class TaobaokeItemsRelateGetRequest {
 
 	public function getPid() {
 		return $this->pid;
+	}
+
+	public function setReferType($referType) {
+		$this->referType              = $referType;
+		$this->apiParas["refer_type"] = $referType;
+	}
+
+	public function getReferType() {
+		return $this->referType;
 	}
 
 	public function setRelateType($relateType) {

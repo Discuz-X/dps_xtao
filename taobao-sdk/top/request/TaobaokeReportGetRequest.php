@@ -3,12 +3,12 @@
  * TOP API: taobao.taobaoke.report.get request
  *
  * @author auto create
- * @since  1.0, 2012-09-11 16:34:52
+ * @since  1.0, 2013-05-29 16:35:09
  */
 class TaobaokeReportGetRequest {
 
 	/**
-	 * 需要查询报表的日期，有效的日期为最近3个月内的某一天，格式为:yyyyMMdd,如20090520.
+	 * 买家确认收货时间，有效的日期为最近3个月内的某一天，格式为:yyyyMMdd,如20090520.
 	 **/
 	private $date;
 	/**

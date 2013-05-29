@@ -3,7 +3,7 @@
  * TOP API: taobao.taobaoke.shops.get request
  *
  * @author auto create
- * @since  1.0, 2012-09-11 16:34:52
+ * @since  1.0, 2013-05-29 16:35:09
  */
 class TaobaokeShopsGetRequest {
 
@@ -12,7 +12,7 @@ class TaobaokeShopsGetRequest {
 	 **/
 	private $cid;
 	/**
-	 * 店铺商品数查询结束值
+	 * 店铺商品数查询结束值。需要跟start_auctioncount同时设置才生效，只设置该值不生效。
 	 **/
 	private $endAuctioncount;
 	/**
@@ -61,7 +61,7 @@ class TaobaokeShopsGetRequest {
 	 **/
 	private $pageSize;
 	/**
-	 * 用户的pid,必须是mm_xxxx_0_0这种格式中间的"xxxx". 注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20
+	 * 用户的pid,必须是mm_xxxx_0_0这种格式中间的"xxxx". 注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20。第一次调用接口的用户，推荐该入参不要填写，使用nick=（淘宝账号）的方式去获取，以免出错。
 	 **/
 	private $pid;
 	/**
@@ -75,7 +75,7 @@ class TaobaokeShopsGetRequest {
 	 **/
 	private $sortType;
 	/**
-	 * 店铺宝贝数查询开始值
+	 * 店铺宝贝数查询开始值。需要跟end_auctioncount同时设置才生效，只设置该值不生效。
 	 **/
 	private $startAuctioncount;
 	/**

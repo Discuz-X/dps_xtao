@@ -3,12 +3,12 @@
  * TOP API: taobao.user.buyer.get request
  *
  * @author auto create
- * @since  1.0, 2012-09-11 16:34:52
+ * @since  1.0, 2013-05-29 16:35:09
  */
 class UserBuyerGetRequest {
 
 	/**
-	 * 只返回nick,sex,buyer_credit,avatar,has_shop,vip_info参数
+	 * 只返回user_id,nick,sex,buyer_credit,avatar,has_shop,vip_info参数
 	 **/
 	private $fields;
 	private $apiParas = array();

@@ -3,7 +3,7 @@
  * TOP API: taobao.taobaoke.items.get request
  *
  * @author auto create
- * @since  1.0, 2012-09-11 16:34:52
+ * @since  1.0, 2013-05-29 16:35:09
  */
 class TaobaokeItemsGetRequest {
 
@@ -57,7 +57,7 @@ class TaobaokeItemsGetRequest {
 	 **/
 	private $guarantee;
 	/**
-	 * 标识一个应用是否来在无线或者手机应用,如果是true则会使用其他规则加密点击串.如果不穿值,则默认是false.
+	 * 标识一个应用是否来在无线或者手机应用,如果是true则会使用其他规则加密点击串.如果不传值,则默认是false.
 	 **/
 	private $isMobile;
 	/**
@@ -95,13 +95,17 @@ class TaobaokeItemsGetRequest {
 	private $pageSize;
 	/**
 	 * 用户的pid,必须是mm_xxxx_0_0这种格式中间的"xxxx".
-	<font color="red">注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20</font>
+	<font color="red">注意nick和pid至少需要传递一个,如果2个都传了,将以pid为准,且pid的最大长度是20</font>。第一次调用接口的用户，推荐该入参不要填写，使用nick=（淘宝账号）的方式去获取，以免出错。
 	 **/
 	private $pid;
 	/**
 	 * 是否如实描述(即:先行赔付)商品，设置为true表示该商品是如实描述的商品，设置为false或不设置表示不判断这个属性
 	 **/
 	private $realDescribe;
+	/**
+	 * 点击串跳转类型，1：单品，2：单品中间页（无线暂无）
+	 **/
+	private $referType;
 	/**
 	 * 是否支持7天退换，设置为true表示该商品支持7天退换，设置为false或不设置表示不判断这个属性
 	 **/
@@ -374,6 +378,15 @@ class TaobaokeItemsGetRequest {
 
 	public function getRealDescribe() {
 		return $this->realDescribe;
+	}
+
+	public function setReferType($referType) {
+		$this->referType              = $referType;
+		$this->apiParas["refer_type"] = $referType;
+	}
+
+	public function getReferType() {
+		return $this->referType;
 	}
 
 	public function setSevendaysReturn($sevendaysReturn) {

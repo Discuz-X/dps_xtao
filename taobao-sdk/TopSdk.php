@@ -33,29 +33,10 @@ if(!defined("TOP_SDK_DEV_MODE")) {
  * 找到lotusphp入口文件，并初始化lotusphp
  * lotusphp是一个第三方php框架，其主页在：lotusphp.googlecode.com
  */
-/* $lotusHome = dirname(__FILE__) . DIRECTORY_SEPARATOR . "lotusphp_runtime" . DIRECTORY_SEPARATOR;
-include($lotusHome . "Lotus.php");
-$lotus = new Lotus;
-$lotus->option["autoload_dir"] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'top';
-$lotus->devMode = TOP_SDK_DEV_MODE;
-$lotus->defaultStoreDir = TOP_SDK_WORK_DIR;
-$lotus->init(); */
-
-$apiHome = dirname(__FILE__).DIRECTORY_SEPARATOR;
-
-include $apiHome.'top/TopClient.php';
-include $apiHome.'top/RequestCheckUtil.php';
-function autoload($name) {
-	echo 'autoload==>'.$name;
-	global $api_home;
-	try {
-		include $apiHome.'top/request/'.$name.'.php';
-	} catch(Exception $e) {
-		echo $e->getMessage();
-		exit;
-	}
-}
-
-//echo "register1";
-spl_autoload_register('autoload');
-//echo "register2";
+$lotusHome = dirname(__FILE__).DIRECTORY_SEPARATOR."lotusphp_runtime".DIRECTORY_SEPARATOR;
+include($lotusHome."Lotus.php");
+$lotus                         = new Lotus;
+$lotus->option["autoload_dir"] = dirname(__FILE__).DIRECTORY_SEPARATOR.'top';
+$lotus->devMode                = TOP_SDK_DEV_MODE;
+$lotus->defaultStoreDir        = TOP_SDK_WORK_DIR;
+$lotus->init();
