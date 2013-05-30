@@ -23,7 +23,7 @@ if(!defined("TOP_SDK_WORK_DIR")) {
  * 部署到生产环境正式运营后，如果性能压力大，可以把此常量设定为false，能提高运行速度（对应的代价就是你下次升级程序时要清一下缓存）
  */
 if(!defined("TOP_SDK_DEV_MODE")) {
-	define("TOP_SDK_DEV_MODE", TRUE);
+	define("TOP_SDK_DEV_MODE", FALSE);
 }
 /**
  * 定义常量结束
