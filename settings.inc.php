@@ -20,4 +20,3 @@ foreach($portals as $cid) {
 	}
 }
 
-?>

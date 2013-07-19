@@ -1,9 +1,9 @@
-<?php !defined('IN_DISCUZ') && exit('Access Denied');
+<?php defined('IN_DISCUZ') || die('Access Denied');
 
 global $_G;
 //$_G['uid'] == 1 && error_reporting(E_ALL | E_STRICT);//error_reporting(E_ALL ^ E_NOTICE);
-$olderrlevel = error_reporting(E_ALL | E_STRICT);
-
+//$olderrlevel = error_reporting(E_ALL | E_STRICT);
+define('DS', DIRECTORY_SEPARATOR);
 define('IDENTIFIER', basename(dirname(__FILE__))); //统一管理插件标识符
 (!defined('IN_ADMINCP') || !IN_ADMINCP) && $_C = $_G['cache']['plugin'][IDENTIFIER]; //读取设置
 

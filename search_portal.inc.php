@@ -14,7 +14,7 @@ loadcache('portalcategory');
 $type = 1;
 global $_G;
 
-$vars           = $_G['cache']['plugin']['tkb'];
+$vars           = $_G['cache']['plugin']['dps_xtao'];
 $portalcategory = $_G['cache']['portalcategory'];
 $portals        = explode(',', $vars['portalcat']);
 

@@ -1,8 +1,5 @@
-<?php
-!defined('IN_DISCUZ') && exit('Access Denied');
-require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Config.php';
+<?php defined('IN_DISCUZ') || die('Access Denied');
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'init.php';
-
 
 
 $appkey = !empty($_C['app_key']) ? $_C['app_key'] : showmessage(lang('plugin/abis_shops', 'error_noappkey'));
@@ -20,19 +17,17 @@ $navtitle = !empty($_C['navtitle']) ? $_C['navtitle'] : $_G['setting']['bbname']
 $commissionnumadd = !empty($_C['commissionnumadd']) ? $_C['commissionnumadd'] : 11;
 
 
-
 //搜索关键字列表
 $goodkeywords = !empty($_C['goodkeywords']) ? $_C['goodkeywords'] : '';
-
 
 
 //初始化设置
 $conv = new Convert;
 if(strtolower($_G['config']['output']['charset']) == 'gbk') {
-	$conv->convert = true;
+	$conv->convert   = TRUE;
 	$conv->localcode = 'gbk';
 } else {
-	$conv->convert = false;
+	$conv->convert = FALSE;
 }
 
 //导航标题
@@ -45,14 +40,15 @@ $req->setNumIids($iid);
 
 //定义调用
 $c = new TopClient;
-$c->format = 'json';//返回数据格式	
+$c->format = 'json'; //返回数据格式
 //得到全部的appkey
 $c->appkey = $appkey;
 $c->secretKey = $appsecret;
 $resp = $c->execute($req);
-	
+
 if(empty($resp->total_results)) {
 	showmessage(lang('plugin/abis_shops', 'error_noproduct'));
+
 	return;
 }
 
@@ -64,35 +60,34 @@ $item['click_url'] = base64_encode($i->click_url);
 $item['seller_credit_score'] = $i->seller_credit_score;
 $item['shop_click_url'] = base64_encode($i->shop_click_url);
 $item['item'] = array();
-foreach($i->item as $key=>$val) {
-	$val = $conv->disp($val);
+foreach($i->item as $key => $val) {
+	$val                = $conv->disp($val);
 	$item['item'][$key] = $val;
 }
 
 
-	$item['item']['pic_url'] =  $item['item']['pic_url']."_570x10000.jpg";
+$item['item']['pic_url'] = $item['item']['pic_url']."_570x10000.jpg";
 
 
 //加工市场价
-if ($item['item']['price'] <= 100) {
+if($item['item']['price'] <= 100) {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod1));
 
-} else if ($item['item']['price'] > 100 and $item['item']['price'] <= 500) {
+} else if($item['item']['price'] > 100 and $item['item']['price'] <= 500) {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod2));
-} else if ($item['item']['price'] > 500 and $item['item']['price'] <= 1000) {
+} else if($item['item']['price'] > 500 and $item['item']['price'] <= 1000) {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod3));
-} else if ($item['item']['price'] > 1000 and $item['item']['price'] <= 3000) {
+} else if($item['item']['price'] > 1000 and $item['item']['price'] <= 3000) {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod4));
-} else if ($item['item']['price'] > 3000 and $item['item']['price'] <= 5000) {
+} else if($item['item']['price'] > 3000 and $item['item']['price'] <= 5000) {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod5));
-} else  {
+} else {
 	$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod6));
-
 }
 
 //得到标题
 if(!empty($item['item']['title'])) {
-	$thisnav = $item['item']['title'];
+	$thisnav  = $item['item']['title'];
 	$navtitle = $item['item']['title'].' - '.$item['item']['location']['state'].''.$item['item']['location']['city'].' - '.$item['item']['nick'].' - '.$item['item']['price'];
 	//.' - '.$plugintitle.$item['item']['desc'];
 
@@ -100,5 +95,3 @@ if(!empty($item['item']['title'])) {
 
 
 include template('abis_shops:goods_detail');
-
-?>

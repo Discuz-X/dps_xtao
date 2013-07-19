@@ -1,4 +1,4 @@
-<?php !defined('IN_DISCUZ') && exit('Access Denied');
+<?php defined('IN_DISCUZ') || die('Access Denied');
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Config.php';
 
 

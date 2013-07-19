@@ -1,15 +1,10 @@
-<?php !defined('IN_DISCUZ') && exit('Access Denied');
+<?php defined('IN_DISCUZ') || die('Access Denied');
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'init.php';
-
-
 
 //导航标题
 $plugintitle = $navtitle;
-
 $goodkeywords = !empty($_C['goodkeywords']) ? $_C['goodkeywords'] : '';
-
 $indexgoods = !empty($_C['indexgoods']) ? $_C['indexgoods'] : '女装';
-
 $conv = new Convert;
 if(strtolower($_G['config']['output']['charset']) == 'gbk') {
 	$conv->convert   = TRUE;
@@ -17,19 +12,24 @@ if(strtolower($_G['config']['output']['charset']) == 'gbk') {
 } else {
 	$conv->convert = FALSE;
 }
-$c = new TopClient;
-$c->appkey = $appkey;
-aiodebug($appkey, 'App key', $debug);
-$c->secretKey = $appsecret;
-aiodebug($appsecret, 'App secret', $debug);
-$c->format = 'json';
 
 $keywords = array();
 $keywords = explode(',', $goodkeywords);
 for($i = 0; $i < count($arraykey); $i++) {
 	$keywords[] = $arraykey[$i];
 }
+//$itl = new ItemcatsGetRequest;
+//$itl->setFields('cid,parent_cid,name,is_parent,status,sort_order,last_modified');
+//$itl->setParentCid(isset($_GET['cid'])?$_GET['cid']:'0');
+//$ritl = $c->execute($itl);
+//aiodebug($ritl->item_cats, 'response', $debug);
+//aiodebug($ritl, 'response', $debug);
+//$itemCats = $ritl->item_cats->item_cat;
 
+//aiodebug($ritl, 'response', $debug);
+//aiodebug($ritl, 'response', $debug);
+//aiodebug($ritl, 'response', $debug);
+//aiodebug($ritl, 'response', $debug);
 if($mod == 'view') {
 	$iid = !empty($_GET['iid']) ? addslashes($_GET['iid']) : showmessage(lang('plugin/abis_shops', 'error_noiids'));
 	$req = new TaobaokeItemsDetailGetRequest;
@@ -54,7 +54,6 @@ if($mod == 'view') {
 	//加工市场价
 	if($item['item']['price'] <= 100) {
 		$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod1));
-
 	} else if($item['item']['price'] > 100 and $item['item']['price'] <= 500) {
 		$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod2));
 	} else if($item['item']['price'] > 500 and $item['item']['price'] <= 1000) {
@@ -65,14 +64,12 @@ if($mod == 'view') {
 		$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod5));
 	} else {
 		$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod6));
-
 	}
 
 	//得到标题
 	if(!empty($item['item']['title'])) {
 		$thisnav  = $item['item']['title'];
 		$navtitle = $item['item']['title'].' - '.$plugintitle;
-
 	}
 } else {
 	$page    = intval($_GET['page']) != 0 ? intval($_GET['page']) : 1;
@@ -87,7 +84,6 @@ if($mod == 'view') {
 	} else if(!empty($cid) and empty($keyword)) {
 		$thisnav  = '';
 		$navtitle = $thisnav.' - '.$plugintitle;
-
 	} else if(empty($cid) and !empty($keyword)) {
 		$navtitle = $keyword.' - '.$plugintitle;
 		$thisnav  = $keyword.'';
@@ -118,7 +114,6 @@ if($mod == 'view') {
 	$ppp = !empty($_C['page_size']) ? intval($_C['page_size']) : showmessage(lang('plugin/abis_shops', 'error_nopagesize'));
 	$ppp = $ppp > 40 ? 40 : $ppp;
 
-	include 'sdk/request/TaobaokeItemsGetRequest.php';
 	$req = new TaobaokeItemsGetRequest;
 	$req->setPageNo($page);
 	$req->setPageSize($ppp);
@@ -138,7 +133,7 @@ if($mod == 'view') {
 	}
 
 	if(!empty($taokepid)) {
-		aiodebug($taokepid, 'taoke pid', $debug);
+		//aiodebug($taokepid, 'taoke pid', $debug);
 		$req->setPid($taokepid);
 	} elseif(!empty($taokeusername)) {
 		aiodebug($taokeusername, 'taoke username', $debug);
@@ -147,7 +142,7 @@ if($mod == 'view') {
 		showmessage(lang('plugin/abis_shops', 'error_nouser'));
 	}
 	$resp = $c->execute($req);
-	aiodebug($resp, 'response', $debug);
+	//aiodebug($resp, 'response', $debug);
 	$total = $resp->total_results;
 	$total = $total > $ppp * 100 ? $ppp * 100 : $total;
 	$items = array();
@@ -162,7 +157,6 @@ if($mod == 'view') {
 		//加工市场价
 		if($item['price'] <= 100) {
 			$item['fakeprice'] = sprintf('%01.2f', floor($item['price'] * $price_mod1));
-
 		} else if($item['price'] > 100 and $item['price'] <= 500) {
 			$item['fakeprice'] = sprintf('%01.2f', floor($item['price'] * $price_mod2));
 		} else if($item['price'] > 500 and $item['price'] <= 1000) {
@@ -189,6 +183,3 @@ if($mod == 'view') {
 	*/
 }
 include template(IDENTIFIER.':taobaoindex');
-
-
-?>

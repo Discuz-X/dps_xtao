@@ -1,12 +1,20 @@
-<?php !defined('IN_DISCUZ') && exit('Access Denied');
+<?php defined('IN_DISCUZ') || die('Access Denied');
 require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Config.php';
 
-
-//引用文件
+define("TOP_SDK_DEV_MODE", $_C['is_debug']);
+spl_autoload_unregister(array('core','autoload'));
+include_once dirname(__FILE__).DS.'taobao-sdk'.DS.'TopSdk.php';//引用文件
+spl_autoload_register(array('core', 'autoload'));
 require_once 'lib/functions.php';
-require_once 'sdk/TopClient.php';
-require_once 'sdk/RequestCheckUtil.php';
-require_once 'sdk/request/TaobaokeItemsDetailGetRequest.php';
+
+
+$c = new TopClient;
+TOP_SDK_DEV_MODE && $c->gatewayUrl = 'http://gw.api.tbsandbox.com/router/rest';
+//aiodebug($c->gatewayUrl, 'App URL', $debug);
+$c->appkey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_key'];
+$c->secretKey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_secret'];
+//aiodebug($_C['app_secret'], 'App secret', $debug);
+$c->format = 'json';
 
 $modarray = array('view');
 $mod = !empty($_GET['mod']) ? addslashes($_GET['mod']) : 'index';

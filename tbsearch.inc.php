@@ -1,8 +1,4 @@
-<?php !defined('IN_DISCUZ') && exit('Access Denied');
-
-
+<?php defined('IN_DISCUZ') || die('Access Denied');
 include 'lib/functions.php';
-
 $keyword = $_GET['keyword'];
-header('Location: plugin.php?id=abis_shops:tb_goods_search&sort=commissionNum_desc&keyword='.$keyword);
-?>
+header('Location: plugin.php?id=dps_xtao:taobaoindex&sort=commissionNum_desc&keyword='.$keyword);

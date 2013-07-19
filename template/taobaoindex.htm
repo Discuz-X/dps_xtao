@@ -1,8 +1,9 @@
 <!--{template common/header}-->
 
-<link rel="stylesheet" type="text/css" href="source/plugin/dps_xtao/CSS/style.css"/>
-<script src="./source/plugin/dps_xtao/JavaScript/shop.js"></script>
-<script src="./source/plugin/dps_xtao/Javascript/base64.js"></script>
+<!--{eval $pluginpath = './source/plugin/dps_xtao/';}-->
+<link rel="stylesheet" type="text/css" href="{$pluginpath}CSS/style.css"/>
+<script src="{$pluginpath}JavaScript/shop.js"></script>
+<script src="{$pluginpath}Javascript/base64.js"></script>
 
 <div id="pt" class="bm cl">
 	<div class="z">
@@ -46,6 +47,14 @@
 	</div>
 	<div id="Div1">
 		<div class="left">
+			<div class="cl">
+				<!--{if isset($_GET['parent_cid'])}-->
+				<a href="plugin.php?id=dps_xtao:taobaoindex&cid={$_GET['parent_cid']}">backtoparent</a>
+				<!--{/if}-->
+				<!--{loop $itemCats $key $itemCat}-->
+				<a href="plugin.php?id=dps_xtao:taobaoindex&cid={$itemCat->cid}&parent_cid={$itemCat->parent_cid}">{$itemCat->name}</a><br />
+				<!--{/loop}-->
+			</div>
 			<div class="bm_c keyword_list cl">
 				<ul class="xl">
 
@@ -83,7 +92,7 @@
 				<div class="goods_list_price">
 					<div class="goods_list_priceleft">
 						<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}" target="_blank">
-							<img src="./source/plugin/dps_xtao/Image/go.gif"/>
+							<img src="{$pluginpath}Image/go.gif"/>
 						</a>
 					</div>
 					<div class="goods_list_priceright">
@@ -99,34 +108,34 @@
 				<div class="goods_list_price">
 					<div class="goods_list_pricel">
 						<div class="goods_list_scprice">
-							<img src="./source/plugin/dps_xtao/Image/list_ioc01.gif">{lang dps_xtao:product_area}$item[item_location]
+							<img src="{$pluginpath}Image/list_ioc01.gif">{lang dps_xtao:product_area}$item[item_location]
 						</div>
 						<div class="goods_list_tbprice">
-							<img src="./source/plugin/dps_xtao/Image/ww.gif">{lang dps_xtao:product_ww}<a
+							<img src="{$pluginpath}Image/ww.gif">{lang dps_xtao:product_ww}<a
 								target='_blank'
 								href='http://web.im.alisoft.com/msg.aw?v=2&uid={$item[nick]}&site=cnalichn&s=1'>$item[nick]</a>
 						</div>
 						<div class="goods_list_num">
-							<img src="./source/plugin/dps_xtao/Image/list_ioc03.gif">{lang dps_xtao:commission_num}$item[commission_num]{lang dps_xtao:jian}
+							<img src="{$pluginpath}Image/list_ioc03.gif">{lang dps_xtao:commission_num}$item[commission_num]{lang dps_xtao:jian}
 						</div>
 					</div>
 					<div class="goods_list_pricer">
 						<div class="goods_list_button">
 							<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
 							   onclick="clickurl('$item[click_url]'); return false;">
-								<img src="./source/plugin/dps_xtao/Image/list_ioc05.gif" align="absmiddle"
+								<img src="{$pluginpath}Image/list_ioc05.gif" align="absmiddle"
 									 alt="{lang dps_xtao:altbuy}"></a>
 						</div>
 						<div class="goods_list_button">
 							<a href="plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}"
 							   onclick="clickurl('$item[shop_click_url]'); return false;">
-								<img src="./source/plugin/dps_xtao/Image/list_ioc06.gif" align="absmiddle"
+								<img src="{$pluginpath}Image/list_ioc06.gif" align="absmiddle"
 									 alt="{lang dps_xtao:altshop}"></a>
 						</div>
 						<div class="goods_list_button">
 							<a href="javascript:;"
 							   onclick="addFavorite(window.location.host + '/' + 'plugin.php?id=dps_xtao:taobaoindex&mod=view&iid={$item[num_iid]}','{$item[title]}-{$_G[setting][bbname]}');">
-								<img src="./source/plugin/dps_xtao/Image/list_ioc07.gif" align="absmiddle"
+								<img src="{$pluginpath}Image/list_ioc07.gif" align="absmiddle"
 									 alt="{lang dps_xtao:altfav}"></a>
 						</div>
 					</div>
@@ -154,23 +163,23 @@
 						<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;"
 						   onfocus="this.blur()">
 							<div class="goodstitle">
-								<img src="./source/plugin/dps_xtao/Image/tb.png" alt="" align="absmiddle">$item[item][title]
+								<img src="{$pluginpath}Image/tb.png" alt="" align="absmiddle">$item[item][title]
 							</div>
 						</a>
 					</div>
 					<hr size="1" style="color: blue; border-style: dotted; width: 360px"/>
 					<div class="go_buy">
 						<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;">
-							<img src="./source/plugin/dps_xtao/Image/buy.gif"/></a>
+							<img src="{$pluginpath}Image/buy.gif"/></a>
 						<a href="javascript:;" onclick="clickurl('{$item[shop_click_url]}'); return false;">
-							<img src="./source/plugin/dps_xtao/Image/shop.gif"/></a>
+							<img src="{$pluginpath}Image/shop.gif"/></a>
 					</div>
 					<ul>
 						<li>{lang dps_xtao:fakeprice}$item[item][fakeprice]{lang dps_xtao:yuan}</li>
 						<li>{lang dps_xtao:price}$item[item][price]{lang dps_xtao:yuan}</li>
 						<li>{lang dps_xtao:nick}<a target='_blank'
 												   href='http://web.im.alisoft.com/msg.aw?v=2&uid={$item[nick]}&site=cnalichn&s=1'>
-							<img src="./source/plugin/dps_xtao/Image/wwd.gif">$item[item][nick]</a></li>
+							<img src="{$pluginpath}Image/wwd.gif">$item[item][nick]</a></li>
 						<li>{lang dps_xtao:seller_credit}$item[seller_credit_score]</li>
 						<li>{lang dps_xtao:location}$item[item][location][state] $item[item][location][city]</li>
 						<li>{lang dps_xtao:fee}{lang dps_xtao:post_fee}$item[item][post_fee] {lang dps_xtao:express_fee}$item[item][express_fee] {lang dps_xtao:ems_fee}$item[item][ems_fee]
