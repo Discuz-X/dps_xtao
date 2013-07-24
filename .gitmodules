@@ -1,0 +1,3 @@
+[submodule "taobao-sdk"]
+	path = taobao-sdk
+	url = git@github.com:SprayHank/TopSDK.git
