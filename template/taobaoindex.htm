@@ -36,9 +36,11 @@
 </style>
 
 <div class="wp cl">
+
+<!--{if $keyword != ''}--><!--{template dps_xtao:cashback}--><!--{/if}-->
 	<!--{if $mod != 'view'}-->
 	<div id="container">
-		<div class="left">{template dps_xtao:tbsearch}</div>
+		<div class="left"><!--{template dps_xtao:tbsearch}--></div>
 		<div class="right">
 			<!--{loop $keywords $item}-->
 			<a href="plugin.php?id=dps_xtao:taobaoindex&cid=&keyword={$item}&sort=commissionVolume_desc"><b>$item</b></a>,
@@ -145,9 +147,7 @@
 		</div>
 	</div>
 	$multi
-
-
-	{template dps_xtao:taobaosearch}
+	<!--{template dps_xtao:taobaosearch}-->
 	<!--{else}-->
 	<div class="wp cl">
 		<div class="list_right">
@@ -155,8 +155,7 @@
 				<div class="goods_info_img">
 					<a href="javascript:;" onclick="clickurl('{$item[click_url]}'); return false;"
 					   onfocus="this.blur()">
-						<img src="{$item[item][pic_url]}" alt="" align="absmiddle"
-							 onload="this.width=Math.min(this.width,500)"/></a>
+						<img src="{$item[item][pic_url]}" alt="" align="absmiddle" onload="this.width=Math.min(this.width,500)"/></a>
 				</div>
 				<div class="goods_info_div">
 					<div>
