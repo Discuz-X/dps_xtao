@@ -1563,15 +1563,15 @@ if($keyword != '') {
 	//include(TPLPATH.'/header.tpl.php');
 }
 include template(IDENTIFIER.':taobaoindex');
-///**
-// * 淘宝API处理类
-// *
-// * @category   Taoapi
-// * @package    Taoapi
-// * @copyright  Copyright (c) 2008-2009 Taoapi (http://www.Taoapi.com)
-// * @license    http://www.Taoapi.com
-// * @version    Id: Taoapi  2009-12-22  12:30:51  浪子 ；多多淘宝客优化：http://www.duoduo123.com
-// */
+/**
+ * 淘宝API处理类
+ *
+ * @category   Taoapi
+ * @package    Taoapi
+ * @copyright  Copyright (c) 2008-2009 Taoapi (http://www.Taoapi.com)
+ * @license    http://www.Taoapi.com
+ * @version    Id: Taoapi  2009-12-22  12:30:51  浪子 ；多多淘宝客优化：http://www.duoduo123.com
+ */
 class Taoapi {
 
 	protected $taobaoData;
