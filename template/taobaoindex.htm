@@ -13,23 +13,23 @@
 
 <style type="text/css">
 div { margin: 0; padding: 0; }
-#container { height: 30px; line-height: 30px; border: 0px solid #CCCCCC; }
+#container { height: 30px; line-height: 30px; margin: 10px 0; border: 0px solid #CCCCCC; }
 #container .right { float: left; margin-left: 10px; }
 #container .left { float: left; }
 </style>
 
 <div class="wp cl">
-
-<!--{if $keyword != ''}--><!--{template dps_xtao:cashback}--><!--{/if}-->
-<!--{if $mod != 'view'}-->
 <div id="container">
-<div class="left"><!--{template dps_xtao:tbsearch}--></div>
-<div class="right">
-<!--{loop $keywords $item}-->
-<a href="plugin.php?id=dps_xtao:taobaoindex&cid=&keyword={$item}&sort=commissionVolume_desc"><b>$item</b></a>,
-<!--{/loop}-->
+	<div class="left"><!--{template dps_xtao:tbsearch}--></div>
+	<div class="right">
+		<!--{loop $keywords $item}-->
+		<a href="plugin.php?id=dps_xtao:taobaoindex&cid=&keyword={$item}&sort=commissionVolume_desc"><b>$item</b></a>,
+		<!--{/loop}-->
+	</div>
 </div>
-</div>
+<!--{if $keyword != ''}--><!--{template dps_xtao:cashback}-->
+<!--{elseif $mod != 'view'}-->
+
 <div id="Div1">
 <div class="left">
 <div class="cl">
