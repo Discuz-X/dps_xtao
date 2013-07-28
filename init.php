@@ -11,10 +11,10 @@ global $TopClient;
 $TopClient = new TopClient;
 TOP_SDK_DEV_MODE && $c->gatewayUrl = 'http://gw.api.tbsandbox.com/router/rest';
 //aiodebug($c->gatewayUrl, 'App URL', $debug);
-$c->appkey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_key'];
-$c->secretKey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_secret'];
+$TopClient->appkey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_key'];
+$TopClient->secretKey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_secret'];
 //aiodebug($_C['app_secret'], 'App secret', $debug);
-$c->format = 'json';
+$TopClient->format = 'json';
 
 $modarray = array('view');
 $mod = !empty($_GET['mod']) ? addslashes($_GET['mod']) : 'index';
