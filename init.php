@@ -7,8 +7,8 @@ include_once dirname(__FILE__).DS.'taobao-sdk'.DS.'TopSdk.php';//引用文件
 spl_autoload_register(array('core', 'autoload'));
 require_once 'lib/functions.php';
 
-
-$c = new TopClient;
+global $TopClient;
+$TopClient = new TopClient;
 TOP_SDK_DEV_MODE && $c->gatewayUrl = 'http://gw.api.tbsandbox.com/router/rest';
 //aiodebug($c->gatewayUrl, 'App URL', $debug);
 $c->appkey = TOP_SDK_DEV_MODE ? 'test' : $_C['app_key'];
