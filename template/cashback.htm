@@ -1,431 +1,831 @@
-<div class="mainbody">
-<div class="mainbody1000">
-<div class="shopleft">
-<div class="shopmessage">
-<div class="shopname">
-<h3><A class="dd_shop_jump" href="" <?php/*echo $login_click*/ ?> target=_blank><?php/* echo $shop['title']*/ ?></A></h3>
+<div class="goods ct2 cl">
+<div class="shopDetails sd">
+<div class="shopname" style="padding: 10px;">
+<h3><a class="dd_shop_jump" href="http://shop{echo $shop->sid}.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank" _hover-ignore="1">{echo $shop->title}</a></h3>
 </div>
-<div class="shoplogo">
-<div class="shoplogo-img"><?php /*echo  html_img($shop['logo'], 0, $shop['title'], '', 80, 80, $shop['onerror']) */?></div>
-<div class="shoplogo-font"><p>平均:</p>								<h3 id="shopFxbl"></h3></div>
+<div class="shoplogo cl" style="padding: 10px;">
+<div class="shoplogo-img" style="float: left;">
+<img src="http://logo.taobaocdn.com/shop-logo{echo $shop->pic_path}.jpg" width="80" height="80" alt="{echo $shop->title}" onerror="this.src='images/tbdp.gif'" class="">
+</div>
+<div class="shoplogo-font" style="float: left;margin:10px;">
+	<p>平均:</p>
+	<h3 id="shopFxbl" style="font-family: Georgia, 'Times New Roman', Times, serif;	font-size: 30px;	font-style: italic;	color: #FF3300;	font-weight: bold;	margin: 2px 0 0 0;	padding: 0;">0.56%</h3></div>
 </div>
 <div class="shoptxt">
-<p>掌柜名称：<a class="dd_shop_jump" href="" <?php /*echo  $login_click */?> target="_blank"><?php /*echo  $shop['nick'] */?></a></p>
-<p>店铺信誉：<span class="shoptxt-img"><img src="images/level_<?php /*echo  $shop['level'] */?>.gif"></span></p>
-<p id="goodsnum">宝贝数量：</p>							<p>创店时间：<?php /*echo  date('Y-m-d', strtotime($shop['created'])) */?></p>
+<p>掌柜名称：<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank" _hover-ignore="1"><!--{echo $shop->nick}--></a></p>
+<p>店铺信誉：<span class="shoptxt-img"><img src="{$pluginpath}Image/level_{echo $shop->level}.gif"></span></p>
+<p id="goodsnum">宝贝数量：80</p>
+<p>创店时间：<!--{echo date('Y-m-d',strtotime($shop->created))}--></p>
 <b>店铺动态评分</b>
-<div class="shoptxt-dt">
-<DIV class=title>宝贝与描述相符：</DIV>
-<DIV class=xx3>
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5bx.gif) no-repeat 0px 0px; FLOAT: left; HEIGHT: 19px" title="<?php /*echo  $shop['item_score'] */?>分">
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5hx.gif) 0px 0px; HEIGHT: 19px; width:<?php /*echo  $shop['item_score'] * 20 */?>px">
-</DIV>
-</DIV>
-</DIV>
+<style type="text/css">
+._5bx{width: 100px; background: url({$pluginpath}Image/5bx.gif) no-repeat 0px 0px; float: left; height: 19px;}
+._5hx{width: 100px; background: url({$pluginpath}Image/5hx.gif) 0px 0px; height: 19px; }
+</style>
+<div class="shoptxt-dt cl">
+<div class="title">宝贝与描述相符：</div>
+<div class="xx3 cl"><div class="_5bx" title="{echo $shop->shop_score->item_score}分"><div class="_5hx" style="width:{echo $shop->shop_score->item_score*20}px"></div></div></div>
 </div>
-<div class="shoptxt-dt">
-<DIV class=title>卖家的服务态度：</DIV>
-<DIV class=xx3>
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5bx.gif) no-repeat 0px 0px; FLOAT: left; HEIGHT: 19px" title="<?php /*echo  $shop['service_score'] */?>分">
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5hx.gif) 0px 0px; HEIGHT: 19px; width:<?php /*echo  $shop['service_score'] * 20 */?>px">
-</DIV>
-</DIV>
-</DIV>
+<div class="shoptxt-dt cl">
+<div class="title">卖家的服务态度：</div>
+<div class="xx3 cl"><div class="_5bx" title="{echo $shop->shop_score->service_score}分"><div class="_5hx" style="width:{echo $shop->shop_score->service_score*20}px"></div></div></div>
 </div>
-<div class="shoptxt-dt">
-<DIV class=title>卖家发货的速度：</DIV>
-<DIV class=xx3>
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5bx.gif) no-repeat 0px 0px; FLOAT: left; HEIGHT: 19px" title="<?php /*echo  $shop['delivery_score'] */?>分">
-<DIV style="WIDTH: 100px; BACKGROUND: url(TPLURL/images/5hx.gif) 0px 0px; HEIGHT: 19px; width:<?php /*echo  $shop['delivery_score'] * 20 */?>px">
-</DIV>
-</DIV>
-</DIV>
+<div class="shoptxt-dt cl">
+<div class="title">卖家发货的速度：</div>
+<div class="xx3 cl"><div class="_5bx" title="{echo $shop->shop_score->delivery_score}分"><div class="_5hx" style="width:{echo $shop->shop_score->delivery_score*20}px"></div></div></div>
 </div>
 <div class="shopbutton">
-<A class="dd_shop_jump" href="" <?php /*echo  $login_click */?> target=_blank>
-<DIV class=shop_button1 onMouseOver="this.className='shop_button1_h';" onmouseout="this.className='shop_button1';"></DIV>
-</A>
-</div>
-</div>
-</div>
-<script>
-function showShopInfo() {
-<?php
-//				$parame['seller_nicks']=$nick;
-//				php2js_array($jssdk_shops_convert,'parame');
-//				echo "taobaoTaobaokeWidgetShopsConvert(parame);\r\n";
-?>
-}
-<?php //if(MOD=='tao' && ACT=='shop'){?>
-showShopInfo();
-<?php //}?>
-commentUrl = '';
-function ddShowShopInfo(shopsInfo) {
-if(shopsInfo['level'] > 0) {
-$('.shopmessage #shopFxbl').html(shopsInfo['fxbl'] + '%');
-$('.shopmessage .shoptxt-img img').attr('src', 'images/level_' + shopsInfo['level'] + '.gif');
-$('.shopmessage #goodsnum').html('宝贝数量：' + shopsInfo['auction_count']);
-$('.dd_shop_jump').attr('href', shopsInfo['jump']);
-<?php //if(MOD=='tao' && ACT=='shop'){?>
-var str;
-var goodsUrl = '<?php /*echo SITEURL*/?>/index.php?mod=ajax&act=shop_items_get&uid=' + shopsInfo['user_id'] + '&nick=' + encodeURIComponent(shopsInfo['seller_nick']) + '&taoke=' + shopsInfo['taoke'] + '&level=' + shopsInfo['level'];
-$.ajax({
-url: goodsUrl,
-dataType: 'jsonp',
-jsonp: "callback",
-cache: false,
-success: function(data) {
-if(isEmpty(data)) {
-tpl = '暂无商品';
-}
-else {
-tpl = getTplObj(html_tpl_<?php /*echo $list*/?>, data);
-}
-$('#splistbox ul').append(tpl);
-}
-});
-<?php //}?>					<?php //if(MOD=='tao' && ACT=='view'){?>
-commentUrl = '<?php /*echo $comment_url*/?>' + shopsInfo['user_id'];
-<?php //}?>
-}
-}			function html_tpl_1() {/*<li class="info">
-<div class="goodslist_main_left">
-<div class="goodslist_main_left_img"><a class="taopic" href="{$gourl}" target="_blank" pic="{$pic_url_base64_encode}"><img src="{$pic_url}" /></a></div>
-<div class="goodslist_main_left_bt title"><a target="_blank" href="{$gourl}">{$title}</a></div>
-<div class="goodslist_main_left_sell"><p>本期已售出<span>{$commission_num} </span>件 <img alt="等级" src="images/level_{$shoplevel}.gif" align="absmiddle" /> </p> </div>
-<div class="goodslist_main_left_seller"><p>卖家：<A href="{$go_shop}" target=_blank title="逛逛{$nick}的店铺">{$nick}</a> {$wangwang_nick}</p>
-</div>
-</div>
-<div class="goodslist_main_right">
-<div class="goodslist_main_right_price">
-<p class="price">淘宝价：<span>{$price}</span> 元 </p>
-<p class="fxje" title="
-<?php /*echo TBFLTIP*/?>"> 可返<span class="greenfont">{$fxje}</span>
-<?php /*echo TBMONEYUNIT*/?><?php /*echo TBMONEY*/?> </p>
-<p>&nbsp;<a target="_blank" href="{$go_view}">详情</a></p>
-<p id="{$num_iid}" class="tbcuxiao" style="clear:both; margin-top:5px; width:150px;"></p>
-</div>
-<div style="clear:both"></div>
-<div class="goodslist_main_right_tb">
-<a target="_blank" href="{$tao_list_url}"><div class="goodslist_main_right_bj"></div></a>
-<a target="_blank" rel="nofollow" href="{$jump}"><div class="goodslist_main_right_buy">去淘宝购买</div></a>
-</div>
-</div>
-</li>*/
-;
-}
-function html_tpl_2() {/*<li class="info" style=" height:390px">
-<div class="goodslist_main_left_img_2"><a href="{$gourl}" target="_blank"><img src="{$pic_url}" style=" width:160px; height:160px" /></a></div>
-<div class="goodslist_main_left_bt_2 title"><a target="_blank">{$title}</a></div>
-<div class="goodslist_main_left_xy_2"><p>卖家信用：<img alt="等级" src="images/level_{$shoplevel}.gif" align="absmiddle" /></p> </div>
-<div class="goodslist_main_left_seller_2"><p>卖家：<A href="{$go_shop}" target=_blank title="逛逛{$nick}的店铺">{$nick}</a> {$wangwang_nick}</p>
-</div>
-<p class="price">淘宝价：<span>{$price}</span> 元 </p>
-<p class="tbcuxiao">淘宝热卖商品</p>
-<p class="fxje" title="
-<?php /*echo TBFLTIP*/?>"> 可返：<span class="greenfont">{$fxje}</span>
-<?php /*echo TBMONEYUNIT*/?><?php /*echo TBMONEY*/?> </p>
-<div class="goodslist_main_right_tb_2">
-<a rel="nofollow" href="{$jump}" target="_blank" ><div class="goodslist_main_right_buy">去淘宝购买</div></a>
-</div>
-</li>*/
-;
-}
-</script>
-<?php //if(WEBTYPE == 1) { ?>
-<?php //if(TAOTYPE == 1) { ?>
-<?php //$tuijian_goods = $dd_tao_class->dd_tao_goods(array('num' => 5, 'cid' => 'a'));?>
-<div class="shopxiangguan">
-<div class=hot_head_goods>
-<span>精品推荐</span>
-</div>
-<ul>
-<?php //foreach($tuijian_goods as $row) { ?>
-<li>
-<a target="_blank" href="<?php /*echo  $row['go_view'] */?>">
-<?php /*echo  html_img($row["pic_url"], 2, $row["title"], '', 160, 160) */?>
+<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank">
+<div class="shop_button1" onmouseover="this.className='shop_button1_h';" onmouseout="this.className='shop_button1';"></div>
 </a>
-<p><?php /*echo  $row['title'] */?></p>
-<p><span>淘宝价:￥<?php /*echo  $row['price'] */?> 元</span></p>
-<p>返：<b><?php /*echo  $row['fxje'] */?></b><?php /*echo  TBMONEYUNIT */?><?php /*echo  TBMONEY */?>
-</p>
-</li>
-<?php //} ?>
-</ul>
 </div>
-<?php //} else { ?>
-<div class="shopxiangguan">
-<ul>
-<?php //foreach($goods2 as $row) { ?>
-<li>
-<a target="_blank" href="<?php /*echo  u('tao', 'view', array('iid' => $row["num_iid"])) */?>"><?php /*echo  html_img($row["pic_url"], 2, $row['name']) */?></a>
-<p><?php /*echo  $row['name'] */?></p>
-<p><span>淘宝价:￥<?php /*echo  $row['price'] */?> 元</span></p>
-<p>返：<b><?php /*echo  $row['fxje'] */?> </b><?php /*echo  TBMONEYUNIT */?><?php /*echo  TBMONEY */?></p></li>
-<?php //} ?>
-</ul>
 </div>
-<?php //} ?>
-<?php //} ?>
 </div>
-<div class="shopright">
-<div class="shopitem">
-<h3><?php /*echo  $goods['title'] */?><?php //if(TAOTYPE == 2) { ?>&nbsp;&nbsp;
-<span style="font-size:12px; font-family:宋体">【<a style="color:#F60;" href="<?php /*echo  u('tao', 'list', array('cid' => 0, 'q' => $goods['title'])) */?>" target="_blank">查看同款商品</a>】
-</span><?php //} ?></h3>
-<div class="shopitem_main">
+<div class="itemDetails mn">
+<div class="shopitem" style="width: 100%;">
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 style="font-size: 18px;"><!--{echo $goods->title}--></h3>
+<div class="shopitem_main cl">
 <div class="shopitem_main_l">
-<a class="jumpa" <?//= TAOTYPE == 1 ? 'a' : '' ?>href="<?php /*echo  $goods['jump'] */?>" <?php /*echo  $login_click */?> target="_blank"><?php /*echo  html_img($goods['pic_url'], 3, $goods['title']) */?></a>
+	<a class="jumpa" ahref="{echo $goods->detail_url}" onclick="if(isLogin($(this))==0){return false;}" target="_blank" href="{echo $goods->detail_url}" _hover-ignore="1">
+		<img src="{echo $goods->pic_url}" alt="{echo $goods->title}" onerror="this.src='http://tryanderror.cn/duoduo/images/dian.png'" class="" style="height: 310px;"></a>
 </div>
-<div class="shopitem_main_r">
-<div class="shopitem_main_r_1"><img src="images/baozhang.gif"></div>			<div class="shopitem_main_r_3">
-<span id="price_name" style="font-family:宋体"><?php /*echo  $price_name */?></span>：<span class="price"> <?php /*echo  $goods['price'] */?></span> 元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="yuanjia" style="display:none">原价：<span style="text-decoration:line-through"><?php /*echo  $goods['price'] */?></span> 元</span>
+<div class="shopitem_main_r" style="float: left;margin: 0 0 0 3px;width: 410px;overflow: hidden;border: 7px solid #eeeeee;">
+<div class="shopitem_main_r_1"><img src="{$pluginpath}Image/protection.gif"></div>
+<div class="shopitem_main_r_3"><span id="price_name" style="font-family:'宋体'"><span class="tbcuxiao"><i><!--{$price_name}--></i></span></span>：<span class="price"><!--{echo $goods->price}--></span> 元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="yuanjia" style="">原价：<span style="text-decoration:line-through"><!--{echo $goods->price}--></span> 元</span></div>
+<div class="shopitem_main_r_3"><span id="zuigaofan" title="100集分宝（支付宝积分）= 1元">折后最高返：</span><span id="nofan"><span class="price dd_fxje">672</span>个集分宝 <span id="ksq">（可省<b style="font-size:16px; color:#F30">6.72</b>元）</span></span></div>
+<div class="shopitem_main_r_3">
+	商品数量： <!--{echo $goods->num}--> 件
 </div>
 <div class="shopitem_main_r_3">
-<span id="zuigaofan" title="<?php /*echo  TBFLTIP */?>">最高返：</span><span id="nofan"><span class="price dd_fxje"><img src="TPLURL/images/wait3.gif" alt="<?php /*echo  TBMONEY */?>计算中"/></span><?php /*echo  TBMONEYUNIT */?><?php /*echo  TBMONEY */?>
-<span id="ksq">（可省<b style="font-size:16px; color:#F30"><img src="TPLURL/images/wait3.gif" alt="省钱计算中"/></b>元）</span></span>
-</div>			<?php //if($tao_coupon_str == '') { ?>
-<div class="shopitem_main_r_3">商品数量： <?php /*echo  $goods['num'] */?> 件</div>
-<?php //} else { ?>
-<?php /*echo  $tao_coupon_str */?>
-<?php //} ?>			<div class="shopitem_main_r_3">运费承担： <?php /*echo  $goods['freight_payer'] */?></div>			<div class="shopitem_main_r_3">所在地区： <?php /*echo  $goods['location']['state'] */?> <?php /*echo  $goods['location']['city'] */?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <?php //if($goods['stuff_status'] == 'new') {
-//					echo "全新";
-//				}
-//				if($goods['stuff_status'] == 'unused') {
-//					echo "闲置";
-//				}
-//				if($goods['stuff_status'] == 'second') {
-//					echo "二手";
-//				} ?> <?php //if($goods['has_invoice'] == 'true') {
-//					echo "有发票";
-//				} ?> </div>
-<div class="shopitem_main_r_3">掌柜名称： <?php /*echo  $goods['nick'] */?> <?php /*echo  wangwang($goods['nick']) */?> </div>
-<div class="shopitem_main_r_5">温馨提示：<span> 虚拟商品如话费，游戏，机票等无返利哦！</span></div>
-<div class="shopitem_main_r_4">
-<a <?php //if($webset['taoapi']['fanlitip'] == 1) { ?> class="fanlitip jumpa"<?php //} else { ?> class="jumpa"<?php //} ?> id="clickUrl" <?//= TAOTYPE == 1 ? 'a' : '' ?>href="<?php /*echo  $goods['jump'] */?>" <?php /*echo  $login_click */?> target="_blank"><img alt="立刻去购买" src="TPLURL/images/gomai.gif"/></a><a <?php /*echo  $login_click */?> class="dd_shop_jump" style="cursor:pointer" target="_blank"><img alt="逛逛掌柜店铺" src="TPLURL/images/gozhanggui.gif"/></a>
+	运费承担： <!--{echo $goods->freight_payer}-->
 </div>
-<div class="shopitem_main_r_6"><p>宝贝分享：</p>				<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
+<div class="shopitem_main_r_3">
+	所在地区： <!--{echo $goods->location->state}--> <!--{echo $goods->location->city}-->
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <!--{echo $goods->stuff_status}-->
+</div>
+<div class="shopitem_main_r_3">
+	掌柜名称： <!--{echo $goods->nick}-->
+	<a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&amp;uid=%E5%88%9A%E5%AD%90%E5%9C%A8%E7%BA%BF&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img style="width:77px; height:19px" src="http://amos.im.alisoft.com/online.aw?v=2&amp;uid=%E5%88%9A%E5%AD%90%E5%9C%A8%E7%BA%BF&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alert="点击这里给我发消息"></a>
+</div>
+<div class="shopitem_main_r_5">温馨提示：<span> 虚拟商品(如话费，游戏，机票等)无返利哦！</span> </div>
+<div class="shopitem_main_r_4"><a class="jumpa" id="clickUrl" ahref="http://item.taobao.com/item.htm?id=16393723229" onclick="if(isLogin($(this))==0){return false;}" target="_blank" href="http://item.taobao.com/item.htm?id=16393723229"><img alt="立刻去购买" src="{$pluginpath}Image/buy.gif"></a><a onclick="if(isLogin($(this))==0){return false;}" class="dd_shop_jump" style="cursor:pointer" target="_blank" href="http://shop33688741.taobao.com"><img alt="逛逛掌柜店铺" src="{$pluginpath}Image/seller.gif"></a></div>
+<div class="shopitem_main_r_6"><p>宝贝分享：</p>
+<div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
 <a title="分享到新浪微博" class="bshare-sinaminiblog">新浪</a>
 <a title="分享到人人网" class="bshare-renren">人人</a>
 <a title="分享到腾讯微博" class="bshare-qqmb">腾讯</a>
-<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count">0</span>
-</div>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=<?php /*echo  $webset['bshare']['uuid'] */?>&amp;pophcol=2&amp;lang=zh"></script>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=c196de18-8f38-410e-8ae0-834dd0ec2c86&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 </div>
 </div>
 </div>
-<script>
-var num_iid = '<?php /*echo $iid*/?>';
-function ddShowFxje(taobaokeItem) {
-ddFxje = taobaokeItem.ddFxje;
-<?php //if(TAOTYPE==1){?>
-$('.jumpa').each(function() {
-$(this).attr('href', $('.jumpa').attr('ahref'));
-});
-<?php //}?>
-promotion_price = taobaokeItem.promotion_price;
-if(promotion_price <<?php /*echo $goods['price']*/?> && promotion_price > 0) {
-$('.shopright .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i><?php /*echo $promotion_name*/?></i></span>');
-$('.shopright .shopitem_main_r_3 .price').html(promotion_price);
-$('.shopright .shopitem_main_r_3 #yuanjia').show();
-$('.shopright .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
-<?php //if(TAOTYPE==2){?>
-var reg = new RegExp("&price=(.*)&name", "gi");
-var url = '<?php /*echo $goods['jump']*/?>';
-url = url.replace(reg, '&price=' + promotion_price + '&name');
-$('#clickUrl').attr('href', url);
-<?php //}?>
-}
-if(ddFxje > 0) {
-var clickUrl = $('#clickUrl').attr('href') + '&fan=';
-$(".shopright .shopitem_main_r_3 .dd_fxje").html(ddFxje);
-$(".shopright .shopitem_main_r_3 #ksq b").html(dataType(ddFxje / MONEYBL, 2));
-<?php //if(TAOTYPE==2){?>
-$(".shopright .shopitem_main_r_4 #clickUrl").attr('href', clickUrl + ddFxje);
-$(".shopright .shopitem_main_l a").attr('href', clickUrl + ddFxje);
-$('.shopitem .goodscomment .pingjia .pingjia_more a').attr('href', clickUrl + ddFxje);
-<?php //}?>
-}
-else {
-$(".shopright .shopitem_main_r_3 #nofan").css('font-size', '14px').css('color', 'red').html('<b>该商品暂无返利</b>');
-}
-$('#shopit_txt .shopit_txt_ms').show();
-showShopInfo();
-}
-</script>
-<?php //include(DDROOT.'/comm/jssdk.php'); ?>
-<script>
-var ddJssdkCallBackOk = 0;
-function ddJssdkCallBack() {
-if(ddJssdkCallBackOk == 0) {
-ddJssdkCallBackOk = 1;
-<?php
-//				if(in_array($jssdk_items_convert['cid'],$virtual_cid['goods'])){ //虚拟商品返利强制为0
-//					echo 'ddShowFxje(0);';
-//				}
-//				else{
-//					php2js_array($jssdk_items_convert,'parame');
-//					echo "taobaoTaobaokeWidgetItemsConvert(parame);";
-//				}
-//				?>
-clearInterval(checkKeyIntervalId);
-}
-else {
-clearInterval(checkKeyIntervalId);
-}
-}		checkKeyTime = 0;		function checkKey() {
-if(checkKeyTime == 30) {
-clearInterval(checkKeyIntervalId);
-}
-else {
-checkKeyTime++;
-if(typeof JSSDK_TIME != 'undefined') {
-ddJssdkCallBack();
-}
-}
-}		var checkKeyIntervalId = setInterval("checkKey()", 500);		$(".shopright .shopitem_main_l").imgAutoSize(310, 310);
-function suanfanli(v) {
-f = fan * v / price;
-$('#jumpbox .text_f').text(dataType(f, <?php /*echo TBMONEYTYPE*/?>));
-}
-$(function() {
-<?php //if($webset['taoapi']['fanlitip']==1 && TAOTYPE==2){?>
-$('.shopright .shopitem_main_r .fanlitip').jumpBox({
-title: '这是您刚刚查看的商品：',
-titlebg: 1,
-LightBox: 'show',
-easyClose: 0,
-jsCode: "param2=parse_str(ajaxUrl);pic_url=decode64(param2['pic']);title='<?php /*echo $goods['title']*/?>';if(typeof param2['promotion_price']!='undefined'){price=param2['promotion_price']}else{price=param2['price']};fan=param2['fan'];contain = contain.replace(/{pic_url}/, pic_url).replace(/{title}/, title).replace(/{price}/, price).replace(/{back}/, fan);",
-contain: '<div class="alert_go_tao"><div class="info"><table width=""border="0"><tr><td width="62"rowspan="3"><div class="pic"><img src="{pic_url}"/></div></td><td width="219"><span class="tit">{title}</span></td></tr><tr><td><span class="price">淘宝价格：{price}元</span><span class="fan">　返：{back}<?php /*echo TBMONEY*/?></span></td></tr><tr><td><span class="price_r">实付价格：</span><input type="text"class="text_p"value=""  onkeyup="suanfanli(this.value)"/><span class="fan_r">实返：</span><span class="text_f">？</span></td></tr></table><div style="clear:both"></div><div class="alert_notice"><em></em><div class="notice_content">输入最终购买价格(不含邮费)，算一下最终返<?php /*echo TBMONEY*/?>有多少？</div></div></div><p><span>●</span><a>虚拟商品无返利</a><span>●</span><a>实际返利与成交价有关</a><span>●</span><a>确认收货后才能查询返利</a></p><div style=" margin-top:3px"><a href="<?php /*echo u('help','index')*/?>' +
-'" style="color:#03F" target="_blank">●用“<?php /*echo WEBNICK*/?>”去“淘宝网”购物 省钱方法详解【点击】</a></div></div>',
-height: 240,
-width: 520,
-a: 1
-});
-<?php //}?>
-<?php //if($webset['taoapi']['goods_comment']==1){?>
-$('#shopit_txt a').click(function() {
-$('#shopit_txt ul li').addClass('shopit_xz');
-$(this).parent('li').removeClass('shopit_xz');
-vdo = $(this).attr('do');				if(vdo == 'desc') {
-$('#shopit_txt .shopit_txt_ms').show();
-$('.goodscomment').hide();
-return true;
-}
-else if(vdo == 'comment') {
-$('#shopit_txt .shopit_txt_ms').hide();
-$('.goodscomment').show();
-}				if(commentUrl == '') {
-alert('评论地址加载中，请稍后再试');
-return true;
-}
-$.ajax({
-url: '<?php /*echo u('ajax','goods_comment')*/?>',
-data: {'comment_url': commentUrl},
-dataType: 'jsonp',
-jsonp: "callback",
-success: function(data) {
-if(data.rateListInfo.paginator.items > 0) {
-var commentScore = parseFloat(data.scoreInfo.merchandisScore);  //评价得分
-var commentItems = parseInt(data.rateListInfo.paginator.items);  //评价数量
-var commentTotal = parseInt(data.scoreInfo.merchandisTotal);  //评价总次数
-num = commentScore * 10;
-x2 = Math.floor(num % 10);
-num /= 10;
-x1 = Math.floor(num % 10);
-$('.pingjianum').html(commentItems);
-$('#pjdfnum').html(commentTotal);
-$('.ajaxpjdf').html(commentScore);
-var biaochi = parseInt(commentScore / 5 * 380);
-$('#biaochi').css('margin-left', biaochi + 'px');
-$('#getpling').hide();
-$('#plcontent').show();
-$('.goodscomment .ov5hx').css('width', commentScore * 20)
-jsonData = data.rateListInfo.rateList;
-c = jsonData.length;
-for(var i = 0; i < c; i++) {
-if(jsonData[i]['displayRatePic'] == '') jsonData[i]['displayRatePic'] = 'b_red_1.gif';
-jsonLi = '<li><div class="commnetleft">' + jsonData[i]['rateContent'] + '<br><span>[' + jsonData[i]['rateDate'] + ']</span></div><div class="commnetright">买家：' + jsonData[i]['displayUserNick'] + '<br><img src="images/' + jsonData[i]['displayRatePic'] + '" /></div></li>';
-$('#comment').append(jsonLi + '<div style="clear:both"></div>');
-}
-}
-else {
-alert('评论加载失败');
-}
-}
-});
-});
-<?php //}?>
-});	</script>
-<div class="shopit_txt">
-<ul>
-<li><a href="<?php /*echo  u('tao', 'jiu') */?>">九元购包邮</a></li>
-</ul>
-<div class="shopit_txt_ms">
-<script>iframe('<?php /*echo DD_YUN_URL*/?>/index.php?m=shuju&a=jiu&ad=1&cid=<?php /*echo $goods['cid']*/?>&url=<?php /*echo urlencode(u('tao','view',array('iid'=>99999999)))*/?>', 720, 260)</script>
+
+
+
+
+
+
+
+
+		<script>
+			var num_iid='16393723229';
+			function ddShowFxje(taobaokeItem){
+				ddFxje=taobaokeItem.ddFxje;
+
+				$('.jumpa').each(function(){
+					$(this).attr('href',$('.jumpa').attr('ahref'));
+				});
+
+				promotion_price=taobaokeItem.promotion_price;
+				if(promotion_price<2728.00 && promotion_price>0){
+					$('.shopright .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i>促销打折</i></span>');
+					$('.shopright .shopitem_main_r_3 .price').html(promotion_price);
+					$('.shopright .shopitem_main_r_3 #yuanjia').show();
+					$('.shopright .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
+
+				}
+				if(ddFxje>0){
+					var clickUrl=$('#clickUrl').attr('href')+'&fan=';
+					$(".shopright .shopitem_main_r_3 .dd_fxje").html(ddFxje);
+					$(".shopright .shopitem_main_r_3 #ksq b").html(dataType(ddFxje/MONEYBL,2));
+				}
+				else{
+					$(".shopright .shopitem_main_r_3 #nofan").css('font-size','14px').css('color','red').html('<b>该商品暂无返利</b>');
+				}
+				$('#shopit_txt .shopit_txt_ms').show();
+				showShopInfo();
+			}
+		</script>
+		<script>
+			TAO_TYPE=1;
+			JSSDK_TIME=0;
+			JSSDK_SIGN='';
+		</script>
+		<script src="http://yun.duoduo123.com/view.php?time=1374902033"></script>
+		<script>
+			GETAGAINTIME=3000; //二次加载时间
+
+			MONEYBL=100;
+			DATA_TYPE=1;
+
+			CACHEURL='http://tryanderror.cn/duoduo/data/temp/taoapi';
+			SHOPOPEN=1;
+			SHOPSLEVEL=11;
+			SHOPELEVEL=20;
+			CACHETIME=10;
+			ERRORLOG=0;
+			CHECKCODE='c5483kI1r40DLMLgasWwfrsMhLAYXFD8BSfExcYfEEqd0%2Feiq8LY';
+
+			fxblArr=new Object();
+			fxblArr['100a']='0.8';
+			fxblArr['50a']='0.7';
+			fxblArr['20a']='0.6';
+			fxblArr['0a']='0.5';
+		</script><script>
+		var ddJssdkCallBackOk=0;
+
+		function ddJssdkCallBack(){
+			if(ddJssdkCallBackOk==0){
+				ddJssdkCallBackOk=1;
+				parame=new Array();
+				parame['goods_type']='market';
+				parame['method']='taobao.taobaoke.widget.items.convert';
+				parame['outer_code']='0';
+				parame['user_level']='0';
+				parame['num_iids']='16393723229';
+				parame['allow_fanli']='1';
+				parame['cid']='1512';
+				parame['tmall_fxje']='0';
+				parame['ju_fxje']='0';
+				taobaoTaobaokeWidgetItemsConvert(parame);		clearInterval(checkKeyIntervalId);
+			}
+			else{
+				clearInterval(checkKeyIntervalId);
+			}
+		}
+
+		checkKeyTime=0;
+
+		function checkKey(){
+			if(checkKeyTime==30){
+				clearInterval(checkKeyIntervalId);
+			}
+			else{
+				checkKeyTime++;
+				if(typeof JSSDK_TIME!='undefined'){
+					ddJssdkCallBack();
+				}
+			}
+		}
+
+		var checkKeyIntervalId=setInterval("checkKey()",500);
+
+		$(".shopright .shopitem_main_l").imgAutoSize(310,310);
+		function suanfanli(v){
+			f=fan*v/price;
+			$('#jumpbox .text_f').text(dataType(f,1));
+		}
+		$(function(){
+		});
+
+	</script>
+		<div class="shopit_txt">
+			<ul class="cl">
+				<li style="float: left;height: 30px;line-height: 30px;width: 100px;text-align: center;color: #FFFFFF;background-image: url(../../{$pluginpath}Image/tubiao.png);background-position: 0 -769px;margin: 0 5px 0 0;"><a href="http://tryanderror.cn/duoduo/index.php?mod=tao&amp;act=jiu" _hover-ignore="1">九元购包邮</a> </li>
+			</ul>
+			<div class="shopit_txt_ms">
+				<script>iframe('http://yun.duoduo123.com/index.php?m=shuju&a=jiu&ad=1&cid=1512&url=http%3A%2F%2Ftryanderror.cn%2Fduoduo%2Findex.php%3Fmod%3Dtao%26act%3Dview%26iid%3D99999999',720,260)</script><iframe id="testframe" scrolling="no" src="http://yun.duoduo123.com/index.php?m=shuju&amp;a=jiu&amp;ad=1&amp;cid=1512&amp;url=http%3A%2F%2Ftryanderror.cn%2Fduoduo%2Findex.php%3Fmod%3Dtao%26act%3Dview%26iid%3D99999999" width="720" height="260" frameborder="0"></iframe>
+			</div>
+		</div>
+
+
+		<div class="shopit_txt" id="shopit_txt">
+			<ul>
+			</ul>
+			<div class="shopit_txt_ms" style=""></div>
+		</div>
+		<div class="goodscomment" style=" display:none">
+
+			<div class="pjdf">
+				<div class="pjleft"><ul>
+					<li class="pjfs">店铺的“宝贝与描述相符”得分</li>
+					<li class="pjfs2">
+						<div style="float:left"><font class="ajaxpjdf" style="font-size:24px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; color:#FF6600">5.0</font> 分</div>
+						<div style="float:left">
+							<div class="xx3" style="padding-top:5px">
+								<div class="bg5bx">
+									<div class="ov5hx" style="WIDTH: 100px;"></div>
+								</div>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+					</li>
+					<li class="gdf">(共打分 <font id="pjdfnum" color="#FF6600">100</font> 次)</li>
+				</ul>
+				</div>
+				<div class="pjright">
+					<ul>
+						<li style="width:380px; height:20px; margin-top:21px;"><div id="biaochi" style="width:28px; height:21px; background:url({$pluginpath}Image/pjfs.gif); margin-left:370px; text-align:center;"><font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font></div></li>
+						<li style="background:url({$pluginpath}Image/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
+						<li style=" width:420px; background:url({$pluginpath}Image/pjfssm.gif) no-repeat; height:45px;"></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="pingjia">
+				<div class="pingjia_bt">
+					<div class="pingjia_bt_l">
+						评论
+					</div>
+					<div class="pingjia_bt_r">
+						评价人
+					</div>
+				</div>
+				<div id="comment">
+
+				</div>
+				<div class="pingjia_more">
+					<a href="http://item.taobao.com/item.htm?id=16393723229" target="_blank">更 多</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 </div>
-<div class="shopit_txt" id="shopit_txt">
-<ul>
-<?php //if(WEBTYPE == 1) { ?>
-<li><a do='desc'>宝贝描述</a></li>
-<?php //} ?>
-<?php //if($webset['taoapi']['goods_comment'] == 1) { ?>
-<li class="shopit_xz"><a id="pjan" do="comment" url="">商品评价</a></li>
-<?php //} ?>
-</ul>
-<div class="shopit_txt_ms" style="display:none"><?php /*echo  $goods['desc'] */?></div>
-</div>
-<div class="goodscomment" style=" display:none">
-<div class="pjdf">
-<div class="pjleft">
-<ul>
-<li class="pjfs">店铺的“宝贝与描述相符”得分</li>
-<li class="pjfs2">
-<div style="float:left">
-<font class="ajaxpjdf" style="font-size:24px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; color:#FF6600">5.0</font> 分
-</div>
-<div style="float:left">
-<DIV class=xx3 style="padding-top:5px">
-<DIV class="bg5bx">
-<DIV class="ov5hx" style="WIDTH: 100px;"></DIV>
-</DIV>
-</DIV>
-</div>
-<div style="clear:both"></div>
-</li>
-<li class="gdf">(共打分 <font id="pjdfnum" color="#FF6600">100</font> 次)</li>
-</ul>
-</div>
-<div class="pjright">
-<ul>
-<li style="width:380px; height:20px; margin-top:21px;">
-<div id="biaochi" style="width:28px; height:21px; background:url(template/<?php /*echo  MOBAN */?>/images/pjfs.gif); margin-left:370px; text-align:center;">
-<font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font>
-</div>
-</li>
-<li style="background:url(template/<?php /*echo  MOBAN */?>/images/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
-<li style=" width:420px; background:url(template/<?php /*echo  MOBAN */?>/images/pjfssm.gif) no-repeat; height:45px;"></li>
-</ul>
-</div>
-</div>		<div class="pingjia">
-<div class="pingjia_bt">
-<div class="pingjia_bt_l">
-评论
-</div>
-<div class="pingjia_bt_r">
-评价人
-</div>
-</div>
-<div id="comment"></div>
-<div class="pingjia_more">
-<a href="<?php /*echo  $goods['jump'] */?>" target="_blank">更 多</a>
-</div>
-</div>
-</DIV>
-</div>
-</div>
-</div>
-</div>
-<div class="clear"></div>
+<style type="text/css">/* ���̱����б���ʼ */
+.shoptxt-dt .title {float:left;}
+.shopleft { width: 250px; float: left; margin: 10px 0 0 0; padding: 0; }
+.shopleft .shopmessage { text-align: left; width: 248px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.shopleft .shopmessage .shopname { width: 228px; margin: 15px 0 10px 10px; padding: 0 0 5px 0; line-height: 20px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: #CCCCCC; }
+.shopleft .shopmessage .shoplogo { width: 228px; margin: 10px 0 0px 10px; padding: 0 0 5px 0; line-height: 20px; }
+.shopleft .shopmessage .shoplogo .shoplogo-img { float: left; width: 90px; margin: 0; padding: 0; }
+.shopleft .shopmessage .shoplogo .shoplogo-img img { width: 80px; height: 80px; }
+.shopleft .shopmessage .shoplogo .shoplogo-font { }
+.shopleft .shopmessage .shoplogo .shoplogo-font h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 30px; font-style: italic; color: #FF3300; font-weight: bold; margin: 2px 0 0 0; padding: 0; }
+.shopleft .shopmessage .shoptxt { clear: both; width: 228px; margin: 0 0 15px 15px; line-height: 22px; padding: 10px 0 0 0; }
+.shopleft .shopmessage .shoptxt .shoptxt-img { vertical-align: bottom; }
+.shopleft .shopmessage .shoptxt b { font-size: 12px; margin: 5px 0 5px 0; display: block; }
+.shopleft .shopmessage .shoptxt .shoptxt-dt { width: 228px; clear: both; height: 25px; }
+.xx3 {padding-top: 6px;}
+.xx3 .bg5bx { WIDTH: 100px; BACKGROUND: url(../../{$pluginpath}Image/5bx.gif) no-repeat 0px 0px; FLOAT: left; HEIGHT: 19px }
+.xx3 .ov5hx { BACKGROUND: url(../../{$pluginpath}Image/5hx.gif) 0px 0px; HEIGHT: 19px }
+.shopleft .shopmessage .shoptxt .title { float: left; }
+.shopleft .shopmessage .shoptxt .shopbutton { margin: 10px 0 0 40px; padding: 0; }
+.shop_button1 { width: 127px; height: 30px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -559px; }
+.shop_button1_h { width: 127px; height: 30px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -589px; cursor: pointer; }
+.shopleft .shopxiangguan { text-align: left; width: 248px; margin-top: 5px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.shopleft .shopxiangguan ul li img { width: 220px; height: 220px; border: 0; padding: 1px; border: 1px solid #dddddd; }
+.shopleft .shopxiangguan ul li { width: 200px; margin: 15px 0 0 12px; }
+.shopleft .shopxiangguan ul li p { width: 220px; text-align: center; margin: 2px 0 0 0; line-height: 18px; height: 18px; overflow: hidden; }
+.shopleft .shopxiangguan ul li p span { color: #FF3300; font-weight: bold; }
+.shopleft .shopxiangguan ul li p b { color: #329900; }
+.shopleft .shopxiangguan ul { margin: 0 0 20px 0; }
+.shopleft .shopxiangguan ul li img:hover { border: 1px solid #D0210C; }
+.shopright { width: 750px; float: right; margin: 10px 0 0 0; padding: 0; }
+.shopright .shoplist { text-align: left; width: 740px; margin: 0 0 0 8px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.shopright .shoplist .shoplist_top { margin: 18px 0 0 10px; padding: 0; width: 720px; overflow: auto; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #EAEAEA; height: 25px; }
+.shopright .shoplist .shoplist_hot { margin: 0px; padding: 0; width: 660px; float: left; overflow: auto; height: 20px; overflow: hidden; }
+.shopright .shoplist .shoplist_hot h3 { font-size: 14px; }
+.shopright .shoplist .shoplist_hot ul { width: 660px; }
+.shopright .shoplist .shoplist_hot li { float: left; padding: 0 10px 10px 0; }
+.shopright .shoplist .shoplist_hot li a { font-size: 14px; color: #FF3300; }
+.shopright .shoplist .shoplist_xs { margin: 0px; padding: 0; width: 40px; float: right; overflow: auto; }
+.shopright .shoplist .shoplist_xs_1 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -622px; cursor: pointer; float: left; }
+.shopright .shoplist .shoplist_xs_2 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: -16px -622px; cursor: pointer; float: right; }
+.shopright .shoplist .shoplist_main { margin: 10px 0 0 10px; padding: 0; width: 720px; overflow: auto; }
+.shopright .shoplist .shoplist_main ul { margin: 10px 0 20px 0; }
+.shopright .shoplist .shoplist_main li { height: 115px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: #CCCCCC; margin: 0 0 15px 0; }
+.shopright .shoplist .shoplist_main .shoplist_main_left { width: 430px; float: left; color: #666666; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img { float: left; width: 110px; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img img { border: 0; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_bt a { font-size: 14px; line-height: 22px; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell { margin: 14px 0 0 0; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell img { vertical-align: bottom; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell span { color: #FF0000; font-weight: bold; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller { margin: 8px 0 0 0; }
+.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller img { vertical-align: middle; border: 0; }
+.shopright .shoplist .shoplist_main .shoplist_main_right { width: 290px; float: right; }
+.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price { float: right; margin: 3px 0 0 0; height: 30px; }
+.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price p { float: left; margin: 0 0 0 10px; }
+.shopright .shoplist p span { color: #FF3300; font-size: 14px; font-weight: bold; }
+.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price a:link { color: #FF6600; font-size: 12px; font-weight: bold; }
+.shopright .shoplist .greenfont { color: #4EA205; font-weight: bold; font-size: 14px; }
+.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_tb { float: right; margin: 45px 0 0 0; }
+.shoplist_main_right_bj { width: 75px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -644px; float: left; margin: 0 10px 0 0; }
+.shoplist_main_right_buy { width: 83px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -669px; float: left; }
+ .shoplist_main_2 { margin: 10px 0 20px 12px; padding: 0; width: 728px; overflow: auto; }
+ .shoplist_main_2 ul { margin: 0; }
+ .shoplist_main_2 li { width: 182px; float: left; line-height: 23px; margin: 0 0 20px 0; }
+ .shoplist_main_2 li img { border: 0; }
+ .shoplist_main_2 .shoplist_main_left_img_2 img { border: solid 1px #EAEAEA; padding: 3px; }
+ .shoplist_main_2 .shoplist_main_left_bt_2 { width: 175px; height: 50px; overflow: hidden; margin: 3px 0 0 0; }
+ .shoplist_main_2 .shoplist_main_left_seller_2 { padding-top: 5px; padding: 0; }
+ .shoplist_main_2 .shoplist_main_left_seller_2 img { vertical-align: text-bottom; padding: 0; }
+ .shoplist_main_2 .shoplist_main_left_xy_2 img { vertical-align: baseline; padding: 0; }
+ .shoplist_main_2 .shoplist_main_left_xy_2 { margin: 3px 0 0 0; padding: 0; }
+ .shoplist_main_2 .shoplist_main_right_tb_2 { margin: 5px 0 0 0; }
+.shopright .shopitem { text-align: left; width: 740px; margin: 0 0 0 8px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.shopright .shopitem h3 { font-size: 14px; margin: 10px 0 0 5px; border-bottom: #dddddd solid 1px; height: 30px; line-height: 30px; width: 725px; }
+ .shopitem_main {  margin: 10px 0 15px 5px;  }
+ .shopitem_main .shopitem_main_l { float: left; }
+ .shopitem_main .shopitem_main_l a { border: 1px solid #DDDDDD; width: 310px; height: 310px; display: block; padding: 1px; text-align: center }
+ .shopitem_main .shopitem_main_l a img { /*width:310px; height:310px*/ }
+ .shopitem_main .shopitem_main_r { float: left; margin: 0 0 0 3px; width: 410px; overflow: hidden }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_2 { height: 30px; line-height: 30px; margin: 10px 0 0 15px; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_2 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
+.shopitem_main_r_3_share a { float: left; margin: 0 4px 0 0; filter: alpha(opacity=50); }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 img { border: 0; vertical-align: middle; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 Ul { }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 li { float: left; width: 100px; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3 li a { float: left; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_4 { margin: 10px 0 0 15px; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_4 img { border: 0; margin: 0 10px 0 0; display: inline; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_5 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_5 span { font-weight: bold; color: #0033FF; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_6 { margin: 10px 0 0 15px; }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_6 p { float: left; height: 20px; line-height: 20px; }
+.shopright .shopitem .shopit_txt { margin: 0 0 20px 10px; width: 720px; overflow: auto; }
+.shopright .shopitem .shopit_txt ul { border-bottom: 1px #FF5F1D solid; overflow: auto; height: 30px; }
+.shopright .shopitem .shopit_txt li { float: left; height: 30px; line-height: 30px; width: 100px; text-align: center; color: #FFFFFF; background-image: url(../../{$pluginpath}Image/tubiao.png); background-position: 0 -769px; margin: 0 5px 0 0; }
+.shopright .shopitem .shopit_txt li a { color: #FFFFFF; font-weight: bold; cursor: pointer }
+.shopright .shopitem .shopit_txt .shopit_xz { background-image: url(../../{$pluginpath}Image/tubiao.png); background-position: 0 -929px; }
+.shopright .shopitem .shopit_txt .shopit_txt_ms { height: auto; overflow: auto; overflow-y: hidden }
+.pingjia { width: 700px; margin: 0 0 30px 10px; padding: 0; overflow: hidden; }
+.pingjia .pingjia_bt { height: 30px; background-color: #F8F8F8; border-bottom: 1px solid #DDDDDD; }
+.pingjia .pingjia_bt .pingjia_bt_l { float: left; width: 570px; line-height: 30px; text-align: center; font-weight: bold; }
+.pingjia .pingjia_bt .pingjia_bt_r { float: right; width: 130px; line-height: 30px; text-align: left; font-weight: bold; }
+.pingjia .pingjia_txt { width: 700px; margin: 10px 0 0 0px; padding: 0; overflow: auto; border-bottom: 1px solid #DDDDDD; }
+.pingjia .pingjia_txt .pingjia_txt_l { float: left; width: 550px; }
+.pingjia .pingjia_txt .pingjia_txt_r { float: right; width: 130px; }
+.pingjia .pingjia_txt p { line-height: 20px; }
+.pingjia .pingjia_txt p span { color: #999999; }
+.pingjia .pingjia_more { float: right; width: 55px; height: 21px; background-image: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: -202px -955px; line-height: 21px; text-align: center; margin: 20px 20px 0 0; display: block; cursor: pointer; }
+.pingjia .pingjia_more a { color: #FFFFFF; }
+.pjdf { width: 698px; height: 130px; border: 1px solid #ddd; margin-left: 10px }
+.pjleft { width: 270px; float: left }
+.gdf { width: 250px; margin-left: 30px; height: 30px; line-height: 30px; color: #999999 }
+.pjright { width: 400px; float: left; }
+.pjfs { width: 250px; margin-left: 30px; font-weight: bold; height: 30px; line-height: 30px; margin-top: 20px; }
+.pjfs2 { width: 250px; margin-left: 30px; height: 30px; line-height: 30px; }
+.pj_a { width: 740px; height: 25px; background: #f8f8f8; border-bottom: 1px solid #ddd; }
+.pj_b { width: 600px; height: 25px; line-height: 25px; text-align: center; float: left; font-weight: bold }
+#comment li { width: 740px; line-height: 20px; border-bottom: 1px solid #ddd; }
+#comment li .commnetleft { float: left; width: 540px; margin-left: 10px; margin-top: 5px; margin-bottom: 5px; }
+#comment li .commnetleft span { color: #999999 }
+#comment li .commnetright { float: right; width: 180px; line-height: 20px; margin-top: 5px; margin-bottom: 5px; }
+.hot_head_goods { height: 34px; line-height: 34px; background: url(../../{$pluginpath}Image/rbgo.gif); overflow: hidden }
+.hot_head_goods span { float: left; width: 120px; font-size: 12px; font-weight: bold; color: #c47c09; padding-left: 30px; line-height: 38px; }
+	/*template/default/css/view.css*/
+@charset
+"utf-8"
+;
+
+
+	/* CSS Document */
+.LightBox { position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background: #000; filter: alpha(opacity=40); opacity: 0.40; z-index: 9998; display: none; }
+.jumpbox { position: absolute; margin-left: -288px; left: 50%; /*margin-top:-122px;*/ _margin-top: 0px; top: 33%; width: 576px; z-index: 9999; position: fixed !important; /*FF IE7*/ position: absolute; /*IE6*/ display: none; _top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/ document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2); /*IE5 IE5.5*/ }
+.jumpbox .top_left { background: url(../../images/box_angle.png) no-repeat 0px 0px; width: 8px; height: 8px; float: left; overflow: hidden; _background: none; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="images/box_left_top.png"); }
+.jumpbox .top_center { background: #000; width: 560px; height: 8px; float: left; overflow: hidden; filter: Alpha(opacity=50); opacity: 0.5; }
+.jumpbox .top_right { background: url(../../images/box_angle.png) no-repeat -9px 0px; width: 8px; height: 8px; float: left; overflow: hidden; _background: none; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="images/box_right_top.png"); }
+.jumpbox .middle_left { background: #000; width: 8px; height: 300px; float: left; overflow: hidden; filter: Alpha(opacity=50); opacity: 0.5; }
+.jumpbox .middle_center { background: #fff; width: 560px; height: 300px; float: left; overflow: hidden; position: relative; }
+.jumpbox .middle_center p.title { margin-left: 18px; margin-top: 23px; text-indent: 0px; line-height: 14px; margin-bottom: 15px; color: #606060; }
+.jumpbox .middle_center .close { width: 18px; height: 18px; position: absolute; top: 10px; right: 10px; }
+.jumpbox .middle_center .close a { display: block; width: 18px; height: 18px; background: url(../../images/box_config.gif) no-repeat; cursor: pointer }
+.jumpbox .middle_center .close a:hover { background: url(../../images/box_config.gif) no-repeat -101px -39px; }
+.jumpbox .middle_center .contain { width: 520px; overflow: hidden; margin: auto; }
+.jumpbox .middle_right { background: #000; width: 8px; height: 300px; float: left; overflow: hidden; filter: Alpha(opacity=50); opacity: 0.5; }
+.jumpbox .end_left { background: url(../../images/box_angle.png) no-repeat 0px -9px; width: 8px; height: 8px; float: left; overflow: hidden; _background: none; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="images/box_left_end.png"); }
+.jumpbox .end_center { background: #000; width: 560px; height: 8px; float: left; overflow: hidden; filter: Alpha(opacity=50); opacity: 0.5; }
+.jumpbox .end_right { background: url(../../images/box_angle.png) no-repeat -9px -9px; width: 8px; height: 8px; float: left; overflow: hidden; _background: none; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="images/box_right_end.png"); }
+	/*css/jumpbox.css*/
+@charset
+"utf-8"
+;
+	/* CSS Document */
+.float_layer { width: 300px; border: 1px solid #aaaaaa; display: none; background: #fff; }
+.float_layer h2 { height: 25px; line-height: 25px; padding-left: 10px; font-size: 14px; color: #333; background: url(../../images/title_bg.gif) repeat-x; border-bottom: 1px solid #aaaaaa; position: relative; }
+.float_layer .min { width: 21px; height: 20px; background: url(../../images/min.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 25px; }
+.float_layer .min:hover { background: url(../../images/min.gif) no-repeat 0 0; }
+.float_layer .max { width: 21px; height: 20px; background: url(../../images/max.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 25px; }
+.float_layer .max:hover { background: url(../../images/max.gif) no-repeat 0 0; }
+.float_layer .close { width: 21px; height: 20px; background: url(../../images/close.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 3px; }
+.float_layer .close:hover { background: url(../../images/close.gif) no-repeat 0 0; }
+.float_layer .content { height: 120px; overflow: hidden; font-size: 14px; line-height: 18px; color: #666; text-indent: 28px; }
+.float_layer .wrap { padding: 10px; line-height: 22px; text-indent: 0px }
+	/*css/helpWindows.css*//* QQ客服 */
+.QQbox { z-index: 9999999; width: 170px; left: 3px; top: 145px; position: absolute; }
+.QQbox .press { left: 0; border: none; cursor: pointer; width: 26px; height: 136px; position: absolute; }
+.QQbox .Qlist { left: 0; width: 170px; background: url(../../images/siderIM_bg.gif) padding : 5 px; }
+.QQbox .Qlist .b { float: left; height: 6px; width: 170px; font-size: 1px; }
+.QQbox .Qlist .infobox { text-align: center; background: #bdc5cb; background-image: url(../../images/siderIM_infobox.gif); background-repeat: no-repeat; padding: 5px; line-height: 14px; color: #000; font-weight: 700; }
+.QQbox .Qlist .t { background: url(../../images/siderIM_title.gif); height: 34px; }
+.QQbox .Qlist .b { background: url(../../images/siderIM_bottom.gif); height: 9px; overflow: hidden; }
+.QQbox .Qlist .con { background: url(../../images/siderIM_bg.gif); width: 100%; padding: 10px 0px 10px 0px; }
+.QQbox .Qlist .con h2 { height: 22px; font: bold 12px/22px "宋体"; background: url(../../images/siderIM_bg.gif) repeat-y -163px 0; border: 1px solid #3a708d; text-align: center; color: #fff; }
+.QQbox .Qlist .con ul li { padding: 5px 5px 0px 15px; float: none }
+.QQbox .Qlist .con table { width: 150px; margin: auto }
+.QQbox .Qlist .con table td { height: 30px }
+	/*QQ END*//*css/kefu.css*//*基本信息*/
+a:link, a:visited { font-size: 12px; text-decoration: none; color: #333333; }
+a:hover { color: #FF6600; text-decoration: underline; }
+	/*重复使用类*/
+.hidden { display: none; }
+li { list-style-type: none; }
+ul, span, h3 { margin: 0; }
+h3 { font-family: "黑体"; font-size: 13px; }
+.input01 { border: 1px solid #000000; }
+	/*页面层容器*/
+.container { margin: 0 auto; text-align: left; background: url(../../{$pluginpath}Image/mainback.gif) #EFD3CB repeat-x }
+	/*页面头部*/
+.top { margin: 0 auto; padding: 0; text-align: left; height: 32px; background-color: #EEEEEE; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #DCDCDC; }
+.top1000 { margin: 0 auto; padding: 0; text-align: left; height: 32px; width: 1000px; clear: both; }
+.topleft { margin: 0; padding: 0; text-align: left; height: 32px; width: 500px; float: left; }
+.topleft .topleftA { height: 20px; margin: 0; padding: 0px; padding-top: 10px; float: left; display: block; }
+.topleft .topleftA a:link, .topleft .topleftA a:visited { font-size: 12px; text-decoration: none; color: #FF6600; }
+.topleft .topleftA a:hover { color: #FF6600; text-decoration: underline; }
+.topleft .topleftB { height: 22px; line-height: 19px; padding-top: 6px }
+.topleft .topleftB a:link, .topleft .topleftA a:visited { font-size: 12px; text-decoration: none; color: #FF6600; }
+.topleft .topleftB a:hover { color: #FF6600; text-decoration: underline; }
+.topright { margin: 0; padding: 0; text-align: left; height: 32px; width: 500px; float: right; }
+.topright a:link, a:visited { font-size: 12px; text-decoration: none; color: #333333; }
+.topright a:hover { color: #FF6600; text-decoration: underline; }
+.topright ul { margin: 0; padding: 10px 0 0 0; height: 20px; float: right; }
+.topright li { float: left; width: 65px; border-right-width: 1px; border-right-style: solid; border-right-color: #333333; text-align: center; }
+#fonta { border-right-style: none; }
+#fonta a:link, #fonta a:visited { font-size: 12px; text-decoration: none; color: #FF6600; }
+#fonta a:hover { color: #FF6600; text-decoration: underline; }
+.loginWays { Z-INDEX: 1000; POSITION: absolute; TEXT-ALIGN: left; WIDTH: 122px; HEIGHT: 25px; margin: 4px 0 0 0; display: inline; padding: 0px; }
+.loginWays IMG { MARGIN-TOP: 4px; FLOAT: left; MARGIN-RIGHT: 4px; border: 0; }
+.loginWays .firstWay { LINE-HEIGHT: 20px; PADDING-LEFT: 5px; DISPLAY: block }
+.loginWays .text { LINE-HEIGHT: 20px; PADDING-LEFT: 5px; DISPLAY: block }
+.loginWays .firstWay { LINE-HEIGHT: 25px; MARGIN-BOTTOM: 5px; BACKGROUND: url(../../{$pluginpath}Image/bg_loginways.png) no-repeat 0px 0px; HEIGHT: 24px; OVERFLOW: hidden; width: 122px }
+.loginWays .firstWay SPAN { FLOAT: left }
+.loginWays .firstWay SPAN.iconDown { DISPLAY: none }
+.loginWays .pw_menu { BORDER-BOTTOM: #bdcfdd 1px solid; BORDER-LEFT: #bdcfdd 1px solid; MARGIN-TOP: -5px; BACKGROUND: #ffffff 0px 0px; BORDER-TOP: #bdcfdd 1px solid; BORDER-RIGHT: #bdcfdd 1px solid; width: 130px; overflow: hidden }
+.loginWays .menuList { BACKGROUND: #ffffff 0px 0px }
+.loginWays .menuList A:hover { BACKGROUND: #f3f9fb 0px 0px }
+.loginWays .menuList { PADDING-BOTTOM: 1px; PADDING-LEFT: 1px; WIDTH: 100px; PADDING-RIGHT: 1px; BACKGROUND: #ffffff 0px 0px; PADDING-TOP: 1px; width: 118px; }
+.loginWays .menuList LI { MARGIN-TOP: -2px; WIDTH: 100%; _margin-top: 0px; width: 188px; overflow: hidden }
+.menuList A { PADDING-BOTTOM: 0px; LINE-HEIGHT: 28px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; DISPLAY: block; HEIGHT: 28px; OVERFLOW: hidden; PADDING-TOP: 0px }
+.menuList A:hover { BACKGROUND: url(menubg.png) #e6f2fe repeat-x 0px 0px; TEXT-DECORATION: none }
+.menuList IMG { WHITE-SPACE: nowrap; MARGIN-LEFT: -5px; VERTICAL-ALIGN: middle; MARGIN-RIGHT: 5px }
+.search { margin: 0 auto; padding: 0; text-align: left; height: 118px; }
+.search1000 { margin: 0 auto; padding: 0; text-align: left; height: 118px; width: 1000px; clear: both; }
+.logo { margin: 0; padding: 0; text-align: left; height: 118px; width: 270px; float: left; }
+.logo img { margin: 20px 0 0 10px; border: 0px; }
+.searchR { margin: 0; padding: 0; text-align: left; height: 118px; width: 690px; float: right; }
+.searchR p a:link, a:visited { font-size: 12px; text-decoration: none; color: #333333; }
+.searchR p a:hover { color: #FF6600; text-decoration: underline; }
+.searchR p { margin-top: 7px; padding: 0px; }
+.searchbox { MARGIN-TOP: 0px; WIDTH: 630px; FLOAT: right; MARGIN-RIGHT: 1px; }
+.s-nav { Z-INDEX: 2; POSITION: relative; WIDTH: 420px; HEIGHT: 30px; FONT-SIZE: 12px; margin: 20px 0 0 20px; }
+.s-nav .y { TEXT-ALIGN: center; LINE-HEIGHT: 14px; WIDTH: 40px; DISPLAY: block; BACKGROUND: url(../../{$pluginpath}Image/baobei-bg.gif) no-repeat center; FLOAT: left; HEIGHT: 20px; COLOR: #000; CURSOR: pointer; FONT-WEIGHT: bold }
+.s-nav A { margin-top: 10px; text-decoration: none; }
+.s-nav A.y:hover { COLOR: #000; }
+.s-nav .n { TEXT-ALIGN: center; LINE-HEIGHT: 14px; WIDTH: 40px; DISPLAY: block; FLOAT: left; HEIGHT: 20px; COLOR: #000000; CURSOR: pointer }
+.s-nav A.n:hover { COLOR: #f60; }
+.searchbox .box { Z-INDEX: 1; POSITION: relative; PADDING-LEFT: 4px; WIDTH: 530px; BACKGROUND: url(../../{$pluginpath}Image/box-left.gif) no-repeat; HEIGHT: 33px; TOP: -1px }
+.searchbox .box-middle { WIDTH: 516px; DISPLAY: block; BACKGROUND: url(../../{$pluginpath}Image/box-middle.gif) repeat-x; FLOAT: left; HEIGHT: 50px; PADDING-TOP: 3px }
+.searchbox .box-right { WIDTH: 3px; DISPLAY: block; BACKGROUND: url(../../{$pluginpath}Image/box-right.gif) no-repeat right 50%; FLOAT: left; HEIGHT: 33px }
+.searchbox .box .s-txt { POSITION: relative; BORDER-RIGHT-WIDTH: 0px; PADDING-LEFT: 25px; WIDTH: 379px; BACKGROUND: url(../../{$pluginpath}Image/s-txt-bg.gif) no-repeat 5px 5px; FLOAT: left; BORDER-TOP-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; HEIGHT: 18px; COLOR: #bababa; FONT-SIZE: 12px; BORDER-LEFT-WIDTH: 0px; PADDING-TOP: 5px; *PADDING-TOP: 9px; TOP: 0px }
+.s-hot { LINE-HEIGHT: 25px; MARGIN-TOP: 5px; BACKGROUND: url(../../{$pluginpath}Image/s-hot-bottom.gif) no-repeat left bottom; HEIGHT: 25px; MARGIN-LEFT: 5px; FONT-SIZE: 12px }
+.s-hot A { WIDTH: 630px; MARGIN-LEFT: 5px }
+.s-hot A:link { COLOR: #000; MARGIN-LEFT: 5px; TEXT-DECORATION: none }
+.s-hot A:hover { COLOR: #f60; TEXT-DECORATION: underline }
+.s-hot A:visited { COLOR: #000; TEXT-DECORATION: none }
+.sbutton { LINE-HEIGHT: 26px; BORDER-RIGHT-WIDTH: 0px; WIDTH: 101px; BACKGROUND: url(../../{$pluginpath}Image/s-button.gif) no-repeat; FLOAT: right; BORDER-TOP-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; HEIGHT: 30px; BORDER-LEFT-WIDTH: 0px; CURSOR: pointer; text-indent: -9999px; cursor: pointer; margin-top: -2px; }
+.daohang { margin: 0 auto; padding: 0; text-align: left; height: 46px; background-image: url(../../{$pluginpath}Image/daohangback.gif); border-top-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-bottom-style: solid; border-top-color: #D0210C; border-bottom-color: #D0210C; clear: both; }
+.daohang1000 { margin: 0 auto; padding: 0; text-align: left; height: 46px; width: 1000px; clear: both; }
+.daohang1000 ul.ulnav { margin: 0 auto; padding: 0; text-align: left; height: 46px; width: 1000px; clear: both; _overflow: hidden }
+.daohang1000 li.linav { float: left; width: 100px; height: 46px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; padding: 0 0 0 0; text-align: center; line-height: 45px; background-image: url(../../{$pluginpath}Image/b1.gif); position: relative; z-index: 999 }
+.daohang1000 li.last { background: none }
+.daohang1000 li.linav a.anav { width: 100px; height: 46px; DISPLAY: block; font-size: 14px; text-decoration: none; color: #FFffff; }
+.daohang1000 li.linav a.anav img { position: absolute; top: -8px; right: 0px }
+.daohang1000 li.linav a.anav em { position: absolute; top: 0px; right: 0px; background: url(../../{$pluginpath}Image/icon_1020006.png) no-repeat; background-position: -122px 0; width: 10px; height: 11px; top: 17px; right: 6px }
+.daohang1000 li.linav a.anav:link, .daohang1000 li a.anav:visited { font-size: 14px; text-decoration: none; color: #FFffff; position: relative; width: 100px; height: 46px; DISPLAY: block }
+.daohang1000 li.linav a.anav:hover { width: 100px; height: 46px; DISPLAY: block; color: #FF0; text-decoration: none; position: relative; }
+.n-h-list { line-height: 28px; display: block; font-size: 12px; position: absolute; width: 113px; top: 47px; right: 0px; z-index: 1000; background: #FFF5E6; border: 1px solid #E9510D; border-width: 0 1px 1px 1px; display: none; width: 120px; }
+.n-h-list li { height: 29px; overflow: hidden; }
+.n-h-list li a { height: 28px; line-height: 28px; display: block; border-bottom: 1px solid #EFD3B1; font-weight: normal; color: #555; text-align: left; text-indent: 8px }
+.n-h-list li a:hover { color: #f30; background: #fff; }
+.n_news { background-position: -59px -758px; }
+.n_hots { background-position: -59px -250px; }
+.n_news, .n_hots { top: -7px; right: -6px; _right: -7px; position: absolute; width: 76px; height: 76px; }
+.n-h-list li a span { padding: 1px 1px 0px 1px; background: #F30; color: #FFF }
+#navc a.sub_on { background: #FFF5E6; border: 1px solid #E9510D; border-width: 1px 1px 0 1px; height: 46px; color: #f60; width: 98px; }
+#navc a.sub_on em { background-position: -133px 0; }
+#fontb { background-image: url(../../{$pluginpath}Image/daohangback.gif); }
+#fontc { background-image: url(../../{$pluginpath}Image/daohangback1.gif); }
+#fontc a { color: #000000; }
+#fontc em { background: url(../../{$pluginpath}Image/icon_1020006.png) no-repeat; background-position: -123px -2px; width: 9px; height: 8px; }
+.fontL { font-size: 14px; background-image: url(../../{$pluginpath}Image/fenleiback.gif); font-weight: bold; }
+.bottom01 { margin: 0 auto; padding-bottom: 15px; height: auto; background-image: url(../../{$pluginpath}Image/bottomback.gif); background-color: #FEFCFD; background-repeat: repeat-x; }
+.xhqu { margin: 0 auto; padding: 20px 0 0 0; width: 1000px; text-align: center; }
+.xiangguan { margin: 0 auto; padding: 35px 0 0 0; width: 1000px; text-align: center; height: 115px; }
+.xiangguan li { width: 215px; float: left; text-align: left; margin: 0 0 0 25px; padding: 0; word-spacing: nowrap; overflow: hidden }
+.xiangguan li p { height: 14px; margin-top: 10px; word-spacing: nowrap; overflow: hidden; width: 215px; }
+.lianjie { margin: 0 auto; padding: 0; width: 900px; text-align: center; height: 50px; }
+.lianjie li { float: left; margin: 0; padding: 0; width: 150px; text-align: center; }
+.lianjie li img { border: 1px solid #CCCCCC; float: right; }
+#line01 { margin: 35px 0 15px 0; border-top: 1px dotted #999; width: 950px; margin: auto; height: 10px; margin-top: 10px }
+.mainbody { margin: 0 auto; padding: 0; text-align: left; }
+.mainbody1000 { margin: 0 auto; text-align: left; width: 1000px; clear: both; }
+.loginWays1 { Z-INDEX: 1000; POSITION: relative; TEXT-ALIGN: left; WIDTH: 122px; HEIGHT: 25px; margin: 4px 0 0 0; display: block; width: 90px; margin-top: 10px; float: left }
+.loginWays1 span { padding: 5px; cursor: pointer; }
+.loginWays1 .wode { color: #F30; }
+.loginWays1 #menu_usernav { border: #CCC 1px solid; background: #FFF; padding: 5px; top: -6px; *top: -4px; left: 0px; cursor: pointer; display: none; padding-bottom: 1px; z-index: 1000; position: absolute }
+.loginWays1 #menu_usernav ul { width: 100%; }
+.loginWays1 #menu_usernav ul li { width: 80px; margin-bottom: 5px; border-bottom: #CCC dashed 1px; line-height: 24px }
+.loginWays1 #menu_usernav ul li a:link { color: #666 }
+.loginWays1 #menu_usernav ul li a:hover { text-decoration: underline; color: #F60 }
+.topleftA .fl { float: left }
+	/*template/default/css/hf.css*//*广告位*/
+#ad1 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad2 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad3 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad4 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad5 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad6 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad7 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad8 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad9 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-bottom: 10px; }
+#ad10 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; margin-bottom: 5px; }
+#ad11 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 3px; margin-bottom: 5px; }
+#ad12 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 0px; }
+#ad13 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad14 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad15 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
+#ad16 { width: 290px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; }
+#ad108 { width: 1000px; height: auto; overflow: hidden; margin: auto; margin-top: 10px; }
+	/*其他*/
+body { height: 100% }
+ul { list-style: none; }
+li { list-style-type: none; PADDING: 0px; MARGIN: 0px; }
+#weizhi { width: 950px; height: 25px; line-height: 25px; margin: 2px auto; padding-left: 25px; background: url(../../{$pluginpath}Image/weizhi.gif) 13px 8px no-repeat; }
+.ddinput { BORDER-BOTTOM: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; PADDING-BOTTOM: 0px; LINE-HEIGHT: 25px; PADDING-LEFT: 5px; WIDTH: 430px; PADDING-RIGHT: 2px; BACKGROUND: #fff; FLOAT: left; HEIGHT: 25px; BORDER-TOP: #c6c6c6 1px solid; background: url(../../{$pluginpath}Image/inputbg.gif) no-repeat; BORDER-RIGHT: #c6c6c6 1px solid; PADDING-TOP: 0px; font-size: 14px; color: #222; }
+.ddbutton { BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 84px; BACKGROUND: url(../../{$pluginpath}Image/my_all.gif) no-repeat 0px -135px; HEIGHT: 24px; BORDER-TOP: medium none; CURSOR: pointer; BORDER-RIGHT: medium none; font-size: 14px; }
+.nolink:link { COLOR: #333; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.nolink:visited { COLOR: #333; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.nolink:active { COLOR: #333; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.nolink:hover { COLOR: #333; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.biglink:link { COLOR: #333; FONT-SIZE: 14px; TEXT-DECORATION: none }
+.biglink:visited { COLOR: #333; FONT-SIZE: 14px; TEXT-DECORATION: none }
+.biglink:active { COLOR: #ff3300; FONT-SIZE: 14px; TEXT-DECORATION: underline }
+.biglink:hover { COLOR: #ff3300; FONT-SIZE: 14px; TEXT-DECORATION: underline }
+.bluelink:link { COLOR: #315e81; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.bluelink:visited { COLOR: #315e81; FONT-SIZE: 12px; TEXT-DECORATION: none }
+.bluelink:active { COLOR: #d20000; FONT-SIZE: 12px; TEXT-DECORATION: underline }
+.bluelink:hover { COLOR: #d20000; FONT-SIZE: 12px; TEXT-DECORATION: underline }
+img { border: 0px; }
+form { margin: 0px; padding: 0px; }
+.clear { clear: both; width: 0px; height: 0px; line-height: 0px; margin: 0px; padding: 0px; overflow: hidden; }
+EM { FONT-STYLE: normal }
+.hot { COLOR: #f00 }
+#main { width: 950px; margin: 0 auto; }
+#right { width: 205px; float: right; overflow: hidden; }
+#left { width: 740px; float: left; overflow: hidden; }
+#right2 { width: 740px; float: right; overflow: hidden }
+#left2 { width: 205px; float: left; overflow: hidden; }
+#tab { background: url(../../{$pluginpath}Image/tab_bj.png) no-repeat; font-size: 14px; height: 46px; width: 950px; margin: auto }
+#tab a { text-decoration: none; cursor: pointer; font-size: 14px }
+#tab a:hover { color: #C00; font-weight: bold }
+.topmargin { float: left; margin-top: 12px; }
+.middle { margin: auto; width: 960px }
+.nowtab { float: left; background: url(../../{$pluginpath}Image/tab.png) no-repeat; color: #FFFFFF; font-size: 14px; font-weight: bold; width: 85px; height: 46px; line-height: 46px; margin: 0 9px; text-align: center; vertical-align: bottom; }
+.linktab { float: left; line-height: 44px; margin: 0 9px; text-align: center; width: 85px; }
+	/*分页*/
+DIV.megas512 { PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; MARGIN: 3px; PADDING-TOP: 3px; TEXT-ALIGN: center; font-family: "宋体"; clear: both; margin-top: 10px; margin-bottom: 10px }
+DIV.megas512 A { BORDER: #dedfde 1px solid; PADDING-RIGHT: 10px; BACKGROUND-POSITION: 50% bottom; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; COLOR: #0063dc; MARGIN-RIGHT: 3px; PADDING-TOP: 5px; TEXT-DECORATION: none }
+DIV.megas512 A:hover { BORDER: #ff5500 1px solid; BACKGROUND-IMAGE: none; COLOR: #fd6a21; BACKGROUND-COLOR: #ffede1 }
+DIV.megas512 A:active { BORDER-RIGHT: #fd6d01 1px solid; BORDER-TOP: #fd6d01 1px solid; BACKGROUND-IMAGE: none; BORDER-LEFT: #fd6d01 1px solid; COLOR: #fd6d01; BORDER-BOTTOM: #fd6d01 1px solid; BACKGROUND-COLOR: #ffede1 }
+DIV.megas512 SPAN.current { BORDER: #ff5500 1px solid; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; PADDING-BOTTOM: 5px; COLOR: #ff7400; MARGIN-RIGHT: 3px; PADDING-TOP: 5px; }
+DIV.megas512 SPAN.disabled { PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 2px; COLOR: #adaaad; MARGIN-RIGHT: 3px; PADDING-TOP: 2px }
+	/* form avalidate */
+form .field_notice { color: #9C9C9C; margin-left: 5px; }
+form .red { color: red; border: 0px; background-color: #FFFFFF; }
+form label.error { color: red; margin-left: 5px; background: transparent url(../../{$pluginpath}Image/cuo.gif) no-repeat; padding-left: 16px; margin-left: 9px; }
+form input.error { border: red 1px dotted; }
+form label.checking { padding-left: 18px; background: transparent url(../../{$pluginpath}Image/checking.gif) no-repeat; margin-left: 5px; font-style: italic; color: #9C9C9C; display: none; }
+form label.validate_right { padding-left: 12px; background: transparent url(../../{$pluginpath}Image/right.gif) no-repeat; margin-left: 5px; font-style: italic; color: green; float: none; }
+	/*.img-button{margin:4px 0 0 8px; }.img-button-hover{background:url(../../{$pluginpath}Image/b9.gif) no-repeat 0 -26px;}.img-button-hover p{background:url(../../{$pluginpath}Image/b9.gif) no-repeat right -26px;}*//*按钮*/
+.img-button { float: left; height: 26px; padding: 0 0 0 6px; padding: 0 0 0 2 px\9; background: url(../../{$pluginpath}Image/b9.gif) no-repeat 0 0; display: inline; overflow: hidden; }
+.img-button p { float: left; height: 26px; padding: 0 6px 0px 1px; padding: 0 2 px\9 0px 1px; background: url(../../{$pluginpath}Image/b9.gif) no-repeat right 0; }
+.img-button input { float: left; border: none; background: transparent; color: #4b4c47; margin: 0; cursor: pointer; padding: 5px 0 0 0; padding: 7px 0 0 0 \9; *padding: 5px 0 0 0; }
+.bignum { font-size: 14px; color: #F00; font-weight: bold; font-family: 'Times New Roman' }
+.alert_go_tao { overflow: hidden; height: auto }
+.alert_go_tao .info { padding-bottom: 20px; height: 80px; position: relative; border-bottom: 1px solid #ccc }
+.alert_go_tao .info .alert_notice { top: 77px; left: 102px }
+.alert_go_tao .info .alert_notice em { margin-left: 84px }
+.alert_go_tao .alert_notice .notice_content { _height: 16px }
+.alert_go_tao .info .pic { height: 80px; width: 80px; float: left; border: 1px solid #ccc }
+.alert_go_tao .info .pic img { height: 80px; width: 80px }
+.alert_go_tao .info span { display: block; float: left; padding-left: 20px; margin-bottom: 10px }
+.alert_go_tao .info .text_f { padding: 0px }
+.alert_go_tao .info .tit { width: 330px; overflow: hidden; height: 18px; white-space: nowrap; font-size: 14px; color: #0063DC; margin-bottom: 10px }
+.alert_go_tao .info .price, .alert_go_tao .info .fan { width: 155px }
+.alert_go_tao .info .fan_r { padding-left: 53px }
+.alert_go_tao .info input { border: 1px solid #ccc; width: 58px; padding-left: 2px; margin-bottom: 5px; height: 20px; line-height: 20px; float: left }
+.alert_go_tao p { line-height: 25px; margin-top: 10px }
+.alert_go_tao p span, .alert_go_tao p a { color: red; font-weight: normal }
+.alert_go_tao p a { margin-right: 20px }
+.alert_notice { width: auto; height: auto; overflow: hidden; position: absolute; }
+.alert_notice em { display: block; height: 8px; width: 17px; margin-left: 6px; _margin-left: 3px; overflow: hidden; z-index: 9; position: relative; _margin-top: 4px; background: url(../../{$pluginpath}Image/alert_total.gif) no-repeat -211px -117px }
+.alert_notice .notice_content { height: auto; width: auto; padding: 5px; margin-top: -1px; position: relative; line-height: 16px; z-index: 1; overflow: visible; background-color: #fff; border: 1px solid #ccc }
+.alert_notice { top: 20px; left: 35px }
+.red_border { border: 1px solid #F00 }
+.tbcuxiao i { color: #FFF; background: #F60; padding: 1px; padding-top: 2px; padding-left: 2px; font-style: normal }
+.tbcuxiao b { font-size: 16px; color: #FF3300; font-family: "Times New Roman", Times, serif; }
+#searchtip { display: none }
+.xha001 { margin: 0; padding: 0; width: 490px; height: 200px; }
+.xha001 .xhafont { margin-left: 110px; width: 480px; color: #F3534F; line-height: 30px; margin-top: 10px }
+.xha001 .xhafont .word { border: 1px #ffd893 solid; width: 307px; height: 26px; background: #fffbe1; line-height: 26px; padding-left: 10px; font-size: 12px; color: #ff6600; font-weight: normal }
+.xha001 .xhafont .zhizhen { width: 10px; height: 9px; background: url(../../{$pluginpath}Image/zhizhen.gif); z-index: 99; margin-top: -1px; margin-left: 15px; overflow: hidden }
+.xha001 .xhasearch { width: 470px; height: 63px; background-image: url(../../{$pluginpath}Image/515.gif); background-repeat: no-repeat; line-height: 49px; margin: 0 auto; padding: 0; }
+.xha001 .xhasearch2 { margin: 0; padding: 20px 0 0 80px; }
+.xha001 .xhasearch2 .xhasearch3 { background-color: #ECECEC; border: 1px solid #D5D5D5; padding: 0; margin: 0; height: 26px; width: 250px; line-height: 27px }
+.xha001 .xhasearch2 .xhasearch4 { width: 93px; height: 28px; background-image: url(../../{$pluginpath}Image/515.gif); cursor: pointer; background-repeat: no-repeat; background-position: 0px -70px; border: 0; padding: 0; margin: 0; vertical-align: bottom; }
+.xha001 .xhalinks { margin: 0 auto; padding-top: 10px; text-align: left; line-height: 26px; color: #F30; padding-left: 89px }
+.xha001 .xhalinks .title { line-height: 30px; margin-top: 10px; text-align: left; margin-left: 60px }
+.xha001 .xhalinks .goods { font-weight: bold; color: #CC0000; }
+.xha001 .xhalinks .tip { width: 170px }
+.xha001 .xhalinks a:link, .xha001 .xhalinks a:visited { font-size: 14px; text-decoration: none; color: #0066CC; }
+.xha001 .xhalinks a:hover { color: #FF0000; text-decoration: underline; }
+.qanda { text-align: left; width: 998px; height: 83px; background-color: #FFFFFF; clear: both; margin: 15px 0 0 0; border: 1px solid #D0210C; }
+.hot_play { position: relative; }
+.hot_play ul { float: left; padding: 0px; }
+.hot_play img { width: 78px; height: 77px; border: 0; margin: -5px 0 0 -6px; padding: 0px; overflow: scroll; }
+.qtext { width: 900px; height: 83px; margin: 0 0 0 20px; padding: 0; float: left; }
+.qtext ul { width: 900px; margin: 10px 0 0 0; padding: 0; }
+.qtext li { float: left; width: 270px; display: block; margin: 0 0 0 10px; padding: 0; line-height: 180%; }
+.qtext li img { float: left; display: block; width: 43px; height: 43px; padding: 10px 0 0 15px; }
+.qtext li span { float: right; margin: 0 0 0 10px; width: 200px; padding: 0; }
+.qtext li a:link, .qtext a:visited { color: #FF6600; }
+	/* qa开始 */
+.mall2qa { text-align: left; width: 248px; margin: 0 0 10px 0; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.mall2qa1 { width: 248px; margin: 0; padding: 0; height: 126px; background-image: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -131px; }
+.mall2qa1 img { margin: -5px 0 0 -6px; padding: 0; }
+.mall2qa2 { text-align: left; width: 205px; margin: 10px 0 0 20px; padding: 0; line-height: 18px; }
+.mall2qa3 { text-align: right; width: 205px; margin: 0 0 20px 20px; padding: 0; line-height: 18px }
+.mall2qa3 a:link, .mall2qa3 a:visited { color: #FF6600; }
+.mall2qa3 a:hover { color: #FF6600; text-decoration: underline; }
+	/* qa结束 */
+.backToTop { display: none; width: 18px; line-height: 1.2; padding: 5px 0; background-color: #000; color: #fff; font-size: 12px; text-align: center; position: fixed; _position: absolute; right: 10px; bottom: 100px; _bottom: "auto"; cursor: pointer; opacity: .6; filter: Alpha(opacity=60); }
+#taobaokeytips { Z-INDEX: 9999999999; BORDER-BOTTOM: #c7c7c7 1px solid; POSITION: absolute; BORDER-LEFT: #c7c7c7 1px solid; DISPLAY: none; BACKGROUND: #fff; BORDER-TOP: #c7c7c7 1px solid; BORDER-RIGHT: #c7c7c7 1px solid; margin: 0px; padding: 0px }
+#taobaokeytips LI { LIST-STYLE-TYPE: none; MARGIN: 0px; width: 100%; CURSOR: pointer; padding: 0px; line-height: 24px; margin-left: -16px; margin-left: 0px !important; clear: both }
+#taobaokeytips li.current { BACKGROUND: #e9e6e6; width: 100%; display: block; cursor: pointer; height: 24px; }
+#taobaokeytips LI.current SPAN { font-weight: bold }
+#taobaokeytips LI SPAN { FLOAT: left; COLOR: #404040; margin: 0px; padding: 0px; MARGIN-LEFT: 5px; width: 300px }
+#taobaokeytips LI EM { FONT-STYLE: normal; FLOAT: right; COLOR: #008000; MARGIN-RIGHT: 5px }
+.input-text { height: 20px; line-height: 20px; padding-left: 2px; border: 1px solid #d0d0d0; background: #FFF; }
+.searchbutton { width: 60px; height: 24px; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -696px; border: 0; cursor: pointer; }
+.submit { width: 60px; height: 24px; background: url(../../{$pluginpath}Image/tubiao.png) #999; color: #FFF; font-weight: bold; cursor: pointer; }
+#shareContain .share_cat { height: 20px; }
+#shareContain .share_cat ul li { width: 50px; float: left }
+#shareContain .shareform { width: 540px; height: 80px; margin-top: 5px; clear: both; }
+#shareContain .shareform div.shareComment { float: left; width: 446px; height: 62px; }
+#shareContain .shareform div.shareComment #comment { width: 440px; height: 12px; line-height: 12px; padding-top: 5px; padding-bottom: 40px; padding-left: 4px; color: #999999; border: 2px solid #F64B78 }
+#shareContain .shareform div.shareSubmit { float: left; margin-left: 3px; width: 80px; height: 62px; }
+#shareContain .shareform div.shareSubmit #subShare { background: none; border: 0; font-size: 18px; width: 80px; height: 36px; background: #EE373C; color: #FFF; font-weight: bold; cursor: pointer }
+#shareContain .shareform .funtip { width: 444px; margin-top: 5px; }
+#shareContain .shareform .funtip .picfunc { float: left; width: 300px; }
+#shareContain .shareform .funtip .picfunc a { padding-left: 18px; width: 57px; height: 18px; line-height: 18px; display: block; float: left; cursor: pointer; background: url(../../{$pluginpath}Image/icons.gif) no-repeat; }
+#shareContain .shareform .funtip .picfunc a.taourl { background: url(../../{$pluginpath}Image/icons.gif) no-repeat 0px -17px; margin-left: 5px }
+#shareContain .shareform .funtip .wordtip { float: right; width: 100; color: #666 }
+#shareContain .shareform .funtip .wordtip b { font-size: 14px; color: #EF363C }
+#shareContain #goodsinfo { margin-top: 15px; width: 540px; }
+#shareContain #goodsinfo .pic { float: left; width: 120px; }
+#shareContain #goodsinfo .pic img { width: 120px; height: 120px }
+#shareContain #goodsinfo .info { float: left; width: 330px; height: 150px; margin-left: 15px }
+#shareContain #goodsinfo .info .name { font-size: 14px; padding-top: 1px }
+#shareContain #goodsinfo .info .name input { width: 250px; height: 20px; border: 0; line-height: 20px }
+#shareContain #goodsinfo .info .url { font-size: 14px; padding-top: 1px; margin-top: 1px; }
+#shareContain #goodsinfo .info .url input { width: 250px; height: 20px; border: 0; line-height: 20px }
+#shareContain #goodsinfo .info .price { font-size: 14px; padding-top: 1px; margin-top: 1px; }
+#shareContain #goodsinfo .info .price input { width: 40px; height: 20px; border: 0; line-height: 20px }
+#shareContain #goodsinfo .info .tag { font-size: 14px; color: #666666; margin-top: 9px; }
+#shareContain #goodsinfo .info .tag .word { font-size: 12px; }
+#shareContain #goodsinfo .info .tag .word b { color: #333 }
+#shareContain #goodsinfo .info .tag .input { margin-top: 2px }
+#shareContain #goodsinfo .info .tag .input input { width: 316px; height: 20px; border: 1px solid #9A9B9B; line-height: 20px }
+#shareContain .shareform #dopic { position: absolute; width: 394px; height: 68px; top: 130px; left: 20px; z-index: 99; display: none }
+#shareContain .shareform #dopic .jiantouwaiwei { height: 6px; overflow: hidden }
+#shareContain .shareform #dopic .jiantouwaiwei #jiantou { background: url(../../{$pluginpath}Image/icon.gif) -74px -103px; width: 10px; height: 6px; z-index: 2; position: relative; }
+#shareContain .shareform #dopic .main { background: url(../../{$pluginpath}Image/shai-bg.gif); width: 394px; height: 62px; margin-top: -1px; _margin-top: 0px; z-index: 1 }
+#shareContain .shareform #dopic .main .main1 { position: relative; left: 12px; top: 12px; width: 374px; height: 42px }
+#shareContain .shareform #dopic .main .main1 #tishi { float: left; width: 200px; color: #656565 }
+#shareContain .shareform #dopic .main .main1 .tishicha { float: right; width: 12px; height: 12px; background: url(../../{$pluginpath}Image/icon.gif) -56px -105px; cursor: pointer }
+#shareContain .shareform #dopic .main .main1 #tao_url { width: 324px; height: 20px; border: 1px solid #CFCFCF; background: #FFF; line-height: 20px }
+#shareContain .shareform #dopic .main .main1 #get_tao_img { border: 1px solid #CFCFCF; background: #F7F7F7; width: 40px; height: 23px; text-align: center; line-height: 21px; color: #000; cursor: pointer }
+	/*template/default/css/common.css*/
+@charset "utf-8";
+* { margin: 0px; padding: 0px }
+img { border: 0px }
+:focus { outline: 0 none }
+ul, li { list-style: none }
+.clear { clear: both }
+.red { color: #f00 }
+.org { color: #F50 }
+.bla { color: #000 }
+.whi { color: #fff }
+.block { display: block }
+.none { display: none }
+.fl { float: left }
+.fr { float: right }
+.head a:hover { text-decoration: none }
+.green { color: #139C00 }
+.blue { color: #0063DC }
+.black { color: #000 }
+.block { display: block }
+.alert_fullbg { height: 100%; width: 100%; top: 0; left: 0; position: fixed; _position: absolute; z-index: 100000; filter: alpha(opacity=20); opacity: 0.2; background-color: #000; _filter: alpha(opacity=100); _background-color: none; _filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000); _top: expression(eval(document.documentElement.scrollTop)) }
+.alert_bg { position: absolute; top: 400px; left: -1000000px; padding: 6px 6px 6px 6px; height: auto; overflow: hidden; background: rgba(253, 112, 28, 0.6) none repeat scroll 0 0 !important; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99FD701C, endColorstr=#99FD701C); z-index: 100009 }
+.alert_bg .alert_box { border: 1px solid #FF863F; height: auto; overflow: hidden }
+.alert_bg .alert_box .alert_top { height: 36px; width: 480px; background: #FFE3B8; text-indent: 21px; font-size: 14px; color: #4C8D44; line-height: 36px; font-weight: bold }
+.alert_bg .alert_box .alert_top span { float: left }
+.alert_bg .alert_box .alert_top .alert_close, .alert_bg .alert_box .close { height: 11px; width: 12px; background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat -146px -38px; display: block; float: right; margin-top: 13px; margin-right: 10px; _margin-right: 5px }
+.alert_bg .alert_box .alert_top a:hover, .alert_bg .alert_box a.close:hover { background-position: -164px -38px }
+.alert_content { background-color: #FFF; font-size: 12px; width: 480px; height: auto; overflow: hidden }
+.alert_content .goods_box { font-size: 12px; padding: 20px; overflow: hidden }
+.share_order { height: auto; overflow: hidden }
+.share_order .pic { border: 1px solid #ccc; margin-top: 10px; margin-left: 15px; _margin-left: 8px; width: 100px; height: 100px; float: left }
+.share_order .order_info { margin-top: 10px; padding-left: 15px; width: 345px; height: 102px; overflow: hidden; float: left; padding-bottom: 10px }
+.share_order .order_info p { height: 14px; overflow: hidden; margin-bottom: 7px }
+.share_order .order_info .add_face { background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat scroll -181px -33px transparent; display: block; float: left; height: 14px; width: 27px; margin-right: 10px }
+.share_order .order_info span { display: block; float: left; white-space: nowrap; line-height: 14px; width: 295px; overflow: hidden }
+.share_order .order_info .pub_text { width: 276px; height: 44px; padding: 2px; float: left; font-size: 12px; color: #5e5e5e; overflow: hidden; resize: none; border: 1px solid #ccc }
+.share_order .order_info .pub_btn { background: url("/img/pub_button2.png") no-repeat scroll transparent; display: block; float: left; border: none; margin-left: 2px; _margin-left: 1px; height: 50px; width: 47px; cursor: pointer }
+.share_order .order_info .add_pic { background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat scroll -139px -308px transparent; display: block; float: left; margin-right: 5px; height: 24px; width: 88px; margin-top: 6px }
+.share_order .order_info .point { display: block; height: 22px; margin-top: 6px; background: #FFF6E8; border: 1px solid #FFD292; float: left; position: relative; padding-left: 10px; padding-right: 5px; line-height: 22px }
+.share_order .order_info .point em { background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat scroll -219px -138px transparent; display: block; float: left; height: 24px; width: 8px; position: absolute; top: -1px; left: -1px }
+.share_order .order_info .point b { font-weight: normal; color: #F00 }
+.share_order .pub_pic { clear: both; padding-left: 15px; padding-top: 10px; height: 102px; padding-bottom: 10px }
+.share_order .pub_pic li { float: left; height: 100px; width: 100px; border: 1px solid #ccc; margin-bottom: 15px; margin-right: 15px; position: relative; overflow: visible; list-style: none; padding: 0px }
+.share_order .pub_pic li img { height: 100px; width: 100px }
+.share_order .pub_pic li .close { height: 18px; width: 18px; top: -20px; right: -20px; background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat scroll -209px -203px transparent; position: absolute }
+.share_order .pub_pic li a.close:hover { background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat scroll -209px -203px transparent }
+#alert_step .alert_content { padding: 15px; _padding-bottom: 0px; clear: both; width: 450px }
+#alert_step .alert_content p a { color: #FF7322; text-decoration: underline; padding-left: 30px }
+#alert_step .alert_content .alert_s { width: 438px; height: 69px; border: 1px solid #DCDCDC; clear: both; margin: 15px auto 15px }
+#alert_step .alert_content .alert_s img { width: 438px; height: 69px }
+#alert_step .alert_content .alert_log, #alert_step .alert_content .alert_reg { width: 100px; height: 26px; background: url(../../{$pluginpath}Image/alert_total.gif) 0px -342px; display: block; float: left; line-height: 26px; color: #fff; text-align: center; font-size: 14px; font-weight: bold }
+#alert_step .alert_content a.alert_log:hover, #alert_step .alert_content a.alert_reg:hover { text-decoration: none; color: #fff }
+#alert_step .alert_content .alert_log { margin-left: 104px; _margin-left: 52px; margin-right: 30px }
+#alert_step .alert_content .alert_reg { background-position: -127px -342px }
+#alert_fast_log_reg .sort_info { margin: 20px; margin-bottom: 0px; overflow: hidden; color: #5e5e5e }
+#alert_fast_log_reg .sort_info .sort_pic { border: 1px solid #DCDCDC; height: 80px; width: 80px; margin-left: 50px; _margin-left: 25px; float: left }
+#alert_fast_log_reg .sort_info .sort_pic img { height: 80px; width: 80px }
+#alert_fast_log_reg .sort_info em { display: block; width: 71px; height: 74px; background: url(../../{$pluginpath}Image/alert_total.gif) -156px -378px; margin-left: 30px; float: left }
+#alert_fast_log_reg .sort_info .sort_price { margin-left: 30px; margin-top: 10px; float: left; line-height: 30px; font-size: 14px; font-weight: bold; color: #000 }
+#alert_fast_log_reg .sort_info p { clear: both; line-height: 30px }
+#alert_fast_log_reg .sort_info p .blue { float: left }
+#alert_fast_log_reg .login_reg { padding: 10px 0px 20px 20px; *padding-bottom: 0px; overflow: hidden; width: 460px; color: #5e5e5e; padding-bottom: 10px }
+#alert_fast_log_reg .login_reg .fl { line-height: 24px }
+#alert_fast_log_reg .login_reg .l_r_menu { border-bottom: 1px solid #CCC; margin-bottom: 20px; clear: both; height: 28px; position: relative; width: 440px; _position: static; }
+#alert_fast_log_reg .login_reg .l_r_menu li { bottom: 1px; _bottom: -2px; float: left; margin-right: 10px; position: relative; _position: static; }
+#alert_fast_log_reg .login_reg .l_r_menu li a { background: none repeat scroll 0 0 #F0F0F0; border: 1px solid #CCC; display: block; font-size: 14px; height: 28px; line-height: 28px; text-align: center; width: 120px }
+#alert_fast_log_reg .login_reg .l_r_menu li a:hover { text-decoration: none }
+#alert_fast_log_reg .login_reg .l_r_menu .current { background: none repeat scroll 0 0 #FFF; border-bottom: none; color: #F50; font-weight: bold; height: 30px; position: relative; top: -1px; _position: static; }
+#alert_fast_log_reg .login_reg .l_r_p { clear: both; line-height: 40px; padding-left: 15px; background: url(../../{$pluginpath}Image/alert_total.gif) no-repeat -218px -229px }
+#alert_fast_log_reg .login_reg .l_r_login { padding-left: 20px; float: left; height: auto; overflow: hidden; }
+#alert_fast_log_reg .login_reg .l_r_login .login, #alert_fast_log_reg .login_reg .l_r_login .reg { float: left; font-size: 14px; overflow: hidden }
+#alert_fast_log_reg .login_reg .l_r_login .login { width: 270px }
+#alert_fast_log_reg .login_reg .l_r_login .login font { font-size: 12px }
+#alert_fast_log_reg .login_reg .l_r_login .login font span { color: #B5B4B4 }
+#alert_fast_log_reg .login_reg .login_name, #alert_fast_log_reg .login_reg .login_pwd, #alert_fast_log_reg .login_reg .l_r_reg input { height: 24px; line-height: 24px; width: 194px; border: 1px solid #DCDCDC; color: #5e5e5e; margin-bottom: 10px; font-size: 12px; padding-left: 3px; float: left }
+#alert_fast_log_reg .login_reg .button, #alert_fast_log_reg .login_reg .reg .button { display: block; height: 26px; color: #fff; font-size: 14px; font-weight: bold; line-height: 26px; text-align: center; width: 83px; padding: 0px; cursor: pointer; border: none; background: url(../../{$pluginpath}Image/alert_total.gif) no-repeat 0px -453px; }
+#alert_fast_log_reg .login_reg .l_r_login .checkbox { float: left; margin: 3px 3px 0px 70px; margin-top: 0px  \9; *margin-top: -4px; _margin-top: -2px; float: left; border: none; padding: 0px }
+#alert_fast_log_reg .login_reg .l_r_login .fo_psw { display: block; float: left; font-size: 12px; padding-top: 13px; text-decoration: underline }
+#alert_fast_log_reg .login_reg .l_r_login .union_login { margin-left: 20px; float: left; padding: 5px 5px 5px 10px; border: 1px solid #DCDCDC; background: #FFFFF3 }
+#alert_fast_log_reg .login_reg .l_r_login .union_login p { text-align: center; padding-bottom: 5px }
+#alert_fast_log_reg .login_reg .l_r_login .union_login a { display: block; float: left; clear: both; height: 22px; margin: 4px 10px 4px 4px; width: 80px }
+#alert_fast_log_reg .login_reg .l_r_reg { height: auto; overflow: hidden; *padding-bottom: 20px }
+#alert_fast_log_reg .login_reg .l_r_reg .reg div { float: left; font-size: 14px }
+#alert_fast_log_reg .login_reg .l_r_reg .reg li { overflow: hidden; clear: both; *margin-bottom: 10px }
+.tips_red, .tips_green, .tips_normal { background: url(../../{$pluginpath}Image/alert_total.gif) no-repeat scroll -208px -480px #FFF0F0; border: 1px solid #CB0002; float: left; font-size: 12px; line-height: 14px; margin-left: 5px; padding: 5px 10px 5px 23px }
+.tips_normal { border: none; background: none; padding-left: 0px }
+.tips_green { border: 1px solid #FFF; background-color: #FFF; background-position: -208px -451px }
+#alert_fast_log_reg .login_reg .suc { line-height: 25px; margin-top: 50px; margin-left: 110px; _margin-left: 55px; background: url(../../{$pluginpath}Image/alert_total.gif) no-repeat -206px -170px; padding-left: 27px }
+#alert_fast_log_reg .login_reg .suc a { text-decoration: underline }
+.lead_search { color: #000; overflow: hidden; padding-top: 15px; margin: 20px; _margin-left: 10px; width: 440px; border-top: 1px solid #CCC }
+.lead_search p { line-height: 30px; font-size: 14px; padding-left: 25px; background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat -208px -507px; margin-bottom: 5px }
+.lead_search .green_bg { color: #fff; background-color: #4C8D44; padding: 0px 3px }
+.lead_search a.green_bg:hover { background-color: #fff; color: #4C8D44 }
+.lead_search .help, .lead_search .collect { display: block; height: 30px; color: #FFF; font-weight: bold; font-size: 14px; line-height: 30px; width: 149px; float: left; margin-left: 80px; _margin-left: 40px; margin-top: 10px; text-align: center; background: url("../../{$pluginpath}Image/alert_total.gif") no-repeat 0px -488px }
+.lead_search a:hover { text-decoration: none }
+.lead_search .collect { width: 104px; margin-left: 30px; background-position: 0px -527px }
+.light-box { position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background: #000; filter: alpha(opacity=40); opacity: 0.40; z-index: 9998; display: none; }
+.jump-box { position: absolute; /*margin-top:-122px;*/ _margin-top: 0px; z-index: 9999; position: fixed !important; /*FF IE7*/ position: absolute; /*IE6*/ _top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2 :/*IE6*/ document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2); /*IE5 IE5.5*/ }
+	/*template/default/css/alert.css*/
+</style>
