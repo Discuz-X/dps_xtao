@@ -1,8 +1,8 @@
 <?php defined('IN_DISCUZ') || die('Access Denied');
-require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'init.php';
-$plugintitle = $navtitle;//导航标题
+require dirname(__FILE__).DIRECTORY_SEPARATOR.'init.php';
+$plugintitle  = $navtitle; //导航标题
 $goodkeywords = !empty($_C['goodkeywords']) ? $_C['goodkeywords'] : '';
-$indexgoods = !empty($_C['indexgoods']) ? $_C['indexgoods'] : '女装';
+$indexgoods   = !empty($_C['indexgoods']) ? $_C['indexgoods'] : '女装';
 //$conv = new Convert;
 //if(strtolower($_G['config']['output']['charset']) == 'gbk') {
 //	$conv->convert   = TRUE;
@@ -11,15 +11,33 @@ $indexgoods = !empty($_C['indexgoods']) ? $_C['indexgoods'] : '女装';
 //	$conv->convert = FALSE;
 //}
 //define('DDROOT', DISCUZ_ROOT.'../duoduo');
+//$url = 'http://item.taobao.com/item.htm?spm=1020.3.9.28.ejV4f0&id=25779300290';
+//$tao_id_arr = array(
+//	'id',
+//	'Id',
+//	'item_num_id',
+//	'default_item_id',
+//	'item_id',
+//	'itemId',
+//	'mallstItemId',
+//	//'tradeID'  http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=147485513698005
+//);
+//$ids = implode('|', $tao_id_arr);
+//preg_match('/[&|?]('.$ids.')=(\d+)/', $url, $b);
+//var_export($b);
+//die((string)__LINE__);
 $keywords = array();
 $keywords = explode(',', $goodkeywords);
 //for($i = 0; $i < count($arraykey); $i++) {
 //	$keywords[] = $arraykey[$i];
 //}
+if(empty($keyword)) {
+	$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+}
 ////$itl = new ItemcatsGetRequest;
 ////$itl->setFields('cid,parent_cid,name,is_parent,status,sort_order,last_modified');
 ////$itl->setParentCid(isset($_GET['cid'])?$_GET['cid']:'0');
-////$ritl = $c->execute($itl);
+////$ritl = $TopClient->execute($itl);
 ////aiodebug($ritl->item_cats, 'response', $debug);
 ////aiodebug($ritl, 'response', $debug);
 ////$itemCats = $ritl->item_cats->item_cat;
@@ -34,7 +52,7 @@ $keywords = explode(',', $goodkeywords);
 //	$req->setFields('pic_url,num_iid,title,nick,desc,create,num,stuff_status,location,price,post_fee,express_fee,ems_fee,has_discount,freight_payer,has_invoice,has_warranty,click_url,shop_click_url,seller_credit_score');
 //	$req->setNumIids($iid);
 //	$req->setNick($conv->req($taokeusername));
-//	$resp = $c->execute($req);
+//	$resp = $TopClient->execute($req);
 //	if(empty($resp->total_results)) {
 //		showmessage(lang('plugin/abis_shops', 'error_noproduct'));
 //	}
@@ -64,34 +82,38 @@ $keywords = explode(',', $goodkeywords);
 //		$item['item']['fakeprice'] = sprintf('%01.2f', floor($item['item']['price'] * $price_mod6));
 //	}
 //
-	//得到标题
-	if(!empty($item['item']['title'])) {
-		$thisnav  = $item['item']['title'];
-		$navtitle = $item['item']['title'].' - '.$plugintitle;
-	}
+//得到标题
+if(!empty($item['item']['title'])) {
+	$thisnav  = $item['item']['title'];
+	$navtitle = $item['item']['title'].' - '.$plugintitle;
+}
 //} else {
 //	$page    = intval($_GET['page']) != 0 ? intval($_GET['page']) : 1;
-	$keyword = dhtmlspecialchars(rawurldecode($_GET['keyword']));
+$keyword = dhtmlspecialchars(rawurldecode($_GET['keyword']));
 //	$sort    = dhtmlspecialchars(rawurldecode($_GET['sort']));
 //	$cid     = dhtmlspecialchars(rawurldecode($_GET['cid']));
 //
-	//得到标题
-	if(empty($cid) and empty($keyword)) { //关键字和分类都为空
-		$navtitle = $plugintitle;
-		$thisnav  = '';
-	} else if(!empty($cid) and empty($keyword)) {
-		$navtitle = $thisnav.' - '.$plugintitle;
-		$thisnav  = '';
-	} else if(empty($cid) and !empty($keyword)) {
-		$navtitle = $keyword.' - '.$plugintitle;
-		$thisnav  = $keyword.'';
-	} else if(!empty($cid) and !empty($keyword)) {
-		$navtitle = $keyword.'-'.$plugintitle;
-		$thisnav  = $keyword.'';
-	}
+//得到标题
+if(empty($cid) and empty($keyword)) { //关键字和分类都为空
+	$navtitle = $plugintitle;
+	$thisnav  = '';
+} else if(!empty($cid) and empty($keyword)) {
+	$navtitle = $thisnav.' - '.$plugintitle;
+	$thisnav  = '';
+} else if(empty($cid) and !empty($keyword)) {
+	$navtitle = $keyword.' - '.$plugintitle;
+	$thisnav  = $keyword.'';
+} else if(!empty($cid) and !empty($keyword)) {
+	$navtitle = $keyword.'-'.$plugintitle;
+	$thisnav  = $keyword.'';
+}
 //
 //
-	$thisnav = empty($keyword)?$indexgoods:$keyword;//得到导航
+$thisnav = empty($keyword) ? $indexgoods : $keyword; //得到导航
+if($keyword != '') {
+	include dirname(__FILE__).DS.'_taoview.php';
+}
+include template(IDENTIFIER.':taobaoindex');
 //	if(empty($cid)) {
 //		$cid = 0;
 //	} else {
@@ -134,7 +156,7 @@ $keywords = explode(',', $goodkeywords);
 //	} else {
 //		showmessage(lang('plugin/abis_shops', 'error_nouser'));
 //	}
-//	$resp = $c->execute($req);
+//	$resp = $TopClient->execute($req);
 //	//aiodebug($resp, 'response', $debug);
 //	$total = $resp->total_results;
 //	$total = $total > $ppp * 100 ? $ppp * 100 : $total;
@@ -175,30 +197,6 @@ $keywords = explode(',', $goodkeywords);
 //	}
 //	*/
 //}
-
-function get_tao_id($url, $tao_id_arr = array()) {
-//	if(empty($tao_id_arr)) {
-//		$tao_id_arr = array(
-//			'id',
-//			'Id',
-//			'item_num_id',
-//			'default_item_id',
-//			'item_id',
-//			'itemId',
-//			'mallstItemId',
-//			//'tradeID'  http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=147485513698005
-//		);;
-//	}
-//	$ids = implode('|', $tao_id_arr);
-//	preg_match('/[&|?]('.$ids.')=(\d+)/', $url, $b);
-//	if($b[2] == '') {
-//		preg_match('#/i(\d+)\.htm#', $url, $b);
-//
-//		return $b[1];
-//	} else {
-//		return $b[2];
-//	}
-}
 //
 //function in_tao_cat($cid, $tao_cat = array()) {
 //	if(empty($tao_cat)) {
@@ -230,11 +228,12 @@ function dd_set_cache($name, $arr, $type = 'json') {
 			dd_file_put(DDROOT.'/data/json/'.$name.'.php', $data);
 			break;
 		case 'array':
-			$data = "<?php\n return ".var_export($arr, TRUE).";\n?>";
+			$data = "<?php\n return ".var_export($arr, true).";\n?>";
 			dd_file_put(DDROOT.'/data/array/'.$name.'.php', $data);
 			break;
 	}
 }
+
 //function dd_get_cache($name, $type = 'json') {
 //	switch($type) {
 //		case 'json':
@@ -505,12 +504,12 @@ function dd_set_cache($name, $arr, $type = 'json') {
 //			}
 //			$style .= '"';
 //			if(isset($arr['ad_content'])) {
-//				$c = $arr['ad_content'];
+//				$TopClient = $arr['ad_content'];
 //			} else {
-//				$c = "<script src='".SITEURL."/data/ad/".$id.".js'></script>";
+//				$TopClient = "<script src='".SITEURL."/data/ad/".$id.".js'></script>";
 //			}
 //
-//			return "<div ".$style." id='ad".$id."'>".$c."</div>";
+//			return "<div ".$style." id='ad".$id."'>".$TopClient."</div>";
 //		}
 //	}
 //
@@ -1319,250 +1318,6 @@ function dd_set_cache($name, $arr, $type = 'json') {
 //			),
 //		),
 //	);
-function act_tao_view() {
-//	global $duoduo, $ddTaoapi;
-	//include DISCUZ_ROOT.'../duoduo/comm/dd.class.php';
-	//include DISCUZ_ROOT.'../duoduo/comm/collect.class.php';
-	//include DISCUZ_ROOT.'../duoduo/comm/Taoapi.php';
-	//include DISCUZ_ROOT.'../duoduo/comm/ddTaoapi.class.php';
-	//$ddTaoapi = new ddTaoapi();
-//	//$webset      = $duoduo->webset;
-//
-//	//$dduser      = $duoduo->dduser;
-//	$dduser = array(
-//		'name'  => '',
-//		'id'    => 0,
-//		'level' => 0,
-//	);
-//	//$tao_id_arr  = include(DDROOT.'/data/tao_ids.php');
-//	$tao_id_arr = array(
-//		'id',
-//		'Id',
-//		'item_num_id',
-//		'default_item_id',
-//		'item_id',
-//		'itemId',
-//		'mallstItemId',
-//		//'tradeID'  http://trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=147485513698005
-//	);
-//	//$shield_cid  = include(DDROOT.'/data/shield_cid.php');
-//	$shield_cid = array(0 => 50012829, 1 => 50003114, 2 => 50012831, 3 => 50012832, 4 => 50012830, 5 => 50006275, 6 => 50019617, 7 => 50019618, 8 => 50019619, 9 => 50019620, 10 => 50019621, 11 => 50019622, 12 => 50019623, 13 => 50019624, 14 => 50019625, 15 => 50019626, 16 => 50019627, 17 => 50019628, 18 => 50019629, 19 => 50019630, 20 => 50019631, 21 => 50019636, 22 => 50019637, 23 => 50019638, 24 => 50019639, 25 => 50019640, 26 => 50019641, 27 => 50019642, 28 => 50019643, 29 => 50019644, 30 => 50019692, 31 => 50019693, 32 => 50019645, 33 => 50019646, 34 => 50019698, 35 => 50019699, 36 => 50019700, 37 => 50019647, 38 => 50019651, 39 => 50019652, 40 => 50019653, 41 => 50019654, 42 => 50019655, 43 => 50019656, 44 => 50019657, 45 => 50019658, 46 => 50019659, 47 => 50019660, 48 => 50019661, 49 => 50019662, 50 => 50019663, 51 => 50019664, 52 => 50019665, 53 => 50020206, 54 => 50020205, 55 => 50050327, 2813);
-//	//$virtual_cid = include(DDROOT.'/data/virtual_cid.php');
-//	$virtual_cid = array('goods' => array(0 => 150401, 1 => 150402, 2 => 50011814, 3 => 150406), 'shop' => array(1103, 1041, 1102, 35, 36));
-//	if(empty($iid)) {
-//		$iid = isset($_GET['iid']) ? (float)$_GET['iid'] : '';
-//	}
-	if(empty($keyword)) {
-		$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
-	}
-//	$promotion_name = $_GET['promotion_name'] ? $_GET['promotion_name'] : '促销打折';
-//	$price_name     = '一&nbsp;口&nbsp;价';
-//
-//	$is_url  = 0;
-//	$is_mall = 0;
-//	$is_ju   = 0;
-//	$url     = '';
-//
-//
-//	if(preg_match('/(taobao\.com|tmall\.com)/', $keyword)) {
-//		$is_url = 1;
-//		$url    = $keyword;
-//		$iid    = (float)get_tao_id($keyword, $tao_id_arr);
-//		if($iid == 0) {
-//			showmessage('请使用标准淘宝商品网址搜索！');
-//		}
-//
-//		$ju_url  = 'http://a.m.taobao.com/i'.$iid.'.htm';
-//		$ju_html = file_get_contents($ju_url);
-//		if($ju_html == '') { //个别主机不能采集淘宝手机页面
-//			$ju_url  = 'http://ju.taobao.com/tg/home.htm?item_id='.$iid;
-//			$ju_html = dd_get($ju_url);
-//			if($ju_html != '' && strpos($ju_html, '<input type="hidden" name="item_id" value="'.$iid.'"') !== FALSE) {
-//				$is_juhuasuan = 2; //一般网页
-//			}
-//		} elseif(strpos($ju_html, '<a name="'.$iid.'"></a>') !== FALSE) {
-//			$is_juhuasuan = 1; //手机网页
-//		}
-//
-//		if($is_juhuasuan > 0) {
-//			$keyword = $url = 'http://ju.taobao.com/tg/home.htm?item_id='.$iid;
-//			if($is_juhuasuan == 1) {
-//				preg_match('/style="color:#ffffff;">￥(.*)<\/span>/', $ju_html, $a);
-//			} else {
-//				preg_match('/<strong class="J_juPrices"><b>&yen;<\/b>(.*)<\/strong>/', $ju_html, $a);
-//			}
-//			$ju_price                          = (float)$a[1];
-//			$goods_type                        = 'ju';
-//			$jssdk_items_convert['goods_type'] = $goods_type; //聚划算
-//			$jssdk_items_convert['ju_price']   = $ju_price;
-//			$price_name                        = '<img src="images/ju-icon.png" alt="聚划算" />';
-//		} elseif(strpos($keyword, 'tmall.com') !== FALSE) {
-//			$goods_type                        = 'tmall';
-//			$jssdk_items_convert['goods_type'] = $goods_type; //天猫
-//			$price_name                        = '<b style="color:#a91029">天猫正品</b>';
-//		} else {
-//			$goods_type                        = 'market';
-//			$jssdk_items_convert['goods_type'] = $goods_type; //集市
-//		}
-//	} elseif($iid == 0) {
-//		if($webset['taoapi']['s8'] == 1) {
-//			$url = $ddTaoapi->taobao_taobaoke_listurl_get($keyword, $dduser['id']);
-//			$url = $goods['jump'] = "index.php?mod=jump&act=s8&url=".urlencode(base64_encode($url)).'&name='.urlencode($keyword);
-//			jump($url);
-//		} else {
-//			showmessage('直接搜索淘宝商品网址即可查询返利', 5);
-//		}
-//	}
-	$data['iid']        = $iid;
-	$data['outer_code'] = $dduser['id'];
-	$data['all_get']    = 1; //商品没有返利也获取商品内容
-	$data['goods_type'] = $goods_type;
-	$data['ju_price']   = $ju_price;
-//
-//	if(TAOTYPE == 1) {
-//		$data['fields'] = 'iid,detail_url,num_iid,title,nick,type,cid,pic_url,seller_cids,num,list_time,delist_time,stuff_status,location,price,post_fee,express_fee,ems_fee,has_discount,freight_payer,item_img';
-//		if(WEBTYPE == 1) {
-//			$data['fields'] .= ',desc';
-//		}
-//		$goods       = $ddTaoapi->taobao_item_get($data);
-//		$allow_fanli = 1;
-//	} else {
-//		$data['fields'] = 'iid,detail_url,num_iid,title,nick,type,cid,pic_url,num,list_time,delist_time,stuff_status,location,price,post_fee,express_fee,ems_fee,has_discount,freight_payer,seller_credit_score,shop_click_url,click_url,volume,stuff_status,has_invoice,auction_point';
-//		if(WEBTYPE == 1) {
-//			$data['fields'] .= ',desc';
-//		}
-//		$goods       = $ddTaoapi->items_detail_get($data);
-//		exit('afjk');
-//		$allow_fanli = 1; //$ddTaoapi->taobao_taobaoke_rebate_authorize_get($iid);
-//	}
-//
-//
-//	if($goods['title'] == '' || $goods['num'] == 0 || ($webset['taoapi']['shield'] == 1 && in_array($goods['cid'], $shield_cid))) {
-//		showmessage('商品不存在或已下架或者是违禁商品。<a target="_blank" href="http://item.taobao.com/item.htm?id='.$iid.'">去淘宝确认</a>', -1, 1);
-//	}
-//
-	$jssdk_items_convert['method']      = 'taobao.taobaoke.widget.items.convert';
-	$jssdk_items_convert['outer_code']  = (int)$dduser['id'];
-	$jssdk_items_convert['user_level']  = (int)$dduser['level'];
-	$jssdk_items_convert['num_iids']    = $iid;
-	$jssdk_items_convert['allow_fanli'] = $allow_fanli;
-	$jssdk_items_convert['cid']         = $goods['cid'];
-	$jssdk_items_convert['tmall_fxje']  = (float)$goods['tmall_fxje'];
-	$jssdk_items_convert['ju_fxje']     = (float)$goods['ju_fxje'];
-	$jssdk_items_convert['goods_type']  = $goods_type;
-//
-	//$nick = $goods['nick'];
-//
-//	//include(DDROOT.'/mod/tao/shopinfo.act.php'); //店铺信息
-//
-	//$shop = $ddTaoapi->taobao_shop_get($nick);
-//
-//	if($shop == 104) {
-//		showmessage('掌柜不存在！');
-//	} else {
-//		$jssdk_shops_convert['method']       = 'taobao.taobaoke.widget.shops.convert';
-//		$jssdk_shops_convert['outer_code']   = (int)$dduser['id'];
-//		$jssdk_shops_convert['user_level']   = (int)$dduser['level'];
-//		$jssdk_shops_convert['seller_nicks'] = $nick;
-//		$jssdk_shops_convert['list']         = (int)$list;
-//		foreach($shop as $k => $v) {
-//			$jssdk_shops_convert[$k] = $v;
-//		}
-//	}
-//
-//	//////
-//	if(WEBTYPE == 1 && TAOTYPE == 2) {
-//		$Tapparams['cid']          = $goods['cid']; //当前cid热卖商品
-//		$Tapparams['page_size']    = 6;
-//		$Tapparams['start_credit'] = '1crown';
-//		$Tapparams['end_credit']   = '5goldencrown';
-//		$Tapparams['start_price']  = '20';
-//		$Tapparams['end_price']    = '5000';
-//		$Tapparams['sort']         = 'commissionNum_desc';
-//		$Tapparams['outer_code']   = $dduser['id'];
-//		$goods2                    = $ddTaoapi->taobao_taobaoke_items_get($Tapparams);
-//	}
-//
-//	$comment_url = "http://rate.taobao.com/detail_rate.htm?&auctionNumId=".$iid."&showContent=2&currentPage=1&ismore=1&siteID=7&userNumId=";
-//
-//	//include(DDROOT.'/plugin/tao_coupon.php');
-//
-//
-//	function tao_coupon_view($shop_title, $goods_price) {
-//		$str         = '';
-//		$d           = iconv("UTF-8", "gbk//IGNORE", $shop_title);
-//		$e           = urlencode($d);
-//		$url         = "http://taoquan.taobao.com/coupon/coupon_list.htm?key_word=".$e;
-//		$listcontent = iconv("gbk", "utf-8//IGNORE", dd_get($url));
-//		$preg        = "/<p class=\"coupon-num\">&yen;(.*)元<\/p>/";
-//		preg_match_all($preg, $listcontent, $num); //获取优惠券面值
-//		$preg = "/<p class=\"cond\">使用条件：订单满(.*).00元<\/p>/";
-//		preg_match_all($preg, $listcontent, $cond); //获取使用条件
-//		$preg = "/a href=\"combo\/between.htm\?(.*)&shopTitle/";
-//		preg_match_all($preg, $listcontent, $url); //获取优惠券地址码
-//		$a = $cond[1];
-//		arsort($a);
-//		foreach($a as $k => $v) {
-//			$b = $cond[1][$k];
-//			$d = $num[1][$k];
-//			$u = $url[1][$k];
-//		}
-//
-//		$str = '<div class="shopitem_main_r_5"><span>优&nbsp;惠&nbsp;券：';
-//		if($num[1][$k] > 0) {
-//			$str .= '【<a style="color:#F60;" href="http://ecrm.taobao.com/shopbonusapply/buyer_apply.htm?'.$url[1][$k].'" target="_blank" title="点击免费领取优惠券后购买更便宜" >满'.$cond[1][$k].'减'.$num[1][$k].'元';
-//			if($goods_price < $cond[1][$k]) {
-//				$str .= '(需凑单)';
-//			}
-//			$str .= '</a>】&nbsp;</span><a  href="'.u('tao', 'coupon', array('q' => $shop_title)).'" target="_blank" title="查看该卖家更多优惠券">查看更多优惠券</a>  &nbsp;';
-//		} else {
-//			$str .= '暂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;无&nbsp;&nbsp;';
-//		}
-//		$str .= '</span> </div>';
-//
-//		return $str;
-//	}
-//	exit('sdjfhlafjal');
-//
-//	$plugin_set = array();
-//	if($plugin_set['tao_coupon'] == 1) {
-//		$tao_coupon_str = tao_coupon_view($shop['title'], $goods['price']);
-//	}
-//	/////////
-
-	$parameter['tao_id_arr']          = $tao_id_arr;
-	$parameter['shield_cid']          = $shield_cid;
-	$parameter['virtual_cid']         = $virtual_cid;
-	$parameter['iid']                 = $iid;
-	$parameter['q']                   = $keyword;
-	$parameter['promotion_name']      = $promotion_name;
-	$parameter['price_name']          = $price_name;
-	$parameter['tao_coupon_str']      = $tao_coupon_str;
-	$parameter['url']                 = $url;
-	$parameter['data']                = $data;
-	$parameter['goods']               = $goods;
-	$parameter['goods2']              = $goods2;
-	$parameter['comment_url']         = $comment_url;
-	$parameter['nick']                = $nick;
-	$parameter['jssdk_items_convert'] = $jssdk_items_convert;
-	$parameter['shop']                = $shop;
-	$parameter['jssdk_shops_convert'] = $jssdk_shops_convert;
-
-	unset($duoduo);
-
-	return $parameter;
-}
-
-if($keyword != '') {
-	$parameter = act_tao_view();
-	extract($parameter);
-	$css[] = TPLURL."/css/view.css";
-	$js[]  = "js/md5.js";
-	$js[]  = "js/jssdk.js";
-	$js[]  = "js/jQuery.autoIMG.js";
-	//include(TPLPATH.'/header.tpl.php');
-}
-include template(IDENTIFIER.':taobaoindex');
 /**
  * 淘宝API处理类
  *
@@ -1591,11 +1346,9 @@ class Taoapi {
 
 
 	public function __construct() {
-		$Config = Taoapi_Config::Init();
-
+		$Config          = Taoapi_Config::Init();
 		$this->ApiConfig = $Config->getConfig();
-
-		$this->Cache = new Taoapi_Cache();
+		$this->Cache     = new Taoapi_Cache();
 		$this->Cache->setClearCache($this->ApiConfig->ClearCache);
 	}
 
@@ -1603,9 +1356,8 @@ class Taoapi {
 
 	public function __set($name, $value) {
 		if($this->taobaoData && $this->ApiConfig->AutoRestParam) {
-
 			$this->_userParam = array();
-			$this->taobaoData = NULL;
+			$this->taobaoData = null;
 		}
 		$this->_userParam[$name] = $value;
 	}
@@ -1620,7 +1372,6 @@ class Taoapi {
 
 	public function __get($name) {
 		if(!empty($this->_userParam[$name])) {
-
 			return $this->_userParam[$name];
 		}
 	}
@@ -1656,7 +1407,6 @@ class Taoapi {
 	 */
 	public function setRestNumberic($rest) {
 		$this->ApiConfig->RestNumberic = intval($rest);
-
 		return $this;
 	}
 
@@ -1666,10 +1416,8 @@ class Taoapi {
 	 * @return Taoapi
 	 */
 	public function setVersion($version, $signmode = 'md5') {
-		$this->ApiConfig->Version = intval($version);
-
+		$this->ApiConfig->Version  = intval($version);
 		$this->ApiConfig->SignMode = $signmode;
-
 		return $this;
 	}
 
@@ -1679,8 +1427,7 @@ class Taoapi {
 	 * @return Taoapi
 	 */
 	public function setCloseError() {
-		$this->ApiConfig->CloseError = FALSE;
-
+		$this->ApiConfig->CloseError = false;
 		return $this;
 	}
 
@@ -1706,7 +1453,6 @@ class Taoapi {
 				}
 			}
 		}
-
 		return $param;
 	}
 
@@ -1722,7 +1468,6 @@ class Taoapi {
 				$data = @iconv('UTF-8', $this->ApiConfig->Charset, $data);
 			}
 		}
-
 		return $data;
 	}
 
@@ -1733,7 +1478,7 @@ class Taoapi {
 	 */
 	public function Send($mode = 'GET', $format = 'xml') {
 		$imagesArray = $this->_ArrayModeData = array();
-		$tempParam = $this->_userParam;
+		$tempParam   = $this->_userParam;
 		foreach($tempParam as $key => $value) {
 			if(is_array($value)) {
 				if(!empty($value['image'])) {
@@ -1746,9 +1491,7 @@ class Taoapi {
 				$tempParam[$key] = $this->FormatUserParam($value);
 			}
 		}
-
 		if(!isset($tempParam['api_key'])) {
-
 			$systemdefault['api_key'] = key($this->ApiConfig->AppKey);
 			$systemdefault['format']  = strtolower($format);
 			$systemdefault['v']       = strpos($this->ApiConfig->Version, '.') ? $this->ApiConfig->Version : $this->ApiConfig->Version.'.0';
@@ -1756,44 +1499,29 @@ class Taoapi {
 				$systemdefault['sign_method'] = strtolower($this->ApiConfig->SignMode);
 			}
 			$systemdefault['timestamp'] = date('Y-m-d H:i:s');
-
-			$tempParam        = array_merge($tempParam, $systemdefault);
-			$this->_userParam = array_merge($this->_userParam, $systemdefault);
+			$tempParam                  = array_merge($tempParam, $systemdefault);
+			$this->_userParam           = array_merge($this->_userParam, $systemdefault);
 		}
-
 		$cacheid = $tempParam;
-
 		unset($cacheid['timestamp']); //去掉随机性数据
 		unset($cacheid['api_key']);
-
-		$cacheid = md5($this->createStrParam($cacheid));
-
+		$cacheid        = md5($this->createStrParam($cacheid));
 		$this->cache_id = $cacheid;
-
-		$method = !empty($tempParam['method']) ? $tempParam['method'] : '';
-
+		$method         = !empty($tempParam['method']) ? $tempParam['method'] : '';
 		$this->Cache->setMethod($method);
-
 		if(!$this->taobaoData = $this->Cache->getCacheData($cacheid)) {
-
-			$mode = strtoupper($mode);
-
+			$mode     = strtoupper($mode);
 			$ReadMode = array_key_exists($mode, $this->ApiConfig->PostMode) ? $this->ApiConfig->PostMode[$mode] : $ReadMode['GET'];
-
 			if($ReadMode == 'postImageSend') {
 				$this->taobaoData = $this->$ReadMode($tempParam, $imagesArray);
 			} else {
 				$this->taobaoData = $this->$ReadMode($tempParam);
 			}
-
 			$error = $this->getArrayData($this->taobaoData);
-
 			global $counttt;
-			$counttt++==1 && exit((string) __LINE__);
+			$counttt++ == 1 && exit((string)__LINE__);
 			$this->ApiCallLog();
-
 			if(isset($error['code'])) {
-
 				/*if(in_array($error['code'],array(4,5,6,7,8,25)))
 				{
 					$this->_systemParam['apicount'] = empty($this->_systemParam['apicount']) ? 1 : $this->_systemParam['apicount'] + 1;
@@ -1804,17 +1532,12 @@ class Taoapi {
 						return $this->Send($mode, $format);
 					}
 				}*/
-
 				if($this->ApiConfig->RestNumberic && empty($this->_systemParam['apicount'])) {
-
 					$this->ApiConfig->RestNumberic = $this->ApiConfig->RestNumberic - 1;
-
 					return $this->Send($mode, $format);
 				} else {
 					$tempParam['sign'] = $this->_systemParam['sign'];
-
-					$this->_errorInfo = new Taoapi_Exception($error, $tempParam, $this->ApiConfig->CloseError, $this->ApiConfig->Errorlog);
-
+					$this->_errorInfo  = new Taoapi_Exception($error, $tempParam, $this->ApiConfig->CloseError, $this->ApiConfig->Errorlog);
 					if(!$this->ApiConfig->CloseError) {
 						echo $this->FormatTaobaoData($this->_errorInfo->getErrorInfo());
 					}
@@ -1823,9 +1546,9 @@ class Taoapi {
 				$this->cache_id = $cacheid;
 			}
 		}
-
 		return $this;
 	}
+
 
 
 	public function ApiCallLog() {
@@ -1841,9 +1564,8 @@ class Taoapi {
 
 	public function getXmlData() {
 		if(empty($this->taobaoData)) {
-			return FALSE;
+			return false;
 		}
-
 		return $this->FormatTaobaoData($this->taobaoData);
 	}
 
@@ -1851,17 +1573,15 @@ class Taoapi {
 
 	public function getJsonData() {
 		if(empty($this->taobaoData)) {
-			return FALSE;
+			return false;
 		}
 		if(substr($this->taobaoData, 0, 1) != '{') {
-
 			if($this->_userParam['format'] == 'xml') {
 				$Charset                  = $this->ApiConfig->Charset;
 				$this->ApiConfig->Charset = "UTF-8";
 				$Data                     = $this->getArrayData($this->taobaoData);
 				$this->ApiConfig->Charset = $Charset;
 			}
-
 			$Data = json_encode($Data);
 			if(strpos($_SERVER['SERVER_SIGNATURE'], "Win32") > 0) {
 				$Data = preg_replace("#\\\u([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])#ie", "iconv('UCS-2','UTF-8',pack('H4', '\\1\\2'))", $Data);
@@ -1869,11 +1589,9 @@ class Taoapi {
 				$Data = preg_replace("#\\\u([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])#ie", "iconv('UCS-2','UTF-8',pack('H4', '\\2\\1'))", $Data);
 			}
 			$Data = $this->FormatTaobaoData($Data);
-
 		} else {
 			$Data = $this->taobaoData;
 		}
-
 		return $Data;
 	}
 
@@ -1881,9 +1599,8 @@ class Taoapi {
 
 	public function getArrayData() {
 		if(empty($this->taobaoData)) {
-			return FALSE;
+			return false;
 		}
-
 		if(!empty($this->taobaoData) && is_array($this->taobaoData)) {
 			if($this->_userParam['format'] == 'json') {
 				foreach($this->taobaoData as $k => $row) {
@@ -1891,13 +1608,11 @@ class Taoapi {
 				}
 			}
 		}
-
 		if(!empty($this->_ArrayModeData[$this->ApiConfig->Charset])) {
 			return $this->_ArrayModeData[$this->ApiConfig->Charset];
 		}
-
 		if($this->_userParam['format'] == 'json') {
-			$arr = dd_json_decode($this->taobaoData, TRUE);
+			$arr = dd_json_decode($this->taobaoData, true);
 			if(is_array($arr) && !isset($arr['error_response'])) {
 				$this->Cache->saveCacheData($this->cache_id, $this->taobaoData);
 			}
@@ -1906,28 +1621,20 @@ class Taoapi {
 					return $row;
 				}
 			}
-
 			return array();
 		} elseif($this->_userParam['format'] == 'xml') {
-
 			$xmlCode = simplexml_load_string($this->taobaoData, 'SimpleXMLElement', LIBXML_NOCDATA);
-
 			if(is_object($xmlCode)) {
 				$this->Cache->saveCacheData($this->cache_id, $this->taobaoData);
 			}
-
 			$taobaoData = $this->get_object_vars_final($xmlCode);
-
 			if(strtoupper($this->ApiConfig->Charset) != 'UTF-8') {
 				$taobaoData = $this->get_object_vars_final_coding($taobaoData);
 			}
-
 			$this->_ArrayModeData[$this->ApiConfig->Charset] = $taobaoData;
-
 			return $taobaoData;
-
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1941,7 +1648,6 @@ class Taoapi {
 	public function getErrorInfo() {
 		if($this->_errorInfo) {
 			if(is_object($this->_errorInfo)) {
-
 				return $this->FormatTaobaoData($this->_errorInfo->getErrorInfo());
 			} else {
 				return $this->FormatTaobaoData($this->_errorInfo);
@@ -1967,12 +1673,10 @@ class Taoapi {
 		foreach($paramArr as $key => $val) {
 			if(is_array($val)) {
 				$sign .= $this->JoinSign($val);
-
 			} elseif($key != '' && $val != '') {
 				$sign .= $key.$val;
 			}
 		}
-
 		return $sign;
 	}
 
@@ -1988,7 +1692,6 @@ class Taoapi {
 			$sign = $this->JoinSign($paramArr);
 			$sign = strtoupper(md5(current($this->ApiConfig->AppKey).$sign.current($this->ApiConfig->AppKey)));
 		}
-
 		return $sign;
 	}
 
@@ -1999,7 +1702,6 @@ class Taoapi {
 		ksort($paramArr);
 		$sign .= $this->JoinSign($paramArr);
 		$sign = strtoupper(md5($sign));
-
 		return $sign;
 	}
 
@@ -2007,13 +1709,10 @@ class Taoapi {
 
 	public function createSign($paramArr) {
 		$Version = 'SignVersion'.intval($this->ApiConfig->Version);
-
 		if(method_exists($this, $Version)) {
 			$sign = $this->{$Version}($paramArr);
 		}
-
 		$this->_systemParam['sign'] = $sign;
-
 		return $sign;
 	}
 
@@ -2026,7 +1725,6 @@ class Taoapi {
 				$strParam [] = $key.'='.urlencode($val);
 			}
 		}
-
 		return implode('&', $strParam);
 	}
 
@@ -2040,7 +1738,7 @@ class Taoapi {
 		if($num_iids == '') {
 			return $re = 'Missing required arguments:num_iids';
 		}
-		if(strpos($num_iids, ',') !== FALSE) {
+		if(strpos($num_iids, ',') !== false) {
 			if(str_replace(',', '', $num_iids) == '') {
 				return $re = 'Missing required arguments:num_iids';
 			}
@@ -2067,7 +1765,7 @@ class Taoapi {
 		if($sids == '') {
 			return $re = 'Missing required arguments:sids';
 		}
-		if(strpos($sids, ',') !== FALSE) {
+		if(strpos($sids, ',') !== false) {
 			if(str_replace(',', '', $sids) == '') {
 				return $re = 'Missing required arguments:sids';
 			}
@@ -2103,7 +1801,7 @@ class Taoapi {
 		if($users == '') {
 			return $re = 'Missing required arguments:users';
 		}
-		if(strpos($users, ',') !== FALSE) {
+		if(strpos($users, ',') !== false) {
 			if(str_replace(',', '', $users) == '') {
 				return $re = 'Missing required arguments:users';
 			}
@@ -2134,7 +1832,6 @@ class Taoapi {
 			'delist_time:desc' => '下架时间从高→低',
 			'delist_time:asc'  => '下架时间从低→高',
 		);
-
 		switch($method) {
 			case 'taobao.taobaoke.items.get':
 				if($paramArr['keyword'] == '' && $paramArr['cid'] == '') {
@@ -2147,7 +1844,6 @@ class Taoapi {
 					$re = 'max 10';
 				}
 				break;
-
 			case 'taobao.items.get':
 				if($paramArr['q'] == '' && $paramArr['cid'] == '') {
 					$re = 'Missing required arguments:cid or q';
@@ -2159,29 +1855,23 @@ class Taoapi {
 					$re = 'max 10';
 				}
 				break;
-
 			case 'taobao_items_search':
 				if($paramArr['page_no'] > 99) {
 					$re = 'max 99';
 				}
 				break;
-
 			case 'taobao.users.get':
 				$re = $this->check_users($paramArr['nicks']);
 				break;
-
 			case 'taobao.item.get':
 				$re = $this->check_num_iids($paramArr['num_iid']);
 				break;
-
 			case 'taobao.taobaoke.items.convert':
 				$re = $this->check_num_iids($paramArr['num_iids']);
 				break;
-
 			case 'taobao.taobaoke.items.detail.get':
 				$re = $this->check_num_iids($paramArr['num_iids']);
 				break;
-
 			case 'taobao.taobaoke.shops.convert':
 				if($paramArr['sids'] != '') {
 					$re = $this->check_sids($paramArr['sids']);
@@ -2190,39 +1880,32 @@ class Taoapi {
 					$re = $this->check_users($paramArr['seller_nicks']);
 				}
 				break;
-
 			case 'taobao.shop.get':
 				if($paramArr['nick'] == '') {
 					$re = 'Missing required arguments:nick';
 				}
 				break;
-
 			case 'taobao.user.get':
 				if($paramArr['nick'] == '') {
 					$re = 'Missing required arguments:nick';
 				}
 				break;
-
 			case 'taobao.itemcats.get':
 				if($paramArr['parent_cid'] == '' && $paramArr['cids'] == '') {
 					$re = 'Missing required arguments:parent_cid or cids';
 				}
 				break;
-
 			case 'taobao.taobaoke.listurl.get':
 				if($paramArr['q'] == '') {
 					$re = 'Missing required arguments:q';
 				}
 				break;
-
 			case 'taobao.taobaoke.items.relate.get':
 				if($paramArr['relate_type'] == 4 && is_numeric($paramArr['seller_id']) == '') {
 					$re = 'miss seller_id';
 				}
 				break;
-
 		}
-
 		return $re;
 	}
 
@@ -2238,7 +1921,6 @@ class Taoapi {
 			$this->_systemParam['url']  = $this->ApiConfig->Url.'?'.$strParam;
 			//访问服务
 			$result = dd_get($this->_systemParam['url']);
-
 			//if($paramArr['method']=='taobao.ump.promotion.get'){
 			//				echo 1;
 			//			}
@@ -2267,7 +1949,6 @@ class Taoapi {
 		//访问服务
 		self::$Taoapi_Util->submit($this->ApiConfig->Url, $paramArr);
 		$result = self::$Taoapi_Util->results;
-
 		//返回结果
 		return $result;
 	}
@@ -2291,7 +1972,6 @@ class Taoapi {
 		$this->_systemParam['url']       = array($this->ApiConfig->Url, $paramArr, $imageArr);
 		self::$Taoapi_Util->submit($this->ApiConfig->Url, $paramArr, $imageArr);
 		$result = self::$Taoapi_Util->results;
-
 		//返回结果
 		return $result;
 	}
@@ -2302,13 +1982,11 @@ class Taoapi {
 		if(is_object($obj)) {
 			$obj = get_object_vars($obj);
 		}
-
 		if(is_array($obj)) {
 			foreach($obj as $key => $value) {
 				$obj[$key] = $this->get_object_vars_final($value);
 			}
 		}
-
 		return $obj;
 	}
 
@@ -2322,7 +2000,6 @@ class Taoapi {
 				$obj[$key] = $this->FormatTaobaoData($value);
 			}
 		}
-
 		return $obj;
 	}
 
@@ -2337,10 +2014,9 @@ class Taoapi {
 	public function getSign() {
 		return !empty($this->_systemParam['sign']) ? $this->_systemParam['sign'] : '';
 	}
-
-
 }
-define('REPLACE',0);
+
+define('REPLACE', 0);
 global $counttt;
 $counttt = 0;
 class ddTaoapi extends Taoapi {
@@ -2352,7 +2028,6 @@ class ddTaoapi extends Taoapi {
 	public $jssdk_time = '';
 	public $jssdk_sign = '';
 	public $renminbi = 0; //是否显示原始返利
-
 	function __construct() {
 		parent::__construct();
 		if(empty($this->nowords)) {
@@ -2361,7 +2036,7 @@ class ddTaoapi extends Taoapi {
 			} else {
 				$noword_tag = '3';
 			}
-			$this->nowords =json_decode('{"\u5356\u6deb":"****","\u529e\u5047\u8bc1":"****","\u529e\u7406\u672c\u79d1":"****","\u529e\u7406\u6c11\u529e\u5b66\u6821\u6587\u51ed":"****","\u529e\u7406\u6587\u51ed":"****","\u529e\u7406\u6587\u6191":"****","\u529e\u7406\u771f\u5b9e\u6587\u51ed":"****","\u529e\u7406\u8bc1\u4ef6":"****","\u529e\u7406\u4e13\u79d1":"****","\u529e\u8bc1\u670d\u52a1":"****","\u63d2\u5165\u723d\u7f51":"****","\u8d85\u723d\u89c6\u9891":"****","\u6210\u4eba\u7535\u5f71":"****","\u4ee3\u529e\u5047\u8bc1":"****","\u4ee3\u529e\u4fe1\u7528\u5361":"****","\u4ee3\u529e\u94f6\u884c\u5361":"****","\u4ee3\u5f00\u53d1\u7968":"****","\u4ee3\u8003\u7f51":"****","\u4ee3\u8003\u7f51\u7ad9":"****","\u5bf9\u5916\u529e\u7406\u53d1\u7968":"****","\u9ec4\u8272\u7535\u5f71":"****","\u9ec4\u8272\u6f2b\u753b":"****","\u9ec4\u8272\u56fe\u7247":"****","\u9ec4\u8272\u7f51\u7ad9":"****","\u6fc0\u60c5\u7535\u5f71":"****","\u6fc0\u60c5\u4f26\u7406\u7535\u5f71":"****","\u6fc0\u60c5\u89c6\u9891":"****","\u6fc0\u60c5\u89c6\u9891\u804a\u5929":"****","\u6fc0\u60c5\u56fe":"****","\u6fc0\u60c5\u56fe\u7247":"****","\u6fc0\u60c5\u5c0f\u7535\u5f71":"****","\u5bc2\u5bde\u5c11\u5987":"****","\u8003\u751f\u7b54\u7591":"****","\u8003\u8bd5\u7b54\u6848":"****","\u4f26\u7406\u7535\u5f71":"****","\u4f26\u7406\u7535\u5f71\u5728\u7ebf":"****","\u7a83\u542c\u5668\u6750":"****","\u60c5\u8272":"****","\u60c5\u8272\u516d\u6708\u5929":"****","\u60c5\u8272\u56fe\u7247":"****","\u60c5\u8272\u4e94\u6708\u5929":"****","\u53d6\u5f97\u672c\u79d1":"****","\u53d6\u5f97\u4e13\u79d1":"****","\u5168\u56fd\u529e\u8bc1":"****","\u70ed\u8fa3\u7f8e\u56fe":"****","\u4eba\u4f53\u5199\u771f":"****","\u4eba\u4f53\u827a\u672f":"****","\u4e09\u5511\u4ed1":"****","\u6851\u62ff\u4e00\u6761\u9f99":"****","\u8272\u7535\u5f71":"****","\u8272\u754c":"****","\u8272\u60c5\u7f51\u7ad9":"****","\u8272\u5c0f\u8bf4":"****","\u8272\u8bf1":"****","\u4e0a\u6d77\u4e1d\u8db3\u6309\u6469":"****","\u5c11\u513f\u52ff\u5165":"****","\u5c11\u5973\u521d\u591c\u723d\u7247":"****","\u5c11\u5973\u9ad8\u6f6e":"****","\u5c11\u5973\u56fe\u7247":"****","\u58f0\u8272\u573a\u6240":"****","\u89c6\u9891\u6fc0\u60c5":"****","\u624b\u673a\u5b9a\u4f4d\u5668":"****","\u624b\u673a\u590d\u5236":"****","\u624b\u673a\u76d1\u542c":"****","\u624b\u673a\u76d1\u542c\u5668":"****","\u7f51\u4e0a\u529e\u8bc1":"****","\u6211\u8981\u8272\u56fe":"****","\u897f\u73ed\u7259\u82cd\u8747\u6c34":"****","\u6210\u4eba\u7528\u54c1":"****","\u786c\u5e01":"****","\u767e\u5bb6\u4e50":"****","\u7535\u5b50\u72d7":"****","\u7f51\u8d5a":"****"}', 1);;
+			$this->nowords = json_decode('{"\u5356\u6deb":"****","\u529e\u5047\u8bc1":"****","\u529e\u7406\u672c\u79d1":"****","\u529e\u7406\u6c11\u529e\u5b66\u6821\u6587\u51ed":"****","\u529e\u7406\u6587\u51ed":"****","\u529e\u7406\u6587\u6191":"****","\u529e\u7406\u771f\u5b9e\u6587\u51ed":"****","\u529e\u7406\u8bc1\u4ef6":"****","\u529e\u7406\u4e13\u79d1":"****","\u529e\u8bc1\u670d\u52a1":"****","\u63d2\u5165\u723d\u7f51":"****","\u8d85\u723d\u89c6\u9891":"****","\u6210\u4eba\u7535\u5f71":"****","\u4ee3\u529e\u5047\u8bc1":"****","\u4ee3\u529e\u4fe1\u7528\u5361":"****","\u4ee3\u529e\u94f6\u884c\u5361":"****","\u4ee3\u5f00\u53d1\u7968":"****","\u4ee3\u8003\u7f51":"****","\u4ee3\u8003\u7f51\u7ad9":"****","\u5bf9\u5916\u529e\u7406\u53d1\u7968":"****","\u9ec4\u8272\u7535\u5f71":"****","\u9ec4\u8272\u6f2b\u753b":"****","\u9ec4\u8272\u56fe\u7247":"****","\u9ec4\u8272\u7f51\u7ad9":"****","\u6fc0\u60c5\u7535\u5f71":"****","\u6fc0\u60c5\u4f26\u7406\u7535\u5f71":"****","\u6fc0\u60c5\u89c6\u9891":"****","\u6fc0\u60c5\u89c6\u9891\u804a\u5929":"****","\u6fc0\u60c5\u56fe":"****","\u6fc0\u60c5\u56fe\u7247":"****","\u6fc0\u60c5\u5c0f\u7535\u5f71":"****","\u5bc2\u5bde\u5c11\u5987":"****","\u8003\u751f\u7b54\u7591":"****","\u8003\u8bd5\u7b54\u6848":"****","\u4f26\u7406\u7535\u5f71":"****","\u4f26\u7406\u7535\u5f71\u5728\u7ebf":"****","\u7a83\u542c\u5668\u6750":"****","\u60c5\u8272":"****","\u60c5\u8272\u516d\u6708\u5929":"****","\u60c5\u8272\u56fe\u7247":"****","\u60c5\u8272\u4e94\u6708\u5929":"****","\u53d6\u5f97\u672c\u79d1":"****","\u53d6\u5f97\u4e13\u79d1":"****","\u5168\u56fd\u529e\u8bc1":"****","\u70ed\u8fa3\u7f8e\u56fe":"****","\u4eba\u4f53\u5199\u771f":"****","\u4eba\u4f53\u827a\u672f":"****","\u4e09\u5511\u4ed1":"****","\u6851\u62ff\u4e00\u6761\u9f99":"****","\u8272\u7535\u5f71":"****","\u8272\u754c":"****","\u8272\u60c5\u7f51\u7ad9":"****","\u8272\u5c0f\u8bf4":"****","\u8272\u8bf1":"****","\u4e0a\u6d77\u4e1d\u8db3\u6309\u6469":"****","\u5c11\u513f\u52ff\u5165":"****","\u5c11\u5973\u521d\u591c\u723d\u7247":"****","\u5c11\u5973\u9ad8\u6f6e":"****","\u5c11\u5973\u56fe\u7247":"****","\u58f0\u8272\u573a\u6240":"****","\u89c6\u9891\u6fc0\u60c5":"****","\u624b\u673a\u5b9a\u4f4d\u5668":"****","\u624b\u673a\u590d\u5236":"****","\u624b\u673a\u76d1\u542c":"****","\u624b\u673a\u76d1\u542c\u5668":"****","\u7f51\u4e0a\u529e\u8bc1":"****","\u6211\u8981\u8272\u56fe":"****","\u897f\u73ed\u7259\u82cd\u8747\u6c34":"****","\u6210\u4eba\u7528\u54c1":"****","\u786c\u5e01":"****","\u767e\u5bb6\u4e50":"****","\u7535\u5b50\u72d7":"****","\u7f51\u8d5a":"****"}', 1);;
 		}
 		if(empty($this->virtual_cid)) {
 			$this->virtual_cid = array('goods' => array(0 => 150401, 1 => 150402, 2 => 50011814, 3 => 150406), 'shop' => array(1103, 1041, 1102, 35, 36));
@@ -2373,7 +2048,6 @@ class ddTaoapi extends Taoapi {
 	function tbfenduan($val, $arr = array(), $level = 0) {
 		if($this->renminbi == 0) {
 			$a = fenduan($val, $arr, $level, TBMONEYBL);
-
 			return data_type($a, TBMONEYTYPE);
 		} else {
 			return $a = fenduan($val, $arr, $level, 1);
@@ -2383,7 +2057,6 @@ class ddTaoapi extends Taoapi {
 
 
 	function taobao_taobaoke_items_get($Tapparams) {
-
 		/*if(isset($Tapparams['tag'])){
 			$a=def($Tapparams['tag'],array(),array('page_size'=>$Tapparams['page_size']));
 			if($a['page_size']>0){
@@ -2391,7 +2064,6 @@ class ddTaoapi extends Taoapi {
 				$tag_goods=$a['goods'];
 			}
 		}*/
-
 		if($Tapparams['keyword'] == '' && $Tapparams['cid'] == '') {
 			return 'miss keyword or cid';
 		}
@@ -2439,26 +2111,22 @@ class ddTaoapi extends Taoapi {
 		if(isset($Tapparams['is_mobile'])) {
 			$this->is_mobile = $Tapparams['is_mobile'];
 		}
-
 		$TaobaokeData  = $this->Send('get', $this->format)->getArrayData();
 		$TaobaokeItem1 = $TaobaokeData["taobaoke_items"]["taobaoke_item"];
 		if(isset($tag_goods) && is_array($tag_goods) && !empty($tag_goods)) {
 			$TaobaokeItem1 = array_merge($tag_goods, $TaobaokeItem1);
 		}
-
 		$TotalResults = $TaobaokeData["total_results"];
 		if(!is_array($TaobaokeItem1[0])) {
 			$TaobaokeItem[0] = $TaobaokeItem1;
 		} else {
 			$TaobaokeItem = $TaobaokeItem1;
 		}
-
 		if($TotalResults > 0) {
 			$TaobaokeItem = $this->do_TaobaokeItem($TaobaokeItem);
 			if(isset($Tapparams['total'])) {
 				$TaobaokeItem['total'] = $TotalResults ? $TotalResults : 0;
 			}
-
 			return $TaobaokeItem;
 		} else {
 			return 102;
@@ -2498,10 +2166,8 @@ class ddTaoapi extends Taoapi {
 			if(isset($row['seller_credit_score'])) {
 				$TaobaokeItem[$k]['level'] = $row['seller_credit_score'];
 			}
-
 			$TaobaokeItem[$k]['name']     = strip_tags($TaobaokeItem[$k]['title']);
 			$TaobaokeItem[$k]['name_url'] = urlencode($TaobaokeItem[$k]['name']);
-
 			if(isset($TaobaokeItem[$k]['coupon_price']) && $TaobaokeItem[$k]['coupon_price'] > 0) {
 				$TaobaokeItem[$k]['jump']    = "index.php?mod=jump&act=goods&url=".urlencode(base64_encode($TaobaokeItem[$k]["click_url"])).'&pic='.urlencode(base64_encode($TaobaokeItem[$k]["pic_url"].'_100x100.jpg')).'&iid='.$TaobaokeItem[$k]['num_iid'].'&fan='.$TaobaokeItem[$k]["fxje"].'&price='.$TaobaokeItem[$k]["price"].'&name='.$TaobaokeItem[$k]["name_url"].'&coupon_price='.$TaobaokeItem[$k]['coupon_price'].'&coupon_end_time='.$TaobaokeItem[$k]['coupon_end_time'];
 				$TaobaokeItem[$k]['go_view'] = u('tao', 'view', array('iid' => $TaobaokeItem[$k]["num_iid"], 'promotion_price' => $TaobaokeItem[$k]['coupon_price'], 'promotion_endtime' => $end_time));
@@ -2509,7 +2175,6 @@ class ddTaoapi extends Taoapi {
 				$TaobaokeItem[$k]['jump']    = "index.php?mod=jump&act=goods&url=".urlencode(base64_encode($TaobaokeItem[$k]["click_url"])).'&pic='.urlencode(base64_encode($TaobaokeItem[$k]["pic_url"].'_100x100.jpg')).'&iid='.$TaobaokeItem[$k]['num_iid'].'&fan='.$TaobaokeItem[$k]["fxje"].'&price='.$TaobaokeItem[$k]["price"].'&name='.$TaobaokeItem[$k]["name_url"];
 				$TaobaokeItem[$k]['go_view'] = u('tao', 'view', array('iid' => $TaobaokeItem[$k]["num_iid"]));
 			}
-
 			if(WEBTYPE == '0') {
 				$TaobaokeItem[$k]['gourl']   = $TaobaokeItem[$k]['jump'];
 				$TaobaokeItem[$k]['go_shop'] = u('tao', 'shop', array('nick' => $TaobaokeItem[$k]["nick"]));
@@ -2518,11 +2183,9 @@ class ddTaoapi extends Taoapi {
 				$TaobaokeItem[$k]['go_shop'] = u('tao', 'shop', array('nick' => $TaobaokeItem[$k]["nick"]));
 			}
 		}
-
 		/*if($type==1 && !empty(coupon_cahche_arr)){
 		    make_cache_arr(DDROOT.'/data/Apicache/cuxiao','');
 		}*/
-
 		return $TaobaokeItem;
 	}
 
@@ -2586,7 +2249,6 @@ class ddTaoapi extends Taoapi {
 			$TaobaokeItem[$k]['click_url'] = $TaobaokeItem[$k]['detail_url'];
 			$TaobaokeItem[$k]['jump']      = "index.php?mod=jump&act=goods&url=".urlencode(base64_encode($TaobaokeItem[$k]["click_url"])).'&pic='.urlencode(base64_encode($TaobaokeItem[$k]["pic_url"].'_100x100.jpg')).'&iid='.$TaobaokeItem[$k]['num_iid'].'&fan=0&price='.$TaobaokeItem[$k]["price"].'&name='.$TaobaokeItem[$k]["name_url"];
 			$TaobaokeItem[$k]['go_view']   = u('tao', 'view', array('iid' => $TaobaokeItem[$k]["num_iid"]));
-
 			if(WEBTYPE == '0') {
 				$TaobaokeItem[$k]['gourl']   = $TaobaokeItem[$k]['jump'];
 				$TaobaokeItem[$k]['go_shop'] = u('shop', 'list', array('nick' => $TaobaokeItem[$k]["nick"]));
@@ -2613,7 +2275,6 @@ class ddTaoapi extends Taoapi {
 		$this->cids   = $cid;
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
 		$TaobaokeItem = $TaobaokeData["item_cats"]["item_cat"];
-
 		return $TaobaokeItem[0];
 	}
 
@@ -2621,10 +2282,8 @@ class ddTaoapi extends Taoapi {
 
 	function taobao_itemcats_get($cid) {
 		$TaobaokeItem = $this->taobao_itemcat_msg($cid);
-
 		if($TaobaokeItem['is_parent'] == 'true') $cid = $cid;
 		elseif($TaobaokeItem['parent_cid'] > 0) $cid = $TaobaokeItem['parent_cid'];
-
 		if($cid) {
 			$this->method     = 'taobao.itemcats.get';
 			$this->cids       = '';
@@ -2632,7 +2291,6 @@ class ddTaoapi extends Taoapi {
 			$this->fields     = 'cid,parent_cid,name,is_parent';
 			$TaobaokeData     = $this->Send('get', $this->format)->getArrayData();
 			$TaobaokeItem     = $TaobaokeData["item_cats"]["item_cat"];
-
 			return $TaobaokeItem;
 		}
 	}
@@ -2646,7 +2304,6 @@ class ddTaoapi extends Taoapi {
 		$this->fields     = 'cid,parent_cid,name,is_parent';
 		$TaobaokeData     = $this->Send('get', $this->format)->getArrayData();
 		$TaobaokeItem     = $TaobaokeData["item_cats"]["item_cat"];
-
 		return $TaobaokeItem;
 	}
 
@@ -2663,24 +2320,22 @@ class ddTaoapi extends Taoapi {
 		} else {
 			$Result_users = $Result_users1;
 		}
-
 		return $Result_users;
 	}
 
 
 
 	function taobao_item_get($Tapparams) {
-		$iid        = $Tapparams['iid'];
-		$goods_type = $Tapparams['goods_type'];
-		$ju_price   = $Tapparams['ju_price'];
-		$fields     = $Tapparams['fields'] ? $Tapparams['fields'] : 'iid,detail_url,num_iid,pic_url,title,nick,type,cid,seller_cids,num,list_time,delist_time,stuff_status,location,price,post_fee,express_fee,ems_fee,has_discount,freight_payer,item_img';
-
+		$iid           = $Tapparams['iid'];
+		$goods_type    = $Tapparams['goods_type'];
+		$ju_price      = $Tapparams['ju_price'];
+		$fields        = $Tapparams['fields'] ? $Tapparams['fields'] : 'iid,detail_url,num_iid,pic_url,title,nick,type,cid,seller_cids,num,list_time,delist_time,stuff_status,location,price,post_fee,express_fee,ems_fee,has_discount,freight_payer,item_img';
 		$this->method  = 'taobao.item.get';
 		$this->fields  = $fields;
 		$this->num_iid = $iid;
 		$TaobaoData    = $this->Send('get', $this->format)->getArrayData();
 		exit((string)__LINE__);
-		$a             = $TaobaoData['item'];
+		$a = $TaobaoData['item'];
 		if($a['title'] == '') {
 			return 102;
 		}
@@ -2705,9 +2360,7 @@ class ddTaoapi extends Taoapi {
 		$a['title'] = dd_replace($a['title'], $this->nowords);
 		$a['desc']  = dd_replace($a['desc'], $this->nowords);
 		$a['jump']  = 'http://item.taobao.com/item.htm?id='.$iid;
-
 		return $a;
-
 		/*//查询是否有缓存数据
 		$cacheid=array ( 'method' => 'taobao.item.get', 'fields' => $fields, 'num_iid' => $iid, 'format' => $this->format, 'v' => '2.0', 'sign_method' => 'md5') ;
 		$cacheid = md5($this->createStrParam($cacheid));
@@ -2717,7 +2370,6 @@ class ddTaoapi extends Taoapi {
 		    $taobaoData = self::$collect->get_object_vars_final($xmlCode);
 		    return $taobaoData['item'];
 		}
-
 		$url='http://item.taobao.com/item.htm?id='.$iid; //检测商品是否存在，避免api错误
 		self::$collect->get($url);
 		$html=self::$collect->val;
@@ -2749,11 +2401,9 @@ class ddTaoapi extends Taoapi {
 		}
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
 		$goods        = $TaobaokeData["taobaoke_item_details"]["taobaoke_item_detail"][0]['item'];
-
-		if(strpos($goods['title'], "'") !== FALSE) {
+		if(strpos($goods['title'], "'") !== false) {
 			$goods['title'] = str_replace("'", '', $goods['title']);
 		}
-
 		if($goods['title'] != '') {
 			if(strpos($goods['title'], '&amp;')) {
 				$goods['title'] = str_replace('&amp;', '&', $goods['title']);
@@ -2762,7 +2412,6 @@ class ddTaoapi extends Taoapi {
 			$goods['seller_credit_score'] = $TaobaokeData["taobaoke_item_details"]["taobaoke_item_detail"][0]['seller_credit_score'];
 			$goods['shop_click_url']      = $TaobaokeData["taobaoke_item_details"]["taobaoke_item_detail"][0]['shop_click_url'];
 		}
-
 		if($goods['title'] == '') { //商品没有返利也获取商品信 推广链接跟商品链接相同
 			$TaobaoData = $this->taobao_item_get($Tapparams);
 			if($TaobaoData == 102) {
@@ -2771,7 +2420,6 @@ class ddTaoapi extends Taoapi {
 			$TaobaoData['click_url'] = $TaobaoData['detail_url'];
 			$goods                   = $TaobaoData;
 		}
-
 		exit((string)__LINE__);
 		if($goods['title'] != '') {
 			if($goods['freight_payer'] == "seller") {
@@ -2786,7 +2434,6 @@ class ddTaoapi extends Taoapi {
 		} else {
 			$goods = 102;
 		}
-
 		return $goods;
 	}
 
@@ -2802,17 +2449,14 @@ class ddTaoapi extends Taoapi {
 		} else {
 			$this->fields = 'num_iid,title,nick,cid,pic_url,num,location,price,seller_credit_score,shop_click_url,click_url,volume';
 		}
-
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
 		if(isset($TaobaokeData["taobaoke_item_details"]["taobaoke_item_detail"])) {
 			$goods = $TaobaokeData["taobaoke_item_details"]["taobaoke_item_detail"];
-
 			foreach($goods as $k => $row) {
 				$goods[$k] = $row['item'];
 				unset($goods[$k]['item']);
 			}
 		}
-
 		return $goods;
 	}
 
@@ -2827,13 +2471,10 @@ class ddTaoapi extends Taoapi {
 		} else {
 			$this->fields = 'num_iid,title,nick,cid,pic_url,num,location,price,seller_credit_score,shop_click_url,click_url,volume';
 		}
-
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-
 		if(isset($TaobaokeData["items"]["item"])) {
 			$goods = $TaobaokeData["items"]["item"];
 		}
-
 		return $goods;
 	}
 
@@ -2853,7 +2494,6 @@ class ddTaoapi extends Taoapi {
 			$a1             = $CommData['taobaoke_items']['taobaoke_item'];
 			$a              = array_merge($a, $a1);
 		}
-
 		return $a;
 	}
 
@@ -2875,7 +2515,6 @@ class ddTaoapi extends Taoapi {
 		$sellers['city']      = $Result_users["location"]['city'];
 		$sellers['type']      = $Result_users["type"]; //B(商城用户),C(普通卖家)
 		$sellers['nick']      = $nick;
-
 		return $sellers;
 	}
 
@@ -2948,7 +2587,6 @@ class ddTaoapi extends Taoapi {
 			$data       = $this->Send('get', $this->format)->getArrayData();
 			$shopinfo   = $data['taobaoke_shops']['taobaoke_shop'];
 		}
-
 		return $shopinfo;
 	}
 
@@ -3002,7 +2640,6 @@ class ddTaoapi extends Taoapi {
 				$shop['pic_path'] = 'images/tbdp.gif';
 			}
 		}
-
 		return $shop;
 	}
 
@@ -3032,7 +2669,6 @@ class ddTaoapi extends Taoapi {
 		if($Tapparams['total']) {
 			$TaobaokeItem['total'] = $TotalResults;
 		}
-
 		return $TaobaokeItem;
 	}
 
@@ -3059,11 +2695,9 @@ class ddTaoapi extends Taoapi {
 			} else {
 				$TaobaokeItem[0] = $TaobaokeItem1;
 			}
-
 		} else {
 			$TaobaokeItem = $TaobaokeItem1;
 		}
-
 		//$TaobaokeItem['total']=$total_results;
 		return $TaobaokeItem;
 	}
@@ -3075,7 +2709,6 @@ class ddTaoapi extends Taoapi {
 		$Tapparams['seller_id']   = $Tapparams['uid'];
 		$Tapparams['max_count']   = $Tapparams['count'] ? $Tapparams['count'] : 40;
 		$TaobaokeItem             = $this->taobao_taobaoke_items_relate_get($Tapparams);
-
 		if(isset($Tapparams['taoke']) && $Tapparams['taoke'] == 1 && !empty($TaobaokeItem)) {
 			foreach($TaobaokeItem as $k => $row) {
 				$TaobaokeItem[$k]['fxje']     = $this->tbfenduan($TaobaokeItem[$k]["commission"], $this->ApiConfig->fxbl, $this->dduser['level']);
@@ -3128,7 +2761,6 @@ class ddTaoapi extends Taoapi {
 				$TaobaokeItem[$k]['nick'] = $Tapparams['nick'];
 			}
 		}
-
 		return $TaobaokeItem;
 	}
 
@@ -3157,13 +2789,11 @@ class ddTaoapi extends Taoapi {
 				//获取卖家信息
 				$c         = count($TaobaokeItem);
 				$shopinfos = $this->taobao_taobaoke_shops_convert(array('nick' => $nicks));
-
 				foreach($shopinfos as $k => $row) {
 					$nick            = $row['seller_nick'];
 					$shopinfo[$nick] = $row;
 				}
 				unset($shopinfos);
-
 				foreach($TaobaokeItem as $k => $row) {
 					$nick = $row["nick"];
 					if($shopinfo[$nick]['shop_type'] == 'B') {
@@ -3179,7 +2809,6 @@ class ddTaoapi extends Taoapi {
 		if($Tapparams['total'] == 1) {
 			$TaobaokeItem['total'] = $total;
 		}
-
 		return $TaobaokeItem;
 	}
 
@@ -3188,7 +2817,6 @@ class ddTaoapi extends Taoapi {
 	function items_detail_get($Tapparams) {
 		$goods = $this->taobao_taobaoke_items_detail_get($Tapparams);
 		if($goods == 102) return 102;
-
 		exit($ReadMode.(string)__LINE__);
 		if($Tapparams['goods_type'] == 'tmall') { //返现为0但是为天猫商品
 			exit('3202');
@@ -3204,14 +2832,11 @@ class ddTaoapi extends Taoapi {
 			if($goods['notaoke'] == 1) {
 				$goods['click_url'] = $this->taobao_taobaoke_t9('http://detail.tmall.com/item.htm?id='.$goods['num_iid'], $Tapparams['outer_code']); //t9要采用天猫连接
 			}
-
 			$goods['price']         = $Tapparams['ju_price'];
 			$goods['ju_commission'] = $goods['price'] * $this->ApiConfig->ju_commission_rate; //聚划算全站佣金
 			$goods['ju_fxje']       = $this->tbfenduan($goods['ju_commission'], $this->ApiConfig->fxbl, $this->dduser['level']);
 		}
-
 		$goods['jump'] = "index.php?mod=jump&act=goods&url=".urlencode(base64_encode($goods['click_url'])).'&pic='.urlencode(base64_encode($goods["pic_url"].'_100x100.jpg')).'&price='.$goods["price"].'&name='.urlencode($goods["title"]).'&iid='.$goods['num_iid'];
-
 		if($promotion['price'] > 0) {
 			$goods['promotion_price']   = $promotion['price'];
 			$goods['promotion_name']    = $promotion['name'];
@@ -3221,7 +2846,6 @@ class ddTaoapi extends Taoapi {
 			}
 			$goods['jump'] .= '&promotion_price='.$goods['promotion_price'].'&promotion_endtime='.$goods['promotion_endtime'];
 		}
-
 		return $goods;
 	}
 
@@ -3255,7 +2879,6 @@ class ddTaoapi extends Taoapi {
 	function taobao_time_get() {
 		$this->method = 'taobao.time.get';
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['time'];
 	}
 
@@ -3283,9 +2906,7 @@ class ddTaoapi extends Taoapi {
 		} else {
 			$api = 1;
 		}
-
 		if($api == 0) return;
-
 		$this->method     = 'taobao.ump.promotion.get';
 		$this->item_id    = $iid;
 		$TaobaokeData     = $this->Send('get', $this->format)->getArrayData();
@@ -3331,7 +2952,6 @@ class ddTaoapi extends Taoapi {
 			$content     = json_encode($data);
 			create_file($filename, $content);
 		}
-
 		if($type == 'json') {
 			return $content;
 		} else {
@@ -3343,13 +2963,11 @@ class ddTaoapi extends Taoapi {
 
 	function taobao_taobaoke_listurl_get($q, $outer_code) { //S8接口，可以自己拼装url
 		$url = 'http://s8.taobao.com/search?q='.rawurlencode(iconv('utf-8', 'gbk//IGNORE', $q)).'&pid=mm_'.$this->ApiConfig->taobao_search_pid.'&commend=all&unid='.$outer_code.'&taoke_type=1';
-
 		return spm($url);
 		$this->method     = 'taobao.taobaoke.listurl.get';
 		$this->q          = $q;
 		$this->outer_code = $outer_code;
 		$TaobaokeData     = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['taobaoke_item']['keyword_click_url'].'&taoke_type=1';
 	}
 
@@ -3357,7 +2975,6 @@ class ddTaoapi extends Taoapi {
 
 	function taobao_taobaoke_t9($url, $u) {
 		$url = spm($url);
-
 		return 'http://s.click.taobao.com/t_9?p=mm_'.$this->ApiConfig->taobao_pid.'_0_0&l='.urlencode($url).'&unid='.$u;
 	}
 
@@ -3465,11 +3082,9 @@ class ddTaoapi extends Taoapi {
 		}
 		if($TotalResults > 0) {
 			$TaobaokeItem = $this->do_TaobaokeItem($TaobaokeItem); //促销价格缓存
-
 			if(isset($Tapparams['total'])) {
 				$TaobaokeItem['total'] = $TotalResults ? $TotalResults : 0;
 			}
-
 			return $TaobaokeItem;
 		} else {
 			return 102;
@@ -3481,7 +3096,6 @@ class ddTaoapi extends Taoapi {
 	function taobao_shopcats_list_get() {
 		$this->method = 'taobao.shopcats.list.get';
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['shop_cats']['shop_cat'];
 	}
 
@@ -3564,7 +3178,6 @@ class ddTaoapi extends Taoapi {
 		$this->sort        = $Tapparams['sort'] ? $Tapparams['sort'] : 'default'; //default(默认排序,关联推荐相关度),price_desc(价格从高到低), price_asc(价格从低到高),commissionRate_desc(佣金比率从高到低), commissionRate_asc(佣金比率从低到高), commissionNum_desc(成交量成高到低), commissionNum_asc(成交量从低到高)
 		$this->max_count   = $Tapparams['max_count'] ? $Tapparams['max_count'] : 40;
 		$TaobaokeData      = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['taobaoke_items']['taobaoke_item'];
 	}
 
@@ -3577,7 +3190,6 @@ class ddTaoapi extends Taoapi {
 		$this->count          = $Tapparams['count'] ? $Tapparams['count'] : 10;
 		$this->ext            = $Tapparams['ext'];
 		$TaobaokeData         = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['favorite_items']['favorite_item'];
 	}
 
@@ -3592,8 +3204,7 @@ class ddTaoapi extends Taoapi {
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
 		$total        = $TaobaokeData['total_results'];
 		$TaobaokeItem = $TaobaokeData['item_list']['tmall_search_tm_item'];
-
-		$num_iids = '';
+		$num_iids     = '';
 		foreach($TaobaokeItem as $k => $row) {
 			preg_match('/(\d+)_track_\d+/', $row['track_iid'], $a);
 			$num_iid = $a[1];
@@ -3601,10 +3212,8 @@ class ddTaoapi extends Taoapi {
 			$num_iid_arr[$num_iid] = $k;
 		}
 		$num_iids = preg_replace('/,$/', '', $num_iids);
-
-		$a = $this->taobao_taobaoke_items_convert($num_iids, $Tapparams['outer_code']);
+		$a        = $this->taobao_taobaoke_items_convert($num_iids, $Tapparams['outer_code']);
 		unset($a['total']);
-
 		foreach($a as $i => $v) {
 			$k                                  = $num_iid_arr[(string)$v['num_iid']];
 			$TaobaokeItem[$k]['num_iid']        = $v['num_iid'];
@@ -3614,7 +3223,6 @@ class ddTaoapi extends Taoapi {
 			$TaobaokeItem[$k]['commission_num'] = $v['commission_num'];
 			//$TaobaokeItem[$k]['fxje']=round($TaobaokeItem[$k]['promotion_price']*$TaobaokeItem[$k]['commission']/$TaobaokeItem[$k]['price'],2);
 		}
-
 		foreach($TaobaokeItem as $k => $row) {
 			if(isset($row['num_iid'])) {
 				$goods[] = $row;
@@ -3624,7 +3232,6 @@ class ddTaoapi extends Taoapi {
 		if(isset($Tapparams['total']) && $Tapparams['total'] > 0) {
 			$goods['total'] = $total;
 		}
-
 		return $goods;
 	}
 
@@ -3634,7 +3241,6 @@ class ddTaoapi extends Taoapi {
 		$this->method = 'tmall.temai.subcats.search';
 		$this->cat    = $cid ? $cid : 50100982;
 		$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-
 		return $TaobaokeData['cat_list']['tmall_tm_cat'];
 	}
 
@@ -3647,9 +3253,7 @@ class ddTaoapi extends Taoapi {
 		if($edate == '') {
 			$edate = date("Y-m-d", strtotime("-1 day"));
 		}
-
 		$chaday = date('Ymd', strtotime($edate)) - date('Ymd', strtotime($sdate));
-
 		for($i = 0; $i <= $chaday; $i++) {
 			$this->method = 'taobao.spmeffect.get';
 			$day          = date("Y-m-d", strtotime($sdate." +".$i." day"));
@@ -3657,7 +3261,6 @@ class ddTaoapi extends Taoapi {
 			$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
 			$a[$day]      = $TaobaokeData['spm_result']['spm_site'];
 		}
-
 		return $a;
 	}
 
@@ -3677,17 +3280,14 @@ class ddTaoapi extends Taoapi {
 		$TaobaokeData      = $this->Send('get', $this->format)->getArrayData();
 		$total             = $TaobaokeData['total_results'];
 		$TaobaokeItem      = $TaobaokeData['item_list']['tmall_search_item'];
-
-		$num_iids = '';
+		$num_iids          = '';
 		foreach($TaobaokeItem as $k => $row) {
 			$num_iid = $row['item_id'];
 			$num_iids .= $num_iid.',';
 			$num_iid_arr[(string)$num_iid] = $k;
 		}
 		$num_iids = preg_replace('/,$/', '', $num_iids);
-
-		$a = $this->taobao_taobaoke_items_convert($num_iids, $Tapparams['outer_code']);
-
+		$a        = $this->taobao_taobaoke_items_convert($num_iids, $Tapparams['outer_code']);
 		foreach($a as $i => $v) {
 			$k                                   = $num_iid_arr[(string)$v['num_iid']];
 			$TaobaokeItem[$k]['num_iid']         = $v['num_iid'];
@@ -3699,7 +3299,6 @@ class ddTaoapi extends Taoapi {
 			$TaobaokeItem[$k]['commission_rate'] = $v['commission_rate'];
 			//$TaobaokeItem[$k]['fxje']=round($TaobaokeItem[$k]['promotion_price']*$TaobaokeItem[$k]['commission']/$TaobaokeItem[$k]['price'],2);
 		}
-
 		foreach($TaobaokeItem as $k => $row) {
 			if(isset($row['num_iid'])) {
 				$goods[] = $row;
@@ -3709,7 +3308,6 @@ class ddTaoapi extends Taoapi {
 		if(isset($Tapparams['total']) && $Tapparams['total'] > 0) {
 			$goods['total'] = $total;
 		}
-
 		return $goods;
 	}
 
@@ -3777,19 +3375,15 @@ class ddTaoapi extends Taoapi {
 	function taobao_taobaoke_rebate_report_get($start_time) {
 		$goods   = array();
 		$page_no = 1;
-
 		for($i = 1; $i <= 6; $i++) {
 			$_start_time      = date('Y-m-d H:i:s', strtotime($start_time) + ($i - 1) * 600);
 			$this->start_time = $_start_time;
 			$this->page_no    = $page_no;
-
-			$this->method    = 'taobao.taobaoke.rebate.report.get';
-			$this->fields    = 'app_key,outer_code,trade_id,pay_time,pay_price,num_iid,item_title,item_num,category_id,category_name,shop_title,commission_rate,commission,iid,seller_nick,real_pay_fee';
-			$this->span      = 600;
-			$this->page_size = TAO_REPORT_GET_NUM;
-
-			$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-
+			$this->method     = 'taobao.taobaoke.rebate.report.get';
+			$this->fields     = 'app_key,outer_code,trade_id,pay_time,pay_price,num_iid,item_title,item_num,category_id,category_name,shop_title,commission_rate,commission,iid,seller_nick,real_pay_fee';
+			$this->span       = 600;
+			$this->page_size  = TAO_REPORT_GET_NUM;
+			$TaobaokeData     = $this->Send('get', $this->format)->getArrayData();
 			if(isset($TaobaokeData['code'])) {
 				echo $_start_time;
 				print_r($TaobaokeData);
@@ -3805,16 +3399,13 @@ class ddTaoapi extends Taoapi {
 						$this->fields    = 'app_key,outer_code,trade_id,pay_time,pay_price,num_iid,item_title,item_num,category_id,category_name,shop_title,commission_rate,commission,iid,seller_nick,real_pay_fee';
 						$this->span      = 600;
 						$this->page_size = TAO_REPORT_GET_NUM;
-
-						$TaobaokeData = $this->Send('get', $this->format)->getArrayData();
-						$_goods       = $TaobaokeData['taobaoke_payments']['taobaoke_payment'];
-						$goods        = array_merge($goods, $_goods);
+						$TaobaokeData    = $this->Send('get', $this->format)->getArrayData();
+						$_goods          = $TaobaokeData['taobaoke_payments']['taobaoke_payment'];
+						$goods           = array_merge($goods, $_goods);
 					}
 				}
-
 			}
 		}
-
 		return $goods;
 	}
 
@@ -3864,18 +3455,14 @@ class Taoapi_Config {
 		警告: 修改该文件必须保存为无ROM头的文件,也就是去掉文件头签名
 		如果使用记事本改的话可能会出现获取数据乱码的问题
 		*/
-
 		//设置获取数据的编码. 支持UTF-8 GBK GB2312
 		//需要 iconv或mb_convert_encoding 函数支持
 		//UTF-8 不可写成UTF8
 		$apiConfig['Charset'] = 'UTF-8';
-
 		//设置数据环境
 		//true 测试环境 false 正式环境
-		$apiConfig['TestMode'] = FALSE;
-
+		$apiConfig['TestMode'] = false;
 		//您的appKey和appSecret 支持多个appKey
-
 		global $webset;
 		$key_arr = $webset['appkey'];
 		$k_nums  = 0;
@@ -3889,7 +3476,6 @@ class Taoapi_Config {
 			$result = '';
 			//概率数组的总概率精度
 			$proSum = array_sum($proArr);
-
 			foreach($proArr as $key => $proCur) {
 				$randNum = mt_rand(1, $proSum);
 				if($randNum <= $proCur) {
@@ -3899,7 +3485,6 @@ class Taoapi_Config {
 					$proSum -= $proCur;
 				}
 			}
-
 			return $result;
 		}
 
@@ -3908,77 +3493,54 @@ class Taoapi_Config {
 			$apiConfig['AppKey'][$key_arr[$result]['key']] = $key_arr[$result]['secret'];
 			unset($proArr[$result]);
 		}
-
 		if(MOD == 'tao' && ACT == 'report') { //获取订单，只是用一个key，并赋值session
 			$apiConfig['AppKey'][$webset['taoapi']['jssdk_key']] = $webset['taoapi']['jssdk_secret'];
 			$error_word                                          = 'appkey列表不能为空！';
 		}
-
 		if(empty($apiConfig['AppKey'])) {
 			PutInfo($error_word);
 		}
-
 		//当appKey不只一个时,API次数超限后自动启用下一个APPKEY
 		//false:关闭 true:开启
-		$apiConfig['AppKeyAuto'] = TRUE;
-
+		$apiConfig['AppKeyAuto'] = true;
 		//设置API版本,1 表示1.0 2表示2.0
 		$apiConfig['Version'] = 2;
-
 		//设置sign加密方式,支持 md5 和 hmac
 		//版本2.0时才可以使用 hmac
 		$apiConfig['SignMode'] = 'md5';
-
 		//显示或关闭错语提示,
 		//true:关闭 false:开启
-		$apiConfig['CloseError'] = TRUE;
-
+		$apiConfig['CloseError'] = true;
 		//开启或关闭API调用日志功能,开启后可以查看到每天APPKEY调用的次数以及调用的API
 		//false:关闭 true:开启
-		$apiConfig['ApiLog'] = FALSE;
-
+		$apiConfig['ApiLog'] = false;
 		//开启或关闭错误日志功能
 		//false:关闭 true:开启
-
 		$apiConfig['Errorlog'] = (int)$webset['taoapi']['errorlog'];
-
 		//设置API读取失败时重试的次数,可以提高API的稳定性,默认为3次
 		$apiConfig['RestNumberic'] = 0;
-
 		//设置数据缓存的时间,单位:小时;0表示不缓存
-
 		$apiConfig['Cache'] = $webset['taoapi']['cache_time'];
-
 		//设置缓存保存的目录
 		$apiConfig['CachePath'] = DDROOT.'/data/temp/taoapi';
-
 		//积分比例
 		$apiConfig['fxbl'] = $webset['fxbl'];
-
 		//淘宝账号
 		$apiConfig['taobao_nick'] = $webset['taobao_nick'];
-
 		//淘宝pid
 		$apiConfig['taobao_pid'] = $webset['taobao_pid'];
-
 		//搜索框完整pid
 		$apiConfig['taobao_search_pid'] = $webset['taoapi']['taobao_search_pid'];
-
 		//天猫全站返利1.5%  个别类别（黄金，家电等0.5%）
 		$apiConfig['tmall_commission_rate'] = $webset['taoapi']['tmall_commission_rate'] >= 0 ? $webset['taoapi']['tmall_commission_rate'] : 0.005;
-
 		//聚划算全站返利2% 平均值
 		$apiConfig['ju_commission_rate'] = $webset['taoapi']['ju_commission_rate'] >= 0 ? $webset['taoapi']['ju_commission_rate'] : 0.01;
-
 		//是否获取商品实时价格
 		$apiConfig['promotion'] = $webset['taoapi']['promotion'];
-
 		//jssdk_key
 		$apiConfig['jssdk_key'] = $webset['taoapi']['jssdk_key'];
-
 		//是否获取商品实时价格
 		$apiConfig['jssdk_secret'] = $webset['taoapi']['jssdk_secret'];
-
 		//自动清除过期缓存的时间间隔，
 		//格式是：* * * *
 		//其中第一个数表示分钟，第二个数表示小时，第三个数表示日期，第四个数表示月份
@@ -3990,12 +3552,10 @@ class Taoapi_Config {
 		//如果设为0或格式不对将不开启此功能
 		//缓存清除操作每天只会执行一次
 		$apiConfig['ClearCache'] = "1,4,7,10,14 * * *"; //默认为每小时的 1 3 7 10 14 进行自动缓存清除
-
 		//每次调用API后自动清除原有传入参数
 		//false:关闭 true:开启
-		$apiConfig['AutoRestParam'] = TRUE;
+		$apiConfig['AutoRestParam'] = true;
 		unset($webset);
-
 		return $apiConfig;
 	}
 
@@ -4016,7 +3576,6 @@ class Taoapi_Config {
 		if(!self::$_init) {
 			self::$_init = new Taoapi_Config();
 		}
-
 		return self::$_init;
 	}
 
@@ -4029,7 +3588,7 @@ class Taoapi_Config {
 	 *
 	 * @return Taoapi_Config
 	 */
-	public function setTestMode($test = TRUE) {
+	public function setTestMode($test = true) {
 		if($test) {
 			$this->_Config['Container'] = 'http://container.api.tbsandbox.com/container';
 			$this->_Config['Url']       = 'http://gw.api.tbsandbox.com/router/rest';
@@ -4037,7 +3596,6 @@ class Taoapi_Config {
 			$this->_Config['Container'] = 'http://container.api.taobao.com/container';
 			$this->_Config['Url']       = 'http://gw.api.taobao.com/router/rest';
 		}
-
 		return $this;
 	}
 
@@ -4054,7 +3612,6 @@ class Taoapi_Config {
 	 */
 	public function setCharset($Charset) {
 		$this->_Config['Charset'] = $Charset;
-
 		return $this;
 	}
 
@@ -4073,7 +3630,6 @@ class Taoapi_Config {
 		} else {
 			$this->_Config['AppKey'][$key] = 0;
 		}
-
 		return $this;
 	}
 
@@ -4088,11 +3644,9 @@ class Taoapi_Config {
 	 */
 	public function setAppSecret($Secret) {
 		$key = array_search('0', $this->_Config['AppKey']);
-
 		if($key) {
 			$this->_Config['AppKey'][$key] = $Secret;
 		}
-
 		return $this;
 	}
 
@@ -4107,7 +3661,6 @@ class Taoapi_Config {
 	 */
 	public function setAppKeyAuto($AppKeyAuto) {
 		$this->_Config['AppKeyAuto'] = (bool)$AppKeyAuto;
-
 		return $this;
 	}
 
@@ -4125,7 +3678,6 @@ class Taoapi_Config {
 	public function setVersion($version, $signmode = 'md5') {
 		$this->_Config['Version']  = intval($version);
 		$this->_Config['SignMode'] = $signmode;
-
 		return $this;
 	}
 
@@ -4140,7 +3692,6 @@ class Taoapi_Config {
 	 */
 	public function setSignMode($signmode = 'md5') {
 		$this->_Config['SignMode'] = $signmode;
-
 		return $this;
 	}
 
@@ -4153,9 +3704,8 @@ class Taoapi_Config {
 	 *
 	 * @return Taoapi_Config
 	 */
-	public function setCloseError($CloseError = TRUE) {
+	public function setCloseError($CloseError = true) {
 		$this->_Config['CloseError'] = (bool)$CloseError;
-
 		return $this;
 	}
 
@@ -4171,7 +3721,6 @@ class Taoapi_Config {
 	 */
 	public function setApiLog($Log) {
 		$this->_Config['ApiLog'] = (bool)$Log;
-
 		return $this;
 	}
 
@@ -4186,7 +3735,6 @@ class Taoapi_Config {
 	 */
 	public function setErrorlog($Errorlog) {
 		$this->_Config['Errorlog'] = $Errorlog;
-
 		return $this;
 	}
 
@@ -4202,7 +3750,6 @@ class Taoapi_Config {
 	 */
 	public function setRestNumberic($RestNumberic) {
 		$this->_Config['RestNumberic'] = intval($RestNumberic);;
-
 		return $this;
 	}
 
@@ -4218,7 +3765,6 @@ class Taoapi_Config {
 	 */
 	public function setCache($cache = 0) {
 		$this->_Config['Cache'] = intval($cache);
-
 		return $this;
 	}
 
@@ -4233,7 +3779,6 @@ class Taoapi_Config {
 	 */
 	public function setCachePath($CachePath) {
 		$this->_Config['CachePath'] = $CachePath;
-
 		return $this;
 	}
 
@@ -4288,7 +3833,6 @@ class Taoapi_Cache {
 	 */
 	public function setCacheTime($time) {
 		$this->_cachetime = intval($time);
-
 		return $this;
 	}
 
@@ -4299,7 +3843,6 @@ class Taoapi_Cache {
 	 */
 	public function setClearCache($param) {
 		$this->_ClearCache = $param;
-
 		return $this;
 	}
 
@@ -4310,17 +3853,14 @@ class Taoapi_Cache {
 	 */
 	public function setCachePath($CachePath) {
 		$this->_CachePath = substr($CachePath, -1, 1) == '/' ? $CachePath : $CachePath.'/';
-
 		return $this;
 	}
 
 
 
 	public function saveCacheData($id, $result) {
-		if($result == '') return FALSE;
-
+		if($result == '') return false;
 		$idkey = substr($id, 0, 2);
-
 		if($this->_cachetime) {
 			$filepath = $this->_CachePath.$this->_method.'/'.$idkey;
 			$filename = $filepath.'/'.$id.'.json';
@@ -4332,83 +3872,67 @@ class Taoapi_Cache {
 
 	private function checkClearTime() {
 		$CacheParam = explode(" ", $this->_ClearCache);
-
 		if(!$this->_ClearCache || count($CacheParam) !== 4) {
-			return FALSE;
+			return false;
 		}
-
 		if($CacheParam[3] != "*") {
 			$CacheParam[3] = explode(",", $CacheParam[3]);
-
 			if(!in_array(date('m'), $CacheParam[3])) {
-				return FALSE;
+				return false;
 			}
 		}
-
 		if($CacheParam[2] != "*") {
 			$CacheParam[2] = explode(",", $CacheParam[2]);
-
 			if(!in_array(date('d'), $CacheParam[2])) {
-				return FALSE;
+				return false;
 			}
 		}
 		if($CacheParam[1] != "*") {
 			$CacheParam[1] = explode(",", $CacheParam[1]);
-
 			if(!in_array(date('H'), $CacheParam[1])) {
-				return FALSE;
+				return false;
 			}
 		}
-
 		if($CacheParam[0] != "*") {
 			$CacheParam[0] = explode(",", $CacheParam[0]);
-
 			if(!in_array(date('i'), $CacheParam[0])) {
-				return FALSE;
+				return false;
 			}
 		}
-
 		$cachetag = $this->_CachePath."autoclear.tag";
-
 		if(file_exists($cachetag)) {
 			$filetime = date('U', filemtime($cachetag));
-
 			if(date("d") == date("d", $filetime)) {
-				return FALSE;
+				return false;
 			}
 		}
 		file_put_contents($cachetag, date("Y-m-d H:i:s"));
-
-		return TRUE;
+		return true;
 	}
 
 
 
 	public function autoClearCache($path = '') {
 		$path = $path ? $path : $this->_CachePath;
-
 		if(empty($path)) {
-			return FALSE;
+			return false;
 		}
-
 		if($this->_cachetime) {
 			if(!is_dir($path)) {
-				return FALSE;
+				return false;
 			}
-
 			if($fdir = opendir($path)) {
 				$old_cwd = getcwd();
 				chdir($path);
 				$path = getcwd().'/';
-				while(($file = readdir($fdir)) !== FALSE) {
+				while(($file = readdir($fdir)) !== false) {
 					if(in_array($file, array('.', '..'))) {
 						continue;
 					}
-
 					if(is_dir($path.$file)) {
 						$this->autoClearCache($path.'/'.$file.'/');
 					} else {
-						if(strpos($file, ".cache") !== FALSE) {
+						if(strpos($file, ".cache") !== false) {
 							$filetime  = date('U', filemtime($path.$file));
 							$cachetime = $this->_cachetime * 60 * 60;
 							if($this->_cachetime != 0 && (TIME - $filetime) > $cachetime) {
@@ -4421,12 +3945,11 @@ class Taoapi_Cache {
 				chdir($old_cwd);
 			}
 		}
-
 	}
 
 
 
-	public function clearCache($id = NULL) {
+	public function clearCache($id = null) {
 		if($id) {
 			$filename = $this->_CachePath.$this->_method.'/'.$id.'.cache';
 			unlink($filename);
@@ -4434,11 +3957,11 @@ class Taoapi_Cache {
 			$dir = $this->_CachePath.$this->_method.'/';
 			if(is_dir($dir)) {
 				if($dh = opendir($dir)) {
-					while(($file = readdir($dh)) !== FALSE) {
+					while(($file = readdir($dh)) !== false) {
 						if(is_dir($dir.$file)) {
 							continue;
 						}
-						if(strpos($file, ".cache") !== FALSE) {
+						if(strpos($file, ".cache") !== false) {
 							unlink($dir.$file);
 						}
 					}
@@ -4458,7 +3981,6 @@ class Taoapi_Cache {
 		if($method == '') {
 			$method = $this->_method;
 		}
-
 		$idkey    = substr($id, 0, 2);
 		$filename = $this->_CachePath.$method.'/'.$idkey.'/'.$id.'.json';
 		//       if ($this->_cachetime) {
@@ -4466,15 +3988,13 @@ class Taoapi_Cache {
 			$filetime  = date('U', filemtime($filename));
 			$cachetime = $this->_cachetime * 60 * 60;
 			if($this->_cachetime != 0 && (TIME - $filetime) > $cachetime) {
-				return FALSE;
+				return false;
 			}
-			$data = dd_json_decode(file_get_contents($filename), TRUE);
-
+			$data = dd_json_decode(file_get_contents($filename), true);
 			return $data;
 		}
-
 		//        }
-		return FALSE;
+		return false;
 	}
 }
 
@@ -4493,7 +4013,7 @@ class Taoapi_Exception {
 
 
 
-	public function __construct($error, $paramArr = NULL, $closeerror = FALSE, $Errorlog = 0) {
+	public function __construct($error, $paramArr = null, $closeerror = false, $Errorlog = 0) {
 		return $this->ViewError($error, $paramArr, $closeerror, $Errorlog);
 	}
 
@@ -4506,37 +4026,36 @@ class Taoapi_Exception {
 
 
 	private function ErrorInfo($errorcode) {
-		$errorinfo[3]  = array('en' => 'Upload Fail', 'cn' => '图片上传失败');
-		$errorinfo[4]  = array('en' => 'User Call Limited', 'cn' => '用户调用次数超限');
-		$errorinfo[5]  = array('en' => 'Session Call Limited', 'cn' => '会话调用次数超限');
-		$errorinfo[6]  = array('en' => 'Partner Call Limited', 'cn' => '合作伙伴调用次数超限');
-		$errorinfo[7]  = array('en' => 'App Call Limited', 'cn' => '应用调用次数超限');
-		$errorinfo[8]  = array('en' => 'App Call Exceeds Limited Frequency', 'cn' => '应用调用频率超限');
-		$errorinfo[9]  = array('en' => 'Http Action Not Allowed', 'cn' => 'HTTP方法被禁止（请用大写的POST或GET）');
-		$errorinfo[10] = array('en' => 'Service Currently Unavailable', 'cn' => '服务不可用');
-		$errorinfo[11] = array('en' => 'Insufficient ISV Permissions', 'cn' => '开发者权限不足');
-		$errorinfo[12] = array('en' => 'Insufficient User Permissions', 'cn' => '用户权限不足');
-		$errorinfo[13] = array('en' => 'Insufficient Partner Permissions', 'cn' => '合作伙伴权限不足');
-		$errorinfo[15] = array('en' => 'Remote Service Error', 'cn' => '远程服务出错');
-		$errorinfo[21] = array('en' => 'Missing Method', 'cn' => '缺少方法名参数');
-		$errorinfo[22] = array('en' => 'Invalid Method', 'cn' => '不存在的方法名');
-		$errorinfo[23] = array('en' => 'Invalid Format', 'cn' => '非法数据格式');
-		$errorinfo[24] = array('en' => 'Missing Signature', 'cn' => '缺少签名参数');
-		$errorinfo[25] = array('en' => 'Invalid Signature', 'cn' => '非法签名');
-		$errorinfo[26] = array('en' => 'Missing Session', 'cn' => '缺少SessionKey参数');
-		$errorinfo[27] = array('en' => 'Invalid Session', 'cn' => '无效的SessionKey参数');
-		$errorinfo[28] = array('en' => 'Missing App Key', 'cn' => '缺少AppKey参数');
-		$errorinfo[29] = array('en' => 'Invalid App Key', 'cn' => '非法的AppKe参数');
-		$errorinfo[30] = array('en' => 'Missing Timestamp', 'cn' => '缺少时间戳参数');
-		$errorinfo[31] = array('en' => 'Invalid Timestamp', 'cn' => '非法的时间戳参数');
-		$errorinfo[32] = array('en' => 'Missing Version', 'cn' => '缺少版本参数');
-		$errorinfo[33] = array('en' => 'Invalid Version', 'cn' => '非法的版本参数');
-		$errorinfo[34] = array('en' => 'Unsupported Version', 'cn' => '不支持的版本号');
-		$errorinfo[40] = array('en' => 'Missing Required Arguments', 'cn' => '缺少必选参数');
-		$errorinfo[41] = array('en' => 'Invalid Arguments', 'cn' => '非法的参数');
-		$errorinfo[42] = array('en' => 'Forbidden Request', 'cn' => '请求被禁止');
-		$errorinfo[43] = array('en' => 'Parameter Error', 'cn' => '参数错误');
-
+		$errorinfo[3]   = array('en' => 'Upload Fail', 'cn' => '图片上传失败');
+		$errorinfo[4]   = array('en' => 'User Call Limited', 'cn' => '用户调用次数超限');
+		$errorinfo[5]   = array('en' => 'Session Call Limited', 'cn' => '会话调用次数超限');
+		$errorinfo[6]   = array('en' => 'Partner Call Limited', 'cn' => '合作伙伴调用次数超限');
+		$errorinfo[7]   = array('en' => 'App Call Limited', 'cn' => '应用调用次数超限');
+		$errorinfo[8]   = array('en' => 'App Call Exceeds Limited Frequency', 'cn' => '应用调用频率超限');
+		$errorinfo[9]   = array('en' => 'Http Action Not Allowed', 'cn' => 'HTTP方法被禁止（请用大写的POST或GET）');
+		$errorinfo[10]  = array('en' => 'Service Currently Unavailable', 'cn' => '服务不可用');
+		$errorinfo[11]  = array('en' => 'Insufficient ISV Permissions', 'cn' => '开发者权限不足');
+		$errorinfo[12]  = array('en' => 'Insufficient User Permissions', 'cn' => '用户权限不足');
+		$errorinfo[13]  = array('en' => 'Insufficient Partner Permissions', 'cn' => '合作伙伴权限不足');
+		$errorinfo[15]  = array('en' => 'Remote Service Error', 'cn' => '远程服务出错');
+		$errorinfo[21]  = array('en' => 'Missing Method', 'cn' => '缺少方法名参数');
+		$errorinfo[22]  = array('en' => 'Invalid Method', 'cn' => '不存在的方法名');
+		$errorinfo[23]  = array('en' => 'Invalid Format', 'cn' => '非法数据格式');
+		$errorinfo[24]  = array('en' => 'Missing Signature', 'cn' => '缺少签名参数');
+		$errorinfo[25]  = array('en' => 'Invalid Signature', 'cn' => '非法签名');
+		$errorinfo[26]  = array('en' => 'Missing Session', 'cn' => '缺少SessionKey参数');
+		$errorinfo[27]  = array('en' => 'Invalid Session', 'cn' => '无效的SessionKey参数');
+		$errorinfo[28]  = array('en' => 'Missing App Key', 'cn' => '缺少AppKey参数');
+		$errorinfo[29]  = array('en' => 'Invalid App Key', 'cn' => '非法的AppKe参数');
+		$errorinfo[30]  = array('en' => 'Missing Timestamp', 'cn' => '缺少时间戳参数');
+		$errorinfo[31]  = array('en' => 'Invalid Timestamp', 'cn' => '非法的时间戳参数');
+		$errorinfo[32]  = array('en' => 'Missing Version', 'cn' => '缺少版本参数');
+		$errorinfo[33]  = array('en' => 'Invalid Version', 'cn' => '非法的版本参数');
+		$errorinfo[34]  = array('en' => 'Unsupported Version', 'cn' => '不支持的版本号');
+		$errorinfo[40]  = array('en' => 'Missing Required Arguments', 'cn' => '缺少必选参数');
+		$errorinfo[41]  = array('en' => 'Invalid Arguments', 'cn' => '非法的参数');
+		$errorinfo[42]  = array('en' => 'Forbidden Request', 'cn' => '请求被禁止');
+		$errorinfo[43]  = array('en' => 'Parameter Error', 'cn' => '参数错误');
 		$errorinfo[501] = array('en' => 'Your Statement is Not Indexable', 'cn' => '语句不可索引');
 		$errorinfo[502] = array('en' => 'Data Service Unavailable', 'cn' => '数据服务不可用');
 		$errorinfo[503] = array('en' => 'Error While Parsing TBQL Statement', 'cn' => '无法解释TBQL语句');
@@ -4625,11 +4144,9 @@ class Taoapi_Exception {
 		$errorinfo[109] = array('en' => '服务端在生成参数的时候出了问题（一般是tair有问题）', 'cn' => '服务端在生成参数的时候出了问题（一般是tair有问题）');
 		$errorinfo[110] = array('en' => '服务端在写出参数的时候出了问题', 'cn' => '服务端在写出参数的时候出了问题');
 		$errorinfo[111] = array('en' => '服务端在生成参数的时候出了问题（一般是tair有问题）', 'cn' => '服务端在生成参数的时候出了问题（一般是tair有问题）');
-
 		if(!array_key_exists($errorcode, $errorinfo)) {
 			$errorcode = 0;
 		}
-
 		return $errorinfo[$errorcode];
 	}
 
@@ -4648,8 +4165,8 @@ class Taoapi_Exception {
 
 
 
-	public function ViewError($error, $paramArr = NULL, $closeerror = FALSE, $Errorlog = 0) {
-		$debug = debug_backtrace(FALSE);
+	public function ViewError($error, $paramArr = null, $closeerror = false, $Errorlog = 0) {
+		$debug = debug_backtrace(false);
 		rsort($debug);
 		if(is_array($error)) {
 			if($error['code'] < 100) {
@@ -4657,8 +4174,7 @@ class Taoapi_Exception {
 			} else {
 				$errorlevel = '业务级错误';
 			}
-			$errortitle = $this->ErrorInfo($error['code']);
-
+			$errortitle       = $this->ErrorInfo($error['code']);
 			$errortitle       = $errortitle ? $errortitle : array('en' => $error['sub_code'], 'cn' => $error['sub_msg']);
 			$this->_ErrorInfo = @implode("\n", $errortitle);
 			$errortitle       = (object)$errortitle;
@@ -4666,29 +4182,23 @@ class Taoapi_Exception {
 				$this->WriteError($error, $paramArr);
 			}
 			if($closeerror) {
-				return FALSE;
+				return false;
 			}
 			$errortitlediy = $errorlevel.": ".$errortitle->en." (".$errortitle->cn.")";
 		} else {
 			$errortitlediy = $error;
 		}
-
-		$view[] = "<br /><font size='1'><table dir='ltr' border='1' cellspacing='0' cellpadding='1' width=\"100%\">";
-
-		$view[] = "<tr><th align='left' bgcolor='#f57900' colspan=\"3\"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> ".$errortitlediy." in ".$debug[count($debug) - 2]['file']." on line <i>".$debug[count($debug) - 2]['line']."</i></th></tr>";
-
+		$view[]   = "<br /><font size='1'><table dir='ltr' border='1' cellspacing='0' cellpadding='1' width=\"100%\">";
+		$view[]   = "<tr><th align='left' bgcolor='#f57900' colspan=\"3\"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> ".$errortitlediy." in ".$debug[count($debug) - 2]['file']." on line <i>".$debug[count($debug) - 2]['line']."</i></th></tr>";
 		$view[]   = "<tr><th align='left' bgcolor='#e9b96e' colspan='3'>调用函数</th></tr>";
 		$view[]   = "<tr><th align='center' bgcolor='#eeeeec' width='30'>#</th><th align='left' bgcolor='#eeeeec'>函数名</th><th align='left' bgcolor='#eeeeec'>所在文件</th></tr>";
 		$mainfile = basename($debug[0]['file']);
-
-		$view[] = "<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec'>{main}(  )</td><td bgcolor='#eeeeec'>../{$mainfile}<b>:</b>0</td></tr>";
-
+		$view[]   = "<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec'>{main}(  )</td><td bgcolor='#eeeeec'>../{$mainfile}<b>:</b>0</td></tr>";
 		foreach($debug as $key => $value) {
 			$value['file'] = basename($value['file']);
 			$key           = $key + 2;
 			$view[]        = "<tr><td bgcolor='#eeeeec' align='center'>$key</td><td bgcolor='#eeeeec'>{$value['class']}{$value['type']}{$value['function']}(  )</td><td title='{$value['file']}' bgcolor='#eeeeec'>../{$value['file']}<b>:</b>{$value['line']}</td></tr>";
 		}
-
 		$view[] = '</table></font>';
 		if($paramArr) {
 			$view[] = "<br /><font size='1'><table dir='ltr' border='1' cellspacing='0' cellpadding='1' width=\"100%\">";
@@ -4702,11 +4212,9 @@ class Taoapi_Exception {
 			$view[] = "<tr><th align='left' bgcolor='#eeeeec' colspan='4' height='25px'>有任何问题请登录：<a href='http://www.taoapi.com' target='_blank'>淘宝TOP外部测试平台(Taoapi.com)</a> 进行咨询! 当前SDK版本：V2.3</th></tr>";
 			$view[] = '</table></font>';
 		}
-
 		$this->_ErrorInfo = implode("\n", $view);
 	}
 }
-
 
 function html_img($pic_url, $type = '', $alt = '', $class = '', $width = '', $height = '', $onerror_pic = '') { //type大于10为不给图片进行js加密，类型再去个位数
 	if($onerror_pic == '') {
@@ -4749,10 +4257,9 @@ function html_img($pic_url, $type = '', $alt = '', $class = '', $width = '', $he
 		$onerror = 'onerror="this.src=\''.$onerror_pic.'\'"';
 		$re      = "<img src='".base64_decode($pic_url)."' ".$alt." ".$class." style='".$width." ".$height."' ".$onerror."/>";
 	} elseif(PICJM == 0) {
-		if(strpos($alt, "'") !== FALSE) {
+		if(strpos($alt, "'") !== false) {
 			$alt = str_replace("'", '', $alt);
 		}
-
 		$re = "<SCRIPT language=javascript>setPic('".$pic_url."','".$width."','".$height."','".$alt."','".$class."','".$onerror_pic."');</SCRIPT>";
 	} elseif(PICJM == 1) {
 		$pic_url = urlencode($pic_url);
@@ -4779,103 +4286,101 @@ function html_img($pic_url, $type = '', $alt = '', $class = '', $width = '', $he
 			$re = "<img src='".SITEURL."/tbimg/".$pic_url.".jpg' ".$alt." ".$class." style='".$width." ".$height."' ".$onerror."/>";
 		}
 	}
-
 	return $re;
 }
+
 class collect {
+
 	public $num = 3;
 	public $val = '';
 	public $connect_timeout = 20; //超时时间
-	public $head='';
-	public $charset='utf-8';
-	public $target_charset='utf-8';
-	public $sock_name='';
-	public $set_func='';
+	public $head = '';
+	public $charset = 'utf-8';
+	public $target_charset = 'utf-8';
+	public $sock_name = '';
+	public $set_func = '';
+
+
 
 	function fun($url, $method) {
-		if($this->set_func!=''){
-			$set_func=$this->set_func;
-			return $this->$set_func($url,$method);
+		if($this->set_func != '') {
+			$set_func = $this->set_func;
+			return $this->$set_func($url, $method);
 		}
-		$collect=dd_get_cache('collect');
-		foreach($collect as $k=>$v){
-			if($k=='fsockopen'){
-				if(function_exists('fsockopen')){
-					$this->sock_name='fsockopen';
+		$collect = dd_get_cache('collect');
+		foreach($collect as $k => $v) {
+			if($k == 'fsockopen') {
+				if(function_exists('fsockopen')) {
+					$this->sock_name = 'fsockopen';
+				} elseif(function_exists('pfsockopen')) {
+					$this->sock_name = 'pfsockopen';
 				}
-				elseif(function_exists('pfsockopen')){
-					$this->sock_name='pfsockopen';
+				if($this->sock_name != '') {
+					return $this->fsockopen($url, $method);
 				}
-				if($this->sock_name!=''){
-					return $this->fsockopen($url,$method);
-				}
-			}
-			elseif($k=='curl' && function_exists('curl_exec')){
-				return $this->curl($url,$method);
-			}
-			elseif($k=='file_get_contents' && function_exists('file_get_contents')){
-				return $this->file_get_contents($url,$method);
+			} elseif($k == 'curl' && function_exists('curl_exec')) {
+				return $this->curl($url, $method);
+			} elseif($k == 'file_get_contents' && function_exists('file_get_contents')) {
+				return $this->file_get_contents($url, $method);
 			}
 		}
 	}
 
+
+
 	function file_get_contents($url, $method = 'get') {
-		$context['http'] = array (
+		$context['http'] = array(
 			'timeout' => $this->connect_timeout,
 		);
-		if(!empty($this->head)){
-			$context['http']['header']=$this->head;
+		if(!empty($this->head)) {
+			$context['http']['header'] = $this->head;
 		}
-		if ($method == 'get') {
-			$output = file_get_contents($url,0,stream_context_create($context));
+		if($method == 'get') {
+			$output = file_get_contents($url, 0, stream_context_create($context));
 			return $output;
 		} else {
-			$a = explode('?', $url);
-			$context['http']['method']='POST';
-			$context['http']['content']=$a[1];
-			$output = file_get_contents($a[0], false, stream_context_create($context));
+			$a                          = explode('?', $url);
+			$context['http']['method']  = 'POST';
+			$context['http']['content'] = $a[1];
+			$output                     = file_get_contents($a[0], false, stream_context_create($context));
 			return $output;
 		}
 	}
+
+
 
 	function curl($url, $method = 'get') {
 		$urlinfo = parse_url($url);
-		if (empty ($urlinfo['path'])) {
+		if(empty ($urlinfo['path'])) {
 			$urlinfo['path'] = '/';
 		}
 		$host = $urlinfo['host'];
-		if(!array_key_exists('query',$urlinfo)){
-			$urlinfo['query']='';
+		if(!array_key_exists('query', $urlinfo)) {
+			$urlinfo['query'] = '';
 		}
-		$uri = $urlinfo['path'] . $urlinfo['query'];
-
+		$uri = $urlinfo['path'].$urlinfo['query'];
 		//$header[]= "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.0; zh-CN; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1\r\n";
 		//$header[]= "Referer: http://" . $urlinfo['host'] . "\r\n";
 		//$header[]= "Connection: Close\r\n\r\n";
-
 		/* 开始一个新会话 */
 		$curl_session = curl_init();
-
 		/* 基本设置 */
 		curl_setopt($curl_session, CURLOPT_FORBID_REUSE, true); // 处理完后，关闭连接，释放资源
 		curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, true); //把结果返回，而非直接输出
-		curl_setopt($curl_session, CURLOPT_FOLLOWLOCATION,1);  //是否抓取跳转后的页面
+		curl_setopt($curl_session, CURLOPT_FOLLOWLOCATION, 1); //是否抓取跳转后的页面
 		curl_setopt($curl_session, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout); //超时时间
-
-		if(preg_match('|^https://|',$url)==1){
+		if(preg_match('|^https://|', $url) == 1) {
 			curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl_session, CURLOPT_SSL_VERIFYHOST,  false);
+			curl_setopt($curl_session, CURLOPT_SSL_VERIFYHOST, false);
 		}
-
 		$url_parts = $this->parse_raw_url($url);
-
-		if ($method == 'get') {
-			$header[]= "GET " . $urlinfo['path'] . "?" . $urlinfo['query'] . " HTTP/1.1\r\n";
-			$header[]= "Host: " . $urlinfo['host'] . "\r\n";
+		if($method == 'get') {
+			$header[] = "GET ".$urlinfo['path']."?".$urlinfo['query']." HTTP/1.1\r\n";
+			$header[] = "Host: ".$urlinfo['host']."\r\n";
 			curl_setopt($curl_session, CURLOPT_HTTPGET, true);
 		} else {
-			$a = explode('?', $url);
-			$url = $a[0];
+			$a      = explode('?', $url);
+			$url    = $a[0];
 			$params = $a[1];
 			curl_setopt($curl_session, CURLOPT_POST, true);
 			curl_setopt($curl_session, CURLOPT_POSTFIELDS, $params);
@@ -4884,81 +4389,76 @@ class collect {
 			//$header[] = 'Content-Type: application/x-www-form-urlencoded';
 			//$header[] = 'Content-Length: ' . strlen($params);
 		}
-
 		/* 设置请求地址 */
 		curl_setopt($curl_session, CURLOPT_URL, $url);
-
 		/* 设置头部信息 */
-		if(!empty($this->head)){
+		if(!empty($this->head)) {
 			unset($header);
-			$header=array($this->head);
+			$header = array($this->head);
 		}
 		curl_setopt($curl_session, CURLOPT_HTTPHEADER, $header);
-
 		$http_response = curl_exec($curl_session);
 		curl_close($curl_session);
 		return $http_response;
 	}
 
-	function fsockopen($url,$method='get', $time_out = "15"){
-		$urlarr = parse_url($url);
-		$errno = "";
-		$errstr = "";
+
+
+	function fsockopen($url, $method = 'get', $time_out = "15") {
+		$urlarr     = parse_url($url);
+		$errno      = "";
+		$errstr     = "";
 		$transports = "";
-		if ($urlarr["scheme"] == "https") {
-			$transports = "ssl://";
+		if($urlarr["scheme"] == "https") {
+			$transports     = "ssl://";
 			$urlarr["port"] = "443";
 		} else {
-			$transports = "";  //加tcp://有些主机就出错
+			$transports     = ""; //加tcp://有些主机就出错
 			$urlarr["port"] = "80";
 		}
-		$sock=$this->sock_name;
-		$fp =  $sock($transports . $urlarr['host'], $urlarr['port'], $errno, $errstr, $this->connect_timeout);
-		if (!$fp) {
+		$sock = $this->sock_name;
+		$fp   = $sock($transports.$urlarr['host'], $urlarr['port'], $errno, $errstr, $this->connect_timeout);
+		if(!$fp) {
 			//die("ERROR: $errno - $errstr<br />\n");
 		} else {
-			if(!isset($urlarr["query"])){
-				$urlarr["query"]='';
-				$url_query='';
+			if(!isset($urlarr["query"])) {
+				$urlarr["query"] = '';
+				$url_query       = '';
+			} else {
+				$url_query       = $urlarr["query"];
+				$urlarr["query"] = '?'.$urlarr["query"];
 			}
-			else{
-				$url_query=$urlarr["query"];
-				$urlarr["query"]='?'.$urlarr["query"];
+			if(!isset($urlarr["path"])) {
+				$urlarr["path"] = '/';
 			}
-			if(!isset($urlarr["path"])){
-				$urlarr["path"]='/';
-			}
-			if($method=='get'){
-				$headers="GET " . $urlarr["path"].$urlarr["query"] . " HTTP/1.0\r\n";
-				$headers.="Host: " . $urlarr["host"] . "\r\n";
+			if($method == 'get') {
+				$headers = "GET ".$urlarr["path"].$urlarr["query"]." HTTP/1.0\r\n";
+				$headers .= "Host: ".$urlarr["host"]."\r\n";
 				//$headers.="Host: " . $urlarr["host"] . "\r\n";
 				//$headers.="Host: " . $urlarr["host"] . "\r\n";
+			} elseif($method == 'post') {
+				$headers = "POST ".$urlarr["path"].$urlarr["query"]." HTTP/1.0\r\n";
+				$headers .= "Host: ".$urlarr["host"]."\r\n";
+				$headers .= "Content-type: application/x-www-form-urlencoded\r\n";
+				$headers .= "Content-length: ".strlen($url_query)."\r\n";
+				$headers .= "Accept: */*\r\n";
+				$headers .= "\r\n".$url_query."\r\n";
 			}
-			elseif($method=='post'){
-				$headers="POST " . $urlarr["path"].$urlarr["query"] . " HTTP/1.0\r\n";
-				$headers.="Host: " . $urlarr["host"] . "\r\n";
-				$headers.="Content-type: application/x-www-form-urlencoded\r\n";
-				$headers.="Content-length: " . strlen($url_query) . "\r\n";
-				$headers.="Accept: */*\r\n";
-				$headers.="\r\n".$url_query."\r\n";
-			}
-
 			//$headers .='User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)\r\n';
-			if(!empty($this->head)){
+			if(!empty($this->head)) {
 				//unset($headers);
-				$headers.=$this->head."\r\n";
+				$headers .= $this->head."\r\n";
 			}
 			$headers .= "\r\n";
-
 			fputs($fp, $headers, strlen($headers));
-			$info='';
-			$temp_info='';
-			$body=0;
-			while (!feof($fp)) {
-				$temp_info=fgets($fp,500000);
-				if($temp_info == "\r\n" || $body==1){
-					$info.=$temp_info;
-					$body=1;
+			$info      = '';
+			$temp_info = '';
+			$body      = 0;
+			while(!feof($fp)) {
+				$temp_info = fgets($fp, 500000);
+				if($temp_info == "\r\n" || $body == 1) {
+					$info .= $temp_info;
+					$body = 1;
 				}
 			}
 		}
@@ -4966,163 +4466,162 @@ class collect {
 		return trim($info);
 	}
 
+
+
 	function parse_raw_url($raw_url) {
-		$retval = array ();
-		$raw_url = (string) $raw_url;
-
+		$retval  = array();
+		$raw_url = (string)$raw_url;
 		// make sure parse_url() recognizes the URL correctly.
-		if (strpos($raw_url, '://') === false) {
-			$raw_url = 'http://' . $raw_url;
+		if(strpos($raw_url, '://') === false) {
+			$raw_url = 'http://'.$raw_url;
 		}
-
 		// split request into array
 		$retval = parse_url($raw_url);
-
 		// make sure a path key exists
-		if (!isset ($retval['path'])) {
+		if(!isset ($retval['path'])) {
 			$retval['path'] = '/';
 		}
-
 		// set port to 80 if none exists
-		if (!isset ($retval['port'])) {
+		if(!isset ($retval['port'])) {
 			$retval['port'] = '80';
 		}
-
 		return $retval;
 	}
 
-	function generate_crlf()
-	{
-		$crlf = '';
 
-		if (strtoupper(substr(PHP_OS, 0, 3) === 'WIN'))
-		{
+
+	function generate_crlf() {
+		$crlf = '';
+		if(strtoupper(substr(PHP_OS, 0, 3) === 'WIN')) {
 			$crlf = "\r\n";
-		}
-		elseif (strtoupper(substr(PHP_OS, 0, 3) === 'MAC'))
-		{
+		} elseif(strtoupper(substr(PHP_OS, 0, 3) === 'MAC')) {
 			$crlf = "\r";
-		}
-		else
-		{
+		} else {
 			$crlf = "\n";
 		}
-
 		return $crlf;
 	}
 
-	function get($url,$method='get') {
+
+
+	function get($url, $method = 'get') {
 		/*if(!preg_match('/^http/',$url)){
 		    return file_get_contents($url);
 		}*/
-
-		if(preg_match('#^http://\w+\.duoduo123\.com#',$url)==1){
-			$this->set_func='file_get_contents';
+		if(preg_match('#^http://\w+\.duoduo123\.com#', $url) == 1) {
+			$this->set_func = 'file_get_contents';
 		}
-		$a = $this->fun($url,$method);
+		$a = $this->fun($url, $method);
 		$this->num--;
-		if ($this->num > 0 && ($a=='' || $a=='null')) {
+		if($this->num > 0 && ($a == '' || $a == 'null')) {
 			$a = $this->get($url);
-		}
-		else {
-			if($this->charset!=$this->target_charset){
-				$a=iconv($this->target_charset,$this->charset.'//IGNORE',$a);
+		} else {
+			if($this->charset != $this->target_charset) {
+				$a = iconv($this->target_charset, $this->charset.'//IGNORE', $a);
 			}
 			$this->val = $a;
 		}
 	}
 
-	function get_xml($url){
-		$this->get($url);
-		$xml=$this->val;
-		if($this->charset!=$this->target_charset){
-			$xml=str_replace($this->target_charset,$this->charset,$xml);
-		}
 
+
+	function get_xml($url) {
+		$this->get($url);
+		$xml = $this->val;
+		if($this->charset != $this->target_charset) {
+			$xml = str_replace($this->target_charset, $this->charset, $xml);
+		}
 		$xmlCode = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 		$arrdata = $this->get_object_vars_final($xmlCode);
 		return $arrdata;
 	}
 
-	function get_json($url){
+
+
+	function get_json($url) {
 		$this->get($url);
-		$json=$this->val;
-		$arrdata = dd_json_decode($json,1);
+		$json    = $this->val;
+		$arrdata = dd_json_decode($json, 1);
 		return $arrdata;
 	}
 
+
+
 	function get_object_vars_final($obj) {
-		if (is_object($obj)) {
+		if(is_object($obj)) {
 			$obj = get_object_vars($obj);
 		}
-
-		if (is_array($obj)) {
-			foreach ($obj as $key => $value) {
+		if(is_array($obj)) {
+			foreach($obj as $key => $value) {
 				$obj[$key] = $this->get_object_vars_final($value);
 			}
 		}
 		return $obj;
 	}
 
-	function curl_get_http_status($url){
+
+
+	function curl_get_http_status($url) {
 		$curl = curl_init();
-		curl_setopt($curl,CURLOPT_URL,$url);
-		curl_setopt($curl,CURLOPT_HEADER,1);
-		curl_setopt($curl,CURLOPT_NOBODY,1);
-		curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION,0);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HEADER, 1);
+		curl_setopt($curl, CURLOPT_NOBODY, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 0);
 		curl_exec($curl);
-		$rtn= curl_getinfo($curl,CURLINFO_HTTP_CODE);
+		$rtn = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
-		return  $rtn;
+		return $rtn;
 	}
+
+
 
 	function fsockopen_get_http_status($url = "localhost", $port = 80, $fsock_timeout = 10) {
 		ignore_user_abort(true); // 记录开始时间
 		list ($usec, $sec) = explode(" ", microtime());
-		$timer['start'] = (float) $usec + (float) $sec; // 校验URL
-		if (!preg_match("/^https?:\/\//i", $url)) {
-			$url = "http://" . $url;
+		$timer['start'] = (float)$usec + (float)$sec; // 校验URL
+		if(!preg_match("/^https?:\/\//i", $url)) {
+			$url = "http://".$url;
 		} // 支持HTTPS
-		if (preg_match("/^https:\/\//i", $url)) {
+		if(preg_match("/^https:\/\//i", $url)) {
 			$port = 443;
 		} // 解析URL
 		$urlinfo = parse_url($url);
-		if (empty ($urlinfo['path'])) {
+		if(empty ($urlinfo['path'])) {
 			$urlinfo['path'] = '/';
 		}
 		$host = $urlinfo['host'];
-		$uri = $urlinfo['path'] . (empty ($urlinfo['query']) ? '' : $urlinfo['query']); // 通过fsock打开连接
-		if (!$fp = fsockopen($host, $port, $errno, $error, $fsock_timeout)) {
+		$uri  = $urlinfo['path'].(empty ($urlinfo['query']) ? '' : $urlinfo['query']); // 通过fsock打开连接
+		if(!$fp = fsockopen($host, $port, $errno, $error, $fsock_timeout)) {
 			list ($usec, $sec) = explode(" ", microtime(true));
-			$timer['end'] = (float) $usec + (float) $sec;
-			$usetime = (float) $timer['end'] - (float) $timer['start'];
-			return array (
-				'code' => -1,
+			$timer['end'] = (float)$usec + (float)$sec;
+			$usetime      = (float)$timer['end'] - (float)$timer['start'];
+			return array(
+				'code'    => -1,
 				'usetime' => $usetime
 			);
 		} // 提交请求
 		$status = socket_get_status($fp);
-		$out = "GET {$uri} HTTP/1.1\r\n";
+		$out    = "GET {$uri} HTTP/1.1\r\n";
 		$out .= "Host: {$host}\r\n";
 		$out .= "Connection: Close\r\n\r\n";
 		$write = fwrite($fp, $out);
-		if (!$write) {
+		if(!$write) {
 			list ($usec, $sec) = explode(" ", microtime(true));
-			$timer['end'] = (float) $usec + (float) $sec;
-			$usetime = (float) $timer['end'] - (float) $timer['start'];
-			return array (
-				'code' => -2,
+			$timer['end'] = (float)$usec + (float)$sec;
+			$usetime      = (float)$timer['end'] - (float)$timer['start'];
+			return array(
+				'code'    => -2,
 				'usetime' => $usetime
 			);
 		}
 		$ret = fgets($fp, 1024);
-		preg_match("/http\/\d\.\d\s(\d+)/i", $ret, $m);
+		preg_match('/http\/\d\.\d\s(\d+)/i', $ret, $m);
 		$code = $m[1];
 		fclose($fp);
 		list ($usec, $sec) = explode(" ", microtime());
-		$timer['end'] = (float) $usec + (float) $sec;
-		$usetime = (float) $timer['end'] - (float) $timer['start'];
+		$timer['end'] = (float)$usec + (float)$sec;
+		$usetime      = (float)$timer['end'] - (float)$timer['start'];
 		return $code;
 		//	return array (
 		//		'code' => $code,
@@ -5130,18 +4629,20 @@ class collect {
 		//	);
 	}
 
-	function get_http_status($url){
-		if (function_exists('curl_exec')) {
+
+
+	function get_http_status($url) {
+		if(function_exists('curl_exec')) {
 			return $this->curl_get_http_status($url);
-		}
-		elseif(function_exists('fsockopen')){
+		} elseif(function_exists('fsockopen')) {
 			return $this->fsockopen_get_http_status($url);
 		}
 	}
 }
-function dd_get($url,$method='get'){
-	$c=fs('collect');
-	$c->get($url,$method);
+
+function dd_get($url, $method = 'get') {
+	$c = fs('collect');
+	$c->get($url, $method);
 	return $c->val;
 }
 
@@ -5150,11 +4651,10 @@ function fs($class) {
 		include(DDROOT.'/comm/'.$class.'.class.php');
 	}
 	static $classes = array();
-	if(!isset($classes[$class]) || $classes[$class] === NULL) {
+	if(!isset($classes[$class]) || $classes[$class] === null) {
 		$classes[$class] = new $class();
 		//unset($class);
 	}
-
 	return $classes[$class];
 }
 
@@ -5162,23 +4662,20 @@ function dd_replace($str, $arr = array()) {
 	if(REPLACE == 0) {
 		return $str;
 	}
-
 	if(REPLACE < 3) {
 		$noword_tag = '';
 	} else {
 		$noword_tag = '3';
 	}
-
 	if(empty($arr)) {
 		$arr = dd_get_cache('no_words'.$noword_tag);
 	}
-
 	if(REPLACE == 1 && !empty($arr)) {
 		$str = strtr($str, $arr);
 		//print_r($str);exit;
 	} elseif(REPLACE == 2) {
 		foreach($arr as $a => $b) {
-			if(strpos($str, (string)$a) !== FALSE) {
+			if(strpos($str, (string)$a) !== false) {
 				if(MOD == 'ajax') {
 					$re = array('s' => 0, 'id' => 55);
 					dd_exit(json_encode($re));
@@ -5201,17 +4698,16 @@ function dd_replace($str, $arr = array()) {
 			}
 		}
 	}
-
 	return $str;
 }
+
 function dd_json_decode($value, $type = 1) {
 	if(DDJSON == 1 || !function_exists('json_decode')) {
 		$json = fs('DD_Services_JSON');
-		$arr  = $json->decode($value, TRUE);
+		$arr  = $json->decode($value, true);
 		if(empty($arr) && function_exists('json_decode')) {
 			$arr = json_decode($value, 1);
 		}
-
 		return $arr;
 	} else {
 		return json_decode($value, 1);
