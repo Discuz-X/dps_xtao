@@ -1,39 +1,39 @@
 /*
- ²ÎÊı
- parent			·ÅÖÃÆÙ²¼Á÷ÔªËØµÄÈİÆ÷£¬Ä¬ÈÏÎª $("waterfall")
- container		·ÅÖÃÆÙ²¼Á÷µÄ¸¸ÈİÆ÷£¬Ä¬ÈÏÎª $("threadlist")
- maxcolumn		×î¶à¶àÉÙÁĞ£¬Ä¬ÈÏÎª 0 ²»ÏŞÖÆ
- space			Í¼Æ¬¼ä¾à£¬Ä¬ÈÏÎª 10
- index			´ÓµÚ¼¸ÕÅ¿ªÊ¼ÅÅÁĞ£¬Ä¬ÈÏÎª 0
- tag			ÆÙ²¼Á÷ÔªËØµÄ tagName£¬Ä¬ÈÏÎª li
- columnsheight	´æ·ÅÁĞ¸ß¶ÈµÄÊı×é
- 
- ·µ»ØÖµ
- index			µ±Ç°ÆÙ²¼Á÷ÒÑ¾­ÅÅÁĞÁË¶àÉÙ¸öÍ¼Æ¬
- totalwidth		µ±Ç°ÆÙ²¼Á÷µÄ×Ü¿í¶È
- totalheight	µ±Ç°ÆÙ²¼Á÷µÄ×Ü¸ß¶È
- columnsheight	´æ·ÅÆÙ²¼Á÷ÁĞ¸ßµÄÊı×é
+ å‚æ•°
+ parent			æ”¾ç½®ç€‘å¸ƒæµå…ƒç´ çš„å®¹å™¨ï¼Œé»˜è®¤ä¸º $("waterfall")
+ container		æ”¾ç½®ç€‘å¸ƒæµçš„çˆ¶å®¹å™¨ï¼Œé»˜è®¤ä¸º $("threadlist")
+ maxcolumn		æœ€å¤šå¤šå°‘åˆ—ï¼Œé»˜è®¤ä¸º 0 ä¸é™åˆ¶
+ space			å›¾ç‰‡é—´è·ï¼Œé»˜è®¤ä¸º 10
+ index			ä»ç¬¬å‡ å¼ å¼€å§‹æ’åˆ—ï¼Œé»˜è®¤ä¸º 0
+ tag			ç€‘å¸ƒæµå…ƒç´ çš„ tagNameï¼Œé»˜è®¤ä¸º li
+ columnsheight	å­˜æ”¾åˆ—é«˜åº¦çš„æ•°ç»„
+
+ è¿”å›å€¼
+ index			å½“å‰ç€‘å¸ƒæµå·²ç»æ’åˆ—äº†å¤šå°‘ä¸ªå›¾ç‰‡
+ totalwidth		å½“å‰ç€‘å¸ƒæµçš„æ€»å®½åº¦
+ totalheight	å½“å‰ç€‘å¸ƒæµçš„æ€»é«˜åº¦
+ columnsheight	å­˜æ”¾ç€‘å¸ƒæµåˆ—é«˜çš„æ•°ç»„
  */
 function recadd(tid) {
-	$('recommendv_add_'+tid).innerHTML=parseInt($('recommendv_add_'+tid).innerHTML)+1;
+	$('recommendv_add_' + tid).innerHTML = parseInt($('recommendv_add_' + tid).innerHTML) + 1;
 }
 function recsubtract(tid) {
-	$('recommendv_subtract_'+tid).innerHTML=parseInt($('recommendv_subtract_'+tid).innerHTML)+1;
+	$('recommendv_subtract_' + tid).innerHTML = parseInt($('recommendv_subtract_' + tid).innerHTML) + 1;
 }
 function showDiv(divID) {
-            if (divID != null && divID != "") {
-                var v = document.getElementById(divID);
-                if (v.style.display == "none") {
-                    v.style.display = "inline";
-                }
-            }
-        }
+	if(divID != null && divID != "") {
+		var v = document.getElementById(divID);
+		if(v.style.display == "none") {
+			v.style.display = "inline";
+		}
+	}
+}
 
 function hiddenDiv(divID) {
-            if (divID != null && divID != "") {
-                var vv = document.getElementById(divID);
-                if (vv.style.display == "inline") {
-                    vv.style.display = "none";
-                }
-            }
-        }
+	if(divID != null && divID != "") {
+		var vv = document.getElementById(divID);
+		if(vv.style.display == "inline") {
+			vv.style.display = "none";
+		}
+	}
+}
