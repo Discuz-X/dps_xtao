@@ -477,8 +477,8 @@ function taobaoTaobaokeWidgetItemsConvert(parame) {
 		parame['ju_fxje'] = 0;
 	}
 
+	var cacheUrl = getCacheurl(method, parame);
 	if(CACHETIME > 0) {
-		var cacheUrl = getCacheurl(method, parame);
 		jQuery.ajax({
 			url: cacheUrl,
 			type: "GET",
@@ -1917,7 +1917,7 @@ function getTplObj(tplName, obj) {
 		return str;
 	}
 }
-
+$LAB.script(window.jQueryPath).wait(function(){
 jQuery.fn.focusClear = function() {
 	inputFocusTime = 0;
 	$(this).focus(function() {//alert(inputFocusTime);
@@ -1929,7 +1929,7 @@ jQuery.fn.focusClear = function() {
 	$(this)[0].onpaste = function() {
 		inputFocusTime = new Date().getTime();
 	}
-}
+}});
 
 if(typeof getCookie('userlogininfo') != 'undefined') {
 	IS_LOGIN = 1;
