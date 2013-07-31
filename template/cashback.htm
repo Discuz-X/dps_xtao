@@ -1,7 +1,7 @@
 <div class="goods ct2 cl">
 <div class="shopDetails sd">
 <div class="shopname" style="padding: 10px;">
-<h3><a class="dd_shop_jump" href="http://shop{echo $shop->sid}.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank" _hover-ignore="1">{echo $shop->title}</a></h3>
+<h3><a class="dd_shop_jump" href="http://shop{echo $shop->sid}.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1">{echo $shop->title}</a></h3>
 </div>
 <div class="shoplogo cl" style="padding: 10px;">
 <div class="shoplogo-img" style="float: left;">
@@ -9,10 +9,10 @@
 </div>
 <div class="shoplogo-font" style="float: left;margin:10px;">
 	<p>平均:</p>
-	<h3 id="shopFxbl" style="font-family: Georgia, 'Times New Roman', Times, serif;	font-size: 30px;	font-style: italic;	color: #FF3300;	font-weight: bold;	margin: 2px 0 0 0;	padding: 0;">0.56%</h3></div>
+	<h3 id="shopFxbl" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px; font-style: italic; color: #FF3300; font-weight: bold; margin: 2px 0 0 0; padding: 0;">0.56%</h3></div>
 </div>
 <div class="shoptxt">
-<p>掌柜名称：<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank" _hover-ignore="1"><!--{echo $shop->nick}--></a></p>
+<p>掌柜名称：<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1"><!--{echo $shop->nick}--></a></p>
 <p>店铺信誉：<span class="shoptxt-img"><img src="{$pluginpath}Image/level_{echo $shop->level}.gif"></span></p>
 <p id="goodsnum">宝贝数量：80</p>
 <p>创店时间：<!--{echo date('Y-m-d',strtotime($shop->created))}--></p>
@@ -34,171 +34,382 @@
 <div class="xx3 cl"><div class="_5bx" title="{echo $shop->shop_score->delivery_score}分"><div class="_5hx" style="width:{echo $shop->shop_score->delivery_score*20}px"></div></div></div>
 </div>
 <div class="shopbutton">
-<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin($(this))==0){return false;}" target="_blank">
+<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank">
 <div class="shop_button1" onmouseover="this.className='shop_button1_h';" onmouseout="this.className='shop_button1';"></div>
 </a>
 </div>
 </div>
 </div>
 <div class="itemDetails mn">
-<div class="shopitem" style="width: 100%;">
-
-
-
-
-
-
-
-
-
-
-
-
-<h3 style="font-size: 18px;"><!--{echo $goods->title}--></h3>
-<div class="shopitem_main cl">
+<?php die() ?>
+<div class="shopitem">
+<h3>
+	<!--{echo $goods->title}-->
+	<!--{if $_C['api_taobaoke_base']}-->&nbsp;&nbsp;
+			<span style="font-size:12px; font-family:'宋体'">【<a style="color:#F60;" href="<?php //u('tao', 'list', array('cid' => 0, 'q' => $goods['title'])) ?>" target="_blank">查看同款商品</a>】</span>
+	<!--{/if}-->
+</h3>
+<div class="shopitem_main">
 <div class="shopitem_main_l">
-	<a class="jumpa" ahref="{echo $goods->detail_url}" onclick="if(isLogin($(this))==0){return false;}" target="_blank" href="{echo $goods->detail_url}" _hover-ignore="1">
-		<img src="{echo $goods->pic_url}" alt="{echo $goods->title}" onerror="this.src='http://tryanderror.cn/duoduo/images/dian.png'" class="" style="height: 310px;"></a>
+<a class="clickUrl"
+	{echo tao_perfect_click($goods->jump) }
+	href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump }"
+	target="_blank"><img src="{echo $goods->pic_url}" alt="{echo $goods->title}"
+						 onerror="this.src='http://tryanderror.cn/duoduo/images/dian.png'" class="" style="height: 310px;"></a>
 </div>
-<div class="shopitem_main_r" style="float: left;margin: 0 0 0 3px;width: 410px;overflow: hidden;border: 7px solid #eeeeee;">
+<div class="shopitem_main_r">
 <div class="shopitem_main_r_1"><img src="{$pluginpath}Image/protection.gif"></div>
-<div class="shopitem_main_r_3"><span id="price_name" style="font-family:'宋体'"><span class="tbcuxiao"><i><!--{$price_name}--></i></span></span>：<span class="price"><!--{echo $goods->price}--></span> 元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="yuanjia" style="">原价：<span style="text-decoration:line-through"><!--{echo $goods->price}--></span> 元</span></div>
-<div class="shopitem_main_r_3"><span id="zuigaofan" title="100集分宝（支付宝积分）= 1元">折后最高返：</span><span id="nofan"><span class="price dd_fxje">672</span>个集分宝 <span id="ksq">（可省<b style="font-size:16px; color:#F30">6.72</b>元）</span></span></div>
+<div class="shopitem_main_r_3"><span
+	id="price_name" style="font-family:'宋体'"><span class="tbcuxiao"><i><!--{$price_name}--></i></span></span>：
+<span class="price"><!--{echo $goods->price}--></span> 元
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span id="yuanjia" style="display: none;">原价：<span style="text-decoration:line-through"><!--{echo $goods->price}--></span> 元</span>
+</div>
+<div class="shopitem_main_r_3">
+<span id="zuigaofan" title="<?= TBFLTIP ?>">最高返：
+</span><span id="nofan"><span class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
+<span id="ksq">（可省<b style="font-size:16px; color:#F30"><img src="{$pluginpath}Image/wait3.gif" alt="省钱计算中"/></b>元）</span></span>
+</div>
+<!--{if $tao_coupon_str == ''}-->
 <div class="shopitem_main_r_3">
 	商品数量： <!--{echo $goods->num}--> 件
 </div>
+<!--{else}-->
+	<!--{$tao_coupon_str}-->
+<!--{/if}-->
 <div class="shopitem_main_r_3">
 	运费承担： <!--{echo $goods->freight_payer}-->
 </div>
 <div class="shopitem_main_r_3">
 	所在地区： <!--{echo $goods->location->state}--> <!--{echo $goods->location->city}-->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <!--{echo $goods->stuff_status}-->
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <!--{echo $goods->stuff_status}--><!--{if $goods->has_invoice}--> 有发票<!--{/if}-->
 </div>
 <div class="shopitem_main_r_3">
 	掌柜名称： <!--{echo $goods->nick}-->
-	<a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&amp;uid=%E5%88%9A%E5%AD%90%E5%9C%A8%E7%BA%BF&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img style="width:77px; height:19px" src="http://amos.im.alisoft.com/online.aw?v=2&amp;uid=%E5%88%9A%E5%AD%90%E5%9C%A8%E7%BA%BF&amp;site=cntaobao&amp;s=1&amp;charset=utf-8" alert="点击这里给我发消息"></a>
+	<!--{echo wangwang($goods->nick)}-->
 </div>
 <div class="shopitem_main_r_5">温馨提示：<span> 虚拟商品(如话费，游戏，机票等)无返利哦！</span> </div>
-<div class="shopitem_main_r_4"><a class="jumpa" id="clickUrl" ahref="http://item.taobao.com/item.htm?id=16393723229" onclick="if(isLogin($(this))==0){return false;}" target="_blank" href="http://item.taobao.com/item.htm?id=16393723229"><img alt="立刻去购买" src="{$pluginpath}Image/buy.gif"></a><a onclick="if(isLogin($(this))==0){return false;}" class="dd_shop_jump" style="cursor:pointer" target="_blank" href="http://shop33688741.taobao.com"><img alt="逛逛掌柜店铺" src="{$pluginpath}Image/seller.gif"></a></div>
+<div class="shopitem_main_r_4">
+	<a {echo tao_perfect_click($goods->jump)}
+	class="fanlitip clickUrl" id="clickUrl" href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump}"
+	target="_blank"><img alt="立刻去购买" src="{$pluginpath}Image/buy.gif"/></a><a
+		class="dd_shop_jump" style="cursor:pointer" target="_blank"><img alt="逛逛掌柜店铺" src="{$pluginpath}Image/seller.gif"/></a>
+</div>
 <div class="shopitem_main_r_6"><p>宝贝分享：</p>
-<div class="bshare-custom"><div class="bsPromo bsPromo2"></div><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
+<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
 <a title="分享到新浪微博" class="bshare-sinaminiblog">新浪</a>
 <a title="分享到人人网" class="bshare-renren">人人</a>
 <a title="分享到腾讯微博" class="bshare-qqmb">腾讯</a>
-<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=c196de18-8f38-410e-8ae0-834dd0ec2c86&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count">0</span>
+</div>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid={$bshare_uuid}&amp;pophcol=2&amp;lang=zh"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 </div>
 </div>
 </div>
 
+<script type="text/javascript">
+	function showShopInfo(){
+		{eval $parame['seller_nicks']=$nick;
+			php2js_array($jssdk_shops_convert,'parame');}
+		taobaoTaobaokeWidgetShopsConvert(parame);
+	}
+	function ddShowFxje(taobaokeItem) {
+		var ddFxje = taobaokeItem.ddFxje;
+		var clickUrlAttr = '{echo $_C["api_taobaoke_base"]? "href":"a_jump_click"}';
+		var promotion_price = taobaokeItem.promotion_price;
+		var good_price = {$goods->price};
+		if(promotion_price <good_price && promotion_price > 0) {
+			$('.shopitem_main_r .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i>{$promotion_name}</i></span>');
+			$('.shopitem_main_r .shopitem_main_r_3 .price').html(promotion_price);
+			$('.shopitem_main_r .shopitem_main_r_3 #yuanjia').show();
+			$('.shopitem_main_r .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
+			var reg = new RegExp("&price=(.*)&name", "gi");
+			var url = '{$goods->jump}';
+			url = url.replace(reg, '&price=' + promotion_price + '&name');
+			$('.clickUrl').each(function() {
+				$(this).attr(clickUrlAttr, url);
+			});
+		}
+		if(ddFxje > 0) {
+			var clickUrl = $('#clickUrl').attr(clickUrlAttr) + '&fan=';
+			$(".shopitem_main_r .shopitem_main_r_3 .dd_fxje").html(ddFxje);
+			$(".shopitem_main_r .shopitem_main_r_3 #ksq b").html(dataType(ddFxje / MONEYBL, 2));
+			$('.clickUrl').each(function() {
+				$(this).attr(clickUrlAttr, clickUrl + ddFxje);
+			});
+			$('.shopitem .goodscomment .pingjia .pingjia_more a').attr('href', clickUrl + ddFxje);
+		}
+		else {
+			$(".shopitem_main_r .shopitem_main_r_3 #nofan").css('font-size', '14px').css('color', 'red').html('<b>该商品暂无返利</b>');
+		}
+		$('#shopit_txt .shopit_txt_ms').show();
+		showShopInfo();
+	}
+</script>
+<!--{eval $LAB = '$LAB';}-->
+<script type="text/javascript">
+	/*
+	 if(IE == 1) {
+	 $("#jssdk").attr('src', 'http://l.tbcdn.cn/apps/top/x/sdk.js?appkey=21165987');
+	 }
+	 else {
+	 var script = document.createElement("script");
+	 script.src = 'http://l.tbcdn.cn/apps/top/x/sdk.js?appkey=21165987';
+	 var tag = $("head").append(script);
+	 }
 
+	 var hostName = window.location.host;
 
+	 function no_pay() {
+	 //alert('您的网站没有授权'+hostName);
+	 //window.location='http://auth.duoduo123.com';
+	 }
 
+	 $.ajax({
+	 url: 'http://auth.duoduo123.com/check.php',
+	 dataType: 'jsonp',
+	 jsonp: "callback",
+	 data: {domain: hostName},
+	 success: function(data) {
+	 if(data.s == 0) {
+	 no_pay();
+	 JSSDK_TIME = '1375178467000';
+	 JSSDK_SIGN = '8D63E67441FD63DBD38B32F43CA0F161';
+	 if(typeof(ddJssdkCallBack) == "function") {
+	 ddJssdkCallBack();
+	 }
+	 }
+	 else {
+	 JSSDK_TIME = '1375178467000';
+	 JSSDK_SIGN = '8D63E67441FD63DBD38B32F43CA0F161';
+	 if(typeof(ddJssdkCallBack) == "function") {
+	 ddJssdkCallBack();
+	 }
+	 }
+	 }
+	 });*/
+	GETAGAINTIME = 3000; //二次加载时间
 
+	MONEYBL = 100;
+	DATA_TYPE = 1;
 
+	CACHEURL = 'http://tryanderror.cn/duoduo/data/temp/taoapi';
+	SHOPOPEN = 1;
+	SHOPSLEVEL = 11;
+	SHOPELEVEL = 20;
+	CACHETIME = 0;
+	ERRORLOG = 0;
+	CHECKCODE = '8893pV%2FRTMHq0zDbPImT7dwVr3Z%2F1wPFYoWSChtDamn60pfZICFc';
 
+	fxblArr = new Object();
+	fxblArr['100a'] = '0.8';
+	fxblArr['50a'] = '0.7';
+	fxblArr['20a'] = '0.6';
+	fxblArr['0a'] = '0.5';
 
-		<script>
-			var num_iid='16393723229';
-			function ddShowFxje(taobaokeItem){
-				ddFxje=taobaokeItem.ddFxje;
+	var ddJssdkCallBackOk = 0;
+	function ddJssdkCallBack() {
+		if(ddJssdkCallBackOk == 0) {
+			ddJssdkCallBackOk = 1;
 
-				$('.jumpa').each(function(){
-					$(this).attr('href',$('.jumpa').attr('ahref'));
-				});
-
-				promotion_price=taobaokeItem.promotion_price;
-				if(promotion_price<2728.00 && promotion_price>0){
-					$('.shopright .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i>促销打折</i></span>');
-					$('.shopright .shopitem_main_r_3 .price').html(promotion_price);
-					$('.shopright .shopitem_main_r_3 #yuanjia').show();
-					$('.shopright .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
-
-				}
-				if(ddFxje>0){
-					var clickUrl=$('#clickUrl').attr('href')+'&fan=';
-					$(".shopright .shopitem_main_r_3 .dd_fxje").html(ddFxje);
-					$(".shopright .shopitem_main_r_3 #ksq b").html(dataType(ddFxje/MONEYBL,2));
-				}
-				else{
-					$(".shopright .shopitem_main_r_3 #nofan").css('font-size','14px').css('color','red').html('<b>该商品暂无返利</b>');
-				}
-				$('#shopit_txt .shopit_txt_ms').show();
-				showShopInfo();
-			}
-		</script>
-		<script>
-			TAO_TYPE=1;
-			JSSDK_TIME=0;
-			JSSDK_SIGN='';
-		</script>
-		<script src="http://yun.duoduo123.com/view.php?time=1374902033"></script>
-		<script>
-			GETAGAINTIME=3000; //二次加载时间
-
-			MONEYBL=100;
-			DATA_TYPE=1;
-
-			CACHEURL='http://tryanderror.cn/duoduo/data/temp/taoapi';
-			SHOPOPEN=1;
-			SHOPSLEVEL=11;
-			SHOPELEVEL=20;
-			CACHETIME=10;
-			ERRORLOG=0;
-			CHECKCODE='c5483kI1r40DLMLgasWwfrsMhLAYXFD8BSfExcYfEEqd0%2Feiq8LY';
-
-			fxblArr=new Object();
-			fxblArr['100a']='0.8';
-			fxblArr['50a']='0.7';
-			fxblArr['20a']='0.6';
-			fxblArr['0a']='0.5';
-		</script><script>
-		var ddJssdkCallBackOk=0;
-
-		function ddJssdkCallBack(){
-			if(ddJssdkCallBackOk==0){
-				ddJssdkCallBackOk=1;
-				parame=new Array();
-				parame['goods_type']='market';
-				parame['method']='taobao.taobaoke.widget.items.convert';
-				parame['outer_code']='0';
-				parame['user_level']='0';
-				parame['num_iids']='16393723229';
-				parame['allow_fanli']='1';
-				parame['cid']='1512';
-				parame['tmall_fxje']='0';
-				parame['ju_fxje']='0';
-				taobaoTaobaokeWidgetItemsConvert(parame);		clearInterval(checkKeyIntervalId);
-			}
-			else{
-				clearInterval(checkKeyIntervalId);
+			//{if in_array($jssdk_items_convert['cid'],$virtual_cid['goods'])} //虚拟商品返利强制为0
+			ddShowFxje(0);
+			//{else}
+			{eval php2js_array($jssdk_items_convert,'parame')}
+			taobaoTaobaokeWidgetItemsConvert(parame);
+			//{/if}
+			//{if !$_C["api_taobaoke_base"]}
+			clearInterval(checkKeyIntervalId);
+			//{/if}
+		}/*{if !$_C["api_taobaoke_base"]}*/	else {
+			clearInterval(checkKeyIntervalId);
+		}
+		//{/if}
+	}
+	//{if !$_C["api_taobaoke_base"]}
+	checkKeyTime = 0;
+	function checkKey() {
+		if(checkKeyTime == 30) {
+			clearInterval(checkKeyIntervalId);
+		} else {
+			checkKeyTime++;
+			if(JSSDK_SIGN.length != 0) {
+				ddJssdkCallBack();
 			}
 		}
-
-		checkKeyTime=0;
-
-		function checkKey(){
-			if(checkKeyTime==30){
-				clearInterval(checkKeyIntervalId);
-			}
-			else{
-				checkKeyTime++;
-				if(typeof JSSDK_TIME!='undefined'){
-					ddJssdkCallBack();
-				}
-			}
-		}
-
-		var checkKeyIntervalId=setInterval("checkKey()",500);
-
-		$(".shopright .shopitem_main_l").imgAutoSize(310,310);
-		function suanfanli(v){
-			f=fan*v/price;
-			$('#jumpbox .text_f').text(dataType(f,1));
-		}
-		$(function(){
+	}
+	var checkKeyIntervalId = setInterval("checkKey()", 500);
+	//{else}
+	ddJssdkCallBack();
+	//{/if}
+	//$(".shopright .shopitem_main_l").imgAutoSize(310, 310);
+	function suanfanli(v) {
+		f = fan * v / price;
+		jQuery('#jumpbox .text_f').text(dataType(f, 1));
+	}
+</script>
+<!--
+<script type="text/javascript">
+/*
+	$(function() {
+		//{if !$_C["api_taobaoke_base"]}
+		$('.shopright .shopitem_main_r .fanlitip').jumpBox({
+			title: '这是您刚刚查看的商品：',
+			titlebg: 1,
+			LightBox: 'show',
+			easyClose: 0,
+			jsCode: "param2=parse_str(ajaxUrl);pic_url=decode64(param2['pic']);title='{$goods->title}';if(typeof param2['promotion_price']!='undefined'){price=param2['promotion_price']}else{price=param2['price']};fan=param2['fan'];contain = contain.replace(/{pic_url}/, pic_url).replace(/{title}/, title).replace(/{price}/, price).replace(/{back}/, fan);",
+			contain: '<div class="alert_go_tao"><div class="info"><table width=""border="0"><tr><td width="62"rowspan="3"><div class="pic"><img src="{pic_url}"/></div></td><td width="219"><span class="tit">{title}</span></td></tr><tr><td><span class="price">淘宝价格：{price}元</span><span class="fan">　返：{back}<?=TBMONEY?></span></td></tr><tr><td><span class="price_r">实付价格：</span><input type="text"class="text_p"value=""  onkeyup="suanfanli(this.value)"/><span class="fan_r">实返：</span><span class="text_f">？</span></td></tr></table><div style="clear:both"></div><div class="alert_notice"><em></em><div class="notice_content">输入最终购买价格(不含邮费)，算一下最终返<?=TBMONEY?>有多少？</div></div></div><p><span>●</span><a>虚拟商品无返利</a><span>●</span><a>实际返利与成交价有关</a><span>●</span><a>确认收货后才能查询返利</a></p><div style=" margin-top:3px"><a href="<?php /*u('help','index')*/?>' +
+					'" style="color:#03F" target="_blank">●用“<?=WEBNICK?>”去“淘宝网”购物 省钱方法详解【点击】</a></div></div>',
+			height: 240,
+			width: 520,
+			a: 1
 		});
+		//{/if}
+		//{if isset($webset['taoapi']['goods_comment'])}
+		$('#shopit_txt a').click(function() {
+			$('#shopit_txt ul li').addClass('shopit_xz');
+			$(this).parent('li').removeClass('shopit_xz');
+			vdo = $(this).attr('do');
+			if(vdo == 'desc') {
+				$('#shopit_txt .shopit_txt_ms').show();
+				$('.goodscomment').hide();
+				return true;
+			}
+			else if(vdo == 'comment') {
+				$('#shopit_txt .shopit_txt_ms').hide();
+				$('.goodscomment').show();
+			}
+			if(commentUrl == '') {
+				alert('评论地址加载中，请稍后再试');
+				return true;
+			}
+			$.ajax({
+				url: '<?=u('ajax','goods_comment')?>',
+				data: {'comment_url': commentUrl},
+				dataType: 'jsonp',
+				jsonp: "callback",
+				success: function(data) {
+					if(data.rateListInfo.paginator.items > 0) {
+						var commentScore = parseFloat(data.scoreInfo.merchandisScore);  //评价得分
+						var commentItems = parseInt(data.rateListInfo.paginator.items);  //评价数量
+						var commentTotal = parseInt(data.scoreInfo.merchandisTotal);  //评价总次数
+						num = commentScore * 10;
+						x2 = Math.floor(num % 10);
+						num /= 10;
+						x1 = Math.floor(num % 10);
+						$('.pingjianum').html(commentItems);
+						$('#pjdfnum').html(commentTotal);
+						$('.ajaxpjdf').html(commentScore);
+						var biaochi = parseInt(commentScore / 5 * 380);
+						$('#biaochi').css('margin-left', biaochi + 'px');
+						$('#getpling').hide();
+						$('#plcontent').show();
+						$('.goodscomment .ov5hx').css('width', commentScore * 20)
+						jsonData = data.rateListInfo.rateList;
+						c = jsonData.length;
+						for(var i = 0; i < c; i++) {
+							if(jsonData[i]['displayRatePic'] == '') jsonData[i]['displayRatePic'] = 'b_red_1.gif';
+							jsonLi = '<li><div class="commnetleft">' + jsonData[i]['rateContent'] + '<br><span>[' + jsonData[i]['rateDate'] + ']</span></div><div class="commnetright">买家：' + jsonData[i]['displayUserNick'] + '<br><img src="images/' + jsonData[i]['displayRatePic'] + '" /></div></li>';
+							$('#comment').append(jsonLi + '<div style="clear:both"></div>');
+						}
+					}
+					else {
+						alert('评论加载失败');
+					}
+				}
+			});
+		});
+		//{/if}
+	});*/
+</script>-->
+<!--{if $_C['api_taobaoke_base']}-->
+<script type="text/javascript">
+	TAO_TYPE = 2;
+	JSSDK_TIME = '<?=$jssdk_time?>';
+	JSSDK_SIGN = '<?=$jssdk_sign?>';
+</script>
+<!--{else}-->
+<script type="text/javascript">
+	TAO_TYPE = 1;
+	JSSDK_TIME = 0;
+	JSSDK_SIGN = '';
+	$LAB.script('plugin.php?id=dps_xtao:getkeysign');
+</script>
+<!--{/if}-->
 
-	</script>
+<div class="shopit_txt">
+	<ul>
+		<li><a href="<?= u('tao', 'jiu') ?>">九元购包邮</a></li>
+	</ul>
+	<div class="shopit_txt_ms">
+		<script>iframe('<?=DD_YUN_URL?>/index.php?m=shuju&a=jiu&ad=1&cid=<?=$goods['cid']?>&url=<?=urlencode(u('tao','view',array('iid'=>99999999)))?>', 720, 260)</script>
+	</div>
+</div>
+<div class="shopit_txt" id="shopit_txt">
+	<ul>
+		<?php if(WEBTYPE == 1) { ?>
+		<li><a do='desc'>宝贝描述</a></li>
+		<?php } ?>
+		<?php if($webset['taoapi']['goods_comment'] == 1) { ?>
+		<li class="shopit_xz"><a id="pjan" do="comment" url="">商品评价</a></li>
+		<?php } ?>
+	</ul>
+	<div class="shopit_txt_ms" style="display:none"><?= $goods['desc'] ?></div>
+</div>
+<div class="goodscomment" style=" display:none">
+	<div class="pjdf">
+		<div class="pjleft">
+			<ul>
+				<li class="pjfs">店铺的“宝贝与描述相符”得分</li>
+				<li class="pjfs2">
+					<div style="float:left">
+						<font class="ajaxpjdf" style="font-size:24px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; color:#FF6600">5.0</font> 分
+					</div>
+					<div style="float:left">
+						<DIV class=xx3 style="padding-top:5px">
+							<DIV class="bg5bx">
+								<DIV class="ov5hx" style="WIDTH: 100px;"></DIV>
+							</DIV>
+						</DIV>
+					</div>
+					<div style="clear:both"></div>
+				</li>
+				<li class="gdf">(共打分 <font id="pjdfnum" color="#FF6600">100</font> 次)</li>
+			</ul>
+		</div>
+		<div class="pjright">
+			<ul>
+				<li style="width:380px; height:20px; margin-top:21px;">
+					<div id="biaochi" style="width:28px; height:21px; background:url(template/<?= MOBAN ?>/images/pjfs.gif); margin-left:370px; text-align:center;">
+						<font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font>
+					</div>
+				</li>
+				<li style="background:url(template/<?= MOBAN ?>/images/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
+				<li style=" width:420px; background:url(template/<?= MOBAN ?>/images/pjfssm.gif) no-repeat; height:45px;"></li>
+			</ul>
+		</div>
+	</div>
+	<div class="pingjia">
+		<div class="pingjia_bt">
+			<div class="pingjia_bt_l">
+				评论
+			</div>
+			<div class="pingjia_bt_r">
+				评价人
+			</div>
+		</div>
+		<div id="comment">
+		</div>
+		<div class="pingjia_more">
+			<a href="<?= $goods['jump'] ?>" target="_blank">更 多</a>
+		</div>
+	</div>
+</DIV>
+</div>
+
+
 		<div class="shopit_txt">
 			<ul class="cl">
 				<li style="float: left;height: 30px;line-height: 30px;width: 100px;text-align: center;color: #FFFFFF;background-image: url(../../{$pluginpath}Image/tubiao.png);background-position: 0 -769px;margin: 0 5px 0 0;"><a href="http://tryanderror.cn/duoduo/index.php?mod=tao&amp;act=jiu" _hover-ignore="1">九元购包邮</a> </li>
@@ -262,7 +473,7 @@
 	</div>
 </div>
 </div>
-<style type="text/css">/* ���̱����б���ʼ */
+<style type="text/css">
 .shoptxt-dt .title {float:left;}
 .shopleft { width: 250px; float: left; margin: 10px 0 0 0; padding: 0; }
 .shopleft .shopmessage { text-align: left; width: 248px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
