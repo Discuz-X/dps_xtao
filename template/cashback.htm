@@ -1,19 +1,19 @@
 <div class="goods ct2 cl">
 <div class="shopDetails sd">
 <div class="shopname" style="padding: 10px;">
-<h3><a class="dd_shop_jump" href="http://shop{echo $shop->sid}.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1">{echo $shop->title}</a></h3>
+<h3><a class="dd_shop_jump" href="http://shop{$shop->sid}.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1">{$shop->title}</a></h3>
 </div>
 <div class="shoplogo cl" style="padding: 10px;">
 <div class="shoplogo-img" style="float: left;">
-<img src="http://logo.taobaocdn.com/shop-logo{echo $shop->pic_path}.jpg" width="80" height="80" alt="{echo $shop->title}" onerror="this.src='images/tbdp.gif'" class="">
+<img src="http://logo.taobaocdn.com/shop-logo{$shop->pic_path}.jpg" width="80" height="80" alt="{$shop->title}" onerror="this.src='images/tbdp.gif'" class="">
 </div>
 <div class="shoplogo-font" style="float: left;margin:10px;">
 	<p>平均:</p>
 	<h3 id="shopFxbl" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px; font-style: italic; color: #FF3300; font-weight: bold; margin: 2px 0 0 0; padding: 0;">0.56%</h3></div>
 </div>
 <div class="shoptxt">
-<p>掌柜名称：<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1"><!--{echo $shop->nick}--></a></p>
-<p>店铺信誉：<span class="shoptxt-img"><img src="{$pluginpath}Image/level_{echo $shop->level}.gif"></span></p>
+<p>掌柜名称：<a class="dd_shop_jump" href="http://shop33688741.taobao.com" onclick="if(isLogin(jQuery(this))==0){return false;}" target="_blank" _hover-ignore="1"><!--{$shop->nick}--></a></p>
+<p>店铺信誉：<span class="shoptxt-img"><img style="vertical-align: top;" src=""></span></p>
 <p id="goodsnum">宝贝数量：80</p>
 <p>创店时间：<!--{echo date('Y-m-d',strtotime($shop->created))}--></p>
 <b>店铺动态评分</b>
@@ -40,78 +40,118 @@
 </div>
 </div>
 </div>
+<script src="{$pluginpath}JavaScript/base64.js"></script>
 <div class="itemDetails mn">
 <div class="shopitem">
-<h3>
-	<!--{echo $goods->title}-->
+<h3 style="font-size: 20px;margin: 10px 0 0 5px;border-bottom: #dddddd solid 1px;height: 30px;line-height: 30px;">
+	<!--{$goods->title}-->
 	<!--{if $_C['api_taobaoke_base']}-->&nbsp;&nbsp;
-			<span style="font-size:12px; font-family:'宋体'">【<a style="color:#F60;" href="<?php //u('tao', 'list', array('cid' => 0, 'q' => $goods['title'])) ?>" target="_blank">查看同款商品</a>】</span>
+	<span style="font-size:12px; font-family:'宋体'">【<a style="color:#F60;" href="<?php //u('tao', 'list', array('cid' => 0, 'q' => $goods['title'])) ?>" target="_blank">查看同款商品</a>】</span>
 	<!--{/if}-->
 </h3>
 <div class="shopitem_main">
-<div class="shopitem_main_l">
-<a class="clickUrl"
-	{echo tao_perfect_click($goods->jump) }
-	href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump }"
-	target="_blank"><img src="{echo $goods->pic_url}" alt="{echo $goods->title}"
-						 onerror="this.src='http://tryanderror.cn/duoduo/images/dian.png'" class="" style="height: 310px;"></a>
-</div>
-<div class="shopitem_main_r">
-<div class="shopitem_main_r_1"><img src="{$pluginpath}Image/protection.gif"></div>
-<div class="shopitem_main_r_3"><span
-	id="price_name" style="font-family:'宋体'"><span class="price"><i><!--{$price_name}--></i></span></span>：
-<span class="price"><!--{echo $goods->price}--></span> 元
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span id="yuanjia" style="display: none;">原价：<span style="text-decoration:line-through"><!--{echo $goods->price}--></span> 元</span>
-</div>
-<div class="shopitem_main_r_3">
+	<div class="shopitem_main_l">
+		<a class="clickUrl"
+		{echo tao_perfect_click($goods->jump) }
+		href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump }"
+		target="_blank"><img src="{$goods->pic_url}" alt="{$goods->title}"
+							 onerror="this.src='http://tryanderror.cn/duoduo/images/dian.png'" class="" style="height: 310px;"></a>
+	</div>
+	<div class="shopitem_main_r">
+		<div class="shopitem_main_r_1"><img src="{$pluginpath}Image/protection.gif"></div>
+		<div class="shopitem_main_r_3"><span
+				id="price_name" style="font-family:'宋体'"><span class="price"><i><!--{$price_name}--></i></span></span>：
+			<span class="price"><!--{$goods->price}--></span> 元
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span id="yuanjia" style="display: none;">原价：<span style="text-decoration:line-through"><!--{$goods->price}--></span> 元</span>
+		</div>
+		<div class="shopitem_main_r_3">
 <span id="zuigaofan" title="<?= TBFLTIP ?>">最高返：
 </span><span id="nofan"><span style="color: #FF3300;font-size: 20px;font-family: Georgia, 'Times New Roman', Times, serif;font-weight: bold;" class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
 <span id="ksq">（可省<b style="font-size:16px; color:#F30"><img src="{$pluginpath}Image/wait3.gif" alt="省钱计算中"/></b>元）</span></span>
+		</div>
+		<!--{if $tao_coupon_str == ''}-->
+		<div class="shopitem_main_r_3">
+			商品数量： <!--{$goods->num}--> 件
+		</div>
+		<!--{else}-->
+		<!--{$tao_coupon_str}-->
+		<!--{/if}-->
+		<div class="shopitem_main_r_3">
+			运费承担： <!--{echo $goods->freight_payer}-->
+		</div>
+		<div class="shopitem_main_r_3">
+			所在地区： <!--{echo $goods->location->state}--> <!--{echo $goods->location->city}-->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <!--{$goods->stuff_status}--><!--{if $goods->has_invoice}--> 有发票<!--{/if}-->
+		</div>
+		<div class="shopitem_main_r_3">
+			掌柜名称： <!--{$goods->nick}-->
+			<!--{echo wangwang($goods->nick)}-->
+		</div>
+		<div class="shopitem_main_r_5">温馨提示：<span> 虚拟商品(如话费，游戏，机票等)无返利哦！</span> </div>
+		<div class="shopitem_main_r_4">
+			<a {echo tao_perfect_click($goods->jump)}
+			class="fanlitip clickUrl" id="clickUrl" href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump}"
+			target="_blank"><img alt="立刻去购买" src="{$pluginpath}Image/buy.gif"/></a><a
+				class="dd_shop_jump" style="cursor:pointer" target="_blank"><img alt="逛逛掌柜店铺" src="{$pluginpath}Image/seller.gif"/></a>
+		</div>
+		<div class="shopitem_main_r_6"><p>宝贝分享：</p>
+			<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
+				<a title="分享到新浪微博" class="bshare-sinaminiblog">新浪</a>
+				<a title="分享到人人网" class="bshare-renren">人人</a>
+				<a title="分享到腾讯微博" class="bshare-qqmb">腾讯</a>
+				<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count">0</span>
+			</div>
+			<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid={$bshare_uuid}&amp;pophcol=2&amp;lang=zh"></script>
+			<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+		</div>
+	</div>
 </div>
-<!--{if $tao_coupon_str == ''}-->
-<div class="shopitem_main_r_3">
-	商品数量： <!--{echo $goods->num}--> 件
-</div>
-<!--{else}-->
-	<!--{$tao_coupon_str}-->
-<!--{/if}-->
-<div class="shopitem_main_r_3">
-	运费承担： <!--{echo $goods->freight_payer}-->
-</div>
-<div class="shopitem_main_r_3">
-	所在地区： <!--{echo $goods->location->state}--> <!--{echo $goods->location->city}-->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新旧程度： <!--{echo $goods->stuff_status}--><!--{if $goods->has_invoice}--> 有发票<!--{/if}-->
-</div>
-<div class="shopitem_main_r_3">
-	掌柜名称： <!--{echo $goods->nick}-->
-	<!--{echo wangwang($goods->nick)}-->
-</div>
-<div class="shopitem_main_r_5">温馨提示：<span> 虚拟商品(如话费，游戏，机票等)无返利哦！</span> </div>
-<div class="shopitem_main_r_4">
-	<a {echo tao_perfect_click($goods->jump)}
-	class="fanlitip clickUrl" id="clickUrl" href="{echo !$_C['api_taobaoke_base'] ? $goods->detail_url : $goods->jump}"
-	target="_blank"><img alt="立刻去购买" src="{$pluginpath}Image/buy.gif"/></a><a
-		class="dd_shop_jump" style="cursor:pointer" target="_blank"><img alt="逛逛掌柜店铺" src="{$pluginpath}Image/seller.gif"/></a>
-</div>
-<div class="shopitem_main_r_6"><p>宝贝分享：</p>
-<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone">QQ</a>
-<a title="分享到新浪微博" class="bshare-sinaminiblog">新浪</a>
-<a title="分享到人人网" class="bshare-renren">人人</a>
-<a title="分享到腾讯微博" class="bshare-qqmb">腾讯</a>
-<a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count">0</span>
-</div>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid={$bshare_uuid}&amp;pophcol=2&amp;lang=zh"></script>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
-</div>
-</div>
-</div>
-
 <script type="text/javascript">
+
 	function showShopInfo(){
 		{eval $parame['seller_nicks']=$nick;
 			php2js_array($jssdk_shops_convert,'parame');}
 		taobaoTaobaokeWidgetShopsConvert(parame);
+	}
+	var commentUrl='';
+	function ddShowShopInfo(shopsInfo){
+		if(shopsInfo['level']>0){
+			jQuery('.shopDetails #shopFxbl').html(shopsInfo['fxbl']+'%');
+			jQuery('.shopDetails .shoptxt-img img').attr('src','{$pluginpath}Image/level/level_'+shopsInfo['level']+'.gif');
+			jQuery('.shopDetails #goodsnum').html('宝贝数量：'+shopsInfo['auction_count']);
+			/*{if $_C['api_taobaoke_base']}*/
+			jQuery('.dd_shop_jump').attr('href',shopsInfo['jump']);
+			/*{else}*/
+			jQuery('.dd_shop_jump').attr('href','http://shop'+shopsInfo['sid']+'.taobao.com');
+			/*{/if}*/
+			/*
+			 mod tao act shop
+			 var str;
+			 var goodsUrl='<?=SITEURL?>/index.php?mod=ajax&act=shop_items_get&uid='+shopsInfo['user_id']+'&nick='+encodeURIComponent(shopsInfo['seller_nick'])+'&taoke='+shopsInfo['taoke']+'&level='+shopsInfo['level'];
+			 $.ajax({
+			 url: goodsUrl,
+			 dataType:'jsonp',
+			 jsonp:"callback",
+			 cache:false,
+			 success: function(data){
+			 if(isEmpty(data)){
+			 tpl='暂无商品';
+			 }
+			 else{
+			 tpl=getTplObj(html_tpl_<?=$list?>,data);
+			 }
+			 $('#splistbox ul').append(tpl);
+			 }
+			 });
+			 */
+
+			/*
+			 mod tao act view
+			 commentUrl='<?=$comment_url?>'+shopsInfo['user_id'];
+			 */
+
+		}
 	}
 	function ddShowFxje(taobaokeItem) {
 		var ddFxje = taobaokeItem.ddFxje;
@@ -448,39 +488,39 @@
 .mn .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_tb { float: right; margin: 45px 0 0 0; }
 .shoplist_main_right_bj { width: 75px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -644px; float: left; margin: 0 10px 0 0; }
 .shoplist_main_right_buy { width: 83px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -669px; float: left; }
- .shoplist_main_2 { margin: 10px 0 20px 12px; padding: 0; width: 728px; overflow: auto; }
- .shoplist_main_2 ul { margin: 0; }
- .shoplist_main_2 li { width: 182px; float: left; line-height: 23px; margin: 0 0 20px 0; }
- .shoplist_main_2 li img { border: 0; }
- .shoplist_main_2 .shoplist_main_left_img_2 img { border: solid 1px #EAEAEA; padding: 3px; }
- .shoplist_main_2 .shoplist_main_left_bt_2 { width: 175px; height: 50px; overflow: hidden; margin: 3px 0 0 0; }
- .shoplist_main_2 .shoplist_main_left_seller_2 { padding-top: 5px; padding: 0; }
- .shoplist_main_2 .shoplist_main_left_seller_2 img { vertical-align: text-bottom; padding: 0; }
- .shoplist_main_2 .shoplist_main_left_xy_2 img { vertical-align: baseline; padding: 0; }
- .shoplist_main_2 .shoplist_main_left_xy_2 { margin: 3px 0 0 0; padding: 0; }
- .shoplist_main_2 .shoplist_main_right_tb_2 { margin: 5px 0 0 0; }
+.shoplist_main_2 { margin: 10px 0 20px 12px; padding: 0; width: 728px; overflow: auto; }
+.shoplist_main_2 ul { margin: 0; }
+.shoplist_main_2 li { width: 182px; float: left; line-height: 23px; margin: 0 0 20px 0; }
+.shoplist_main_2 li img { border: 0; }
+.shoplist_main_2 .shoplist_main_left_img_2 img { border: solid 1px #EAEAEA; padding: 3px; }
+.shoplist_main_2 .shoplist_main_left_bt_2 { width: 175px; height: 50px; overflow: hidden; margin: 3px 0 0 0; }
+.shoplist_main_2 .shoplist_main_left_seller_2 { padding-top: 5px; padding: 0; }
+.shoplist_main_2 .shoplist_main_left_seller_2 img { vertical-align: text-bottom; padding: 0; }
+.shoplist_main_2 .shoplist_main_left_xy_2 img { vertical-align: baseline; padding: 0; }
+.shoplist_main_2 .shoplist_main_left_xy_2 { margin: 3px 0 0 0; padding: 0; }
+.shoplist_main_2 .shoplist_main_right_tb_2 { margin: 5px 0 0 0; }
 .shopright .shopitem { text-align: left; width: 740px; margin: 0 0 0 8px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
 .shopright .shopitem h3 { font-size: 14px; margin: 10px 0 0 5px; border-bottom: #dddddd solid 1px; height: 30px; line-height: 30px; width: 725px; }
- .shopitem_main {  margin: 10px 0 15px 5px;  }
- .shopitem_main .shopitem_main_l { float: left; }
- .shopitem_main .shopitem_main_l a { border: 1px solid #DDDDDD; width: 310px; height: 310px; display: block; padding: 1px; text-align: center }
- .shopitem_main .shopitem_main_l a img { /*width:310px; height:310px*/ }
- .shopitem_main .shopitem_main_r { float: left; margin: 0 0 0 3px; width: 410px; overflow: hidden }
- .shopitem_main .shopitem_main_r .shopitem_main_r_2 { height: 30px; line-height: 30px; margin: 10px 0 0 15px; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_2 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3>.price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
+.shopitem_main {  margin: 10px 0 15px 5px;  }
+.shopitem_main .shopitem_main_l { float: left; }
+.shopitem_main .shopitem_main_l a { border: 1px solid #DDDDDD; width: 310px; height: 310px; display: block; padding: 1px; text-align: center }
+.shopitem_main .shopitem_main_l a img { /*width:310px; height:310px*/ }
+.shopitem_main .shopitem_main_r { float: left; margin: 0 0 0 3px; width: 410px; overflow: hidden }
+.shopitem_main .shopitem_main_r .shopitem_main_r_2 { height: 30px; line-height: 30px; margin: 10px 0 0 15px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_2 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3>.price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
 .shopitem_main_r_3_share a { float: left; margin: 0 4px 0 0; filter: alpha(opacity=50); }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 img { border: 0; vertical-align: middle; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 Ul { }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 li { float: left; width: 100px; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 li a { float: left; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_4 { margin: 10px 0 0 15px; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_4 img { border: 0; margin: 0 10px 0 0; display: inline; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_5 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_5 span { font-weight: bold; color: #0033FF; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_6 { margin: 10px 0 0 15px; }
- .shopitem_main .shopitem_main_r .shopitem_main_r_6 p { float: left; height: 20px; line-height: 20px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3 img { border: 0; vertical-align: middle; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3 Ul { }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3 li { float: left; width: 100px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_3 li a { float: left; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_4 { margin: 10px 0 0 15px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_4 img { border: 0; margin: 0 10px 0 0; display: inline; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_5 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_5 span { font-weight: bold; color: #0033FF; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_6 { margin: 10px 0 0 15px; }
+.shopitem_main .shopitem_main_r .shopitem_main_r_6 p { float: left; height: 20px; line-height: 20px; }
 .shopright .shopitem .shopit_txt { margin: 0 0 20px 10px; width: 720px; overflow: auto; }
 .shopright .shopitem .shopit_txt ul { border-bottom: 1px #FF5F1D solid; overflow: auto; height: 30px; }
 .shopright .shopitem .shopit_txt li { float: left; height: 30px; line-height: 30px; width: 100px; text-align: center; color: #FFFFFF; background-image: url(../../{$pluginpath}Image/tubiao.png); background-position: 0 -769px; margin: 0 5px 0 0; }
