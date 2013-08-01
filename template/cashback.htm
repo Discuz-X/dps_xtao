@@ -41,7 +41,6 @@
 </div>
 </div>
 <div class="itemDetails mn">
-<?php die() ?>
 <div class="shopitem">
 <h3>
 	<!--{echo $goods->title}-->
@@ -60,14 +59,14 @@
 <div class="shopitem_main_r">
 <div class="shopitem_main_r_1"><img src="{$pluginpath}Image/protection.gif"></div>
 <div class="shopitem_main_r_3"><span
-	id="price_name" style="font-family:'宋体'"><span class="tbcuxiao"><i><!--{$price_name}--></i></span></span>：
+	id="price_name" style="font-family:'宋体'"><span class="price"><i><!--{$price_name}--></i></span></span>：
 <span class="price"><!--{echo $goods->price}--></span> 元
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span id="yuanjia" style="display: none;">原价：<span style="text-decoration:line-through"><!--{echo $goods->price}--></span> 元</span>
 </div>
 <div class="shopitem_main_r_3">
 <span id="zuigaofan" title="<?= TBFLTIP ?>">最高返：
-</span><span id="nofan"><span class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
+</span><span id="nofan"><span style="color: #FF3300;font-size: 20px;font-family: Georgia, 'Times New Roman', Times, serif;font-weight: bold;" class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
 <span id="ksq">（可省<b style="font-size:16px; color:#F30"><img src="{$pluginpath}Image/wait3.gif" alt="省钱计算中"/></b>元）</span></span>
 </div>
 <!--{if $tao_coupon_str == ''}-->
@@ -120,30 +119,29 @@
 		var promotion_price = taobaokeItem.promotion_price;
 		var good_price = {$goods->price};
 		if(promotion_price <good_price && promotion_price > 0) {
-			$('.shopitem_main_r .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i>{$promotion_name}</i></span>');
-			$('.shopitem_main_r .shopitem_main_r_3 .price').html(promotion_price);
-			$('.shopitem_main_r .shopitem_main_r_3 #yuanjia').show();
-			$('.shopitem_main_r .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
+			jQuery('.shopitem_main_r .shopitem_main_r_3 #price_name').html('<span class="tbcuxiao"><i>{$promotion_name}</i></span>');
+			jQuery('.shopitem_main_r .shopitem_main_r_3>.price').html(promotion_price);
+			jQuery('.shopitem_main_r .shopitem_main_r_3 #yuanjia').show();
+			jQuery('.shopitem_main_r .shopitem_main_r_3 #zuigaofan').html('折后最高返：');
 			var reg = new RegExp("&price=(.*)&name", "gi");
 			var url = '{$goods->jump}';
 			url = url.replace(reg, '&price=' + promotion_price + '&name');
-			$('.clickUrl').each(function() {
-				$(this).attr(clickUrlAttr, url);
+			jQuery('.clickUrl').each(function() {
+				jQuery(this).attr(clickUrlAttr, url);
 			});
 		}
 		if(ddFxje > 0) {
-			var clickUrl = $('#clickUrl').attr(clickUrlAttr) + '&fan=';
-			$(".shopitem_main_r .shopitem_main_r_3 .dd_fxje").html(ddFxje);
-			$(".shopitem_main_r .shopitem_main_r_3 #ksq b").html(dataType(ddFxje / MONEYBL, 2));
-			$('.clickUrl').each(function() {
-				$(this).attr(clickUrlAttr, clickUrl + ddFxje);
+			var clickUrl = jQuery('#clickUrl').attr(clickUrlAttr) + '&fan=';
+			jQuery(".shopitem_main_r .shopitem_main_r_3 .dd_fxje").html(ddFxje);
+			jQuery(".shopitem_main_r .shopitem_main_r_3 #ksq b").html(dataType(ddFxje / {echo 'MONEYBL'}, 2));
+			jQuery('.clickUrl').each(function() {
+				jQuery(this).attr(clickUrlAttr, clickUrl + ddFxje);
 			});
-			$('.shopitem .goodscomment .pingjia .pingjia_more a').attr('href', clickUrl + ddFxje);
+			jQuery('.shopitem .goodscomment .pingjia .pingjia_more a').attr('href', clickUrl + ddFxje);
+		} else {
+			jQuery(".shopitem_main_r .shopitem_main_r_3 #nofan").css('font-size', '14px').css('color', 'red').html('<b>该商品暂无返利</b>');
 		}
-		else {
-			$(".shopitem_main_r .shopitem_main_r_3 #nofan").css('font-size', '14px').css('color', 'red').html('<b>该商品暂无返利</b>');
-		}
-		$('#shopit_txt .shopit_txt_ms').show();
+		jQuery('#shopit_txt .shopit_txt_ms').show();
 		showShopInfo();
 	}
 </script>
@@ -212,42 +210,45 @@
 	function ddJssdkCallBack() {
 		if(ddJssdkCallBackOk == 0) {
 			ddJssdkCallBackOk = 1;
-
-			//{if in_array($jssdk_items_convert['cid'],$virtual_cid['goods'])} //虚拟商品返利强制为0
+			/*{if in_array($jssdk_items_convert['cid'],$virtual_cid['goods'])}*/ //虚拟商品返利强制为0
 			ddShowFxje(0);
-			//{else}
-			{eval php2js_array($jssdk_items_convert,'parame')}
-			taobaoTaobaokeWidgetItemsConvert(parame);
-			//{/if}
-			//{if !$_C["api_taobaoke_base"]}
+			/*{else}*/
+			$LAB.script(url).wait(function(){
+				{eval php2js_array($jssdk_items_convert,'parame')}
+				taobaoTaobaokeWidgetItemsConvert(parame);
+			});
+			/*{/if}*/
+			/*{if !$_C["api_taobaoke_base"]}*/
 			clearInterval(checkKeyIntervalId);
-			//{/if}
+			/*{/if}*/
 		}/*{if !$_C["api_taobaoke_base"]}*/	else {
 			clearInterval(checkKeyIntervalId);
 		}
-		//{/if}
+		/*{/if}*/
 	}
-	//{if !$_C["api_taobaoke_base"]}
+	/*{if !$_C["api_taobaoke_base"]}*/
 	checkKeyTime = 0;
 	function checkKey() {
 		if(checkKeyTime == 30) {
 			clearInterval(checkKeyIntervalId);
 		} else {
 			checkKeyTime++;
-			if(JSSDK_SIGN.length != 0) {
+			if(typeof JSSDK_SIGN != 'undefined') {
 				ddJssdkCallBack();
 			}
 		}
 	}
 	var checkKeyIntervalId = setInterval("checkKey()", 500);
-	//{else}
+	/*{else}*/
 	ddJssdkCallBack();
-	//{/if}
+	/*{/if}*/
 	//$(".shopright .shopitem_main_l").imgAutoSize(310, 310);
 	function suanfanli(v) {
 		f = fan * v / price;
 		jQuery('#jumpbox .text_f').text(dataType(f, 1));
 	}
+	var TAO_TYPE = 1;
+	$LAB.script('plugin.php?id=dps_xtao:getkeysign');
 </script>
 <!--
 <script type="text/javascript">
@@ -324,39 +325,16 @@
 		//{/if}
 	});*/
 </script>-->
-<!--{if $_C['api_taobaoke_base']}-->
-<script type="text/javascript">
-	TAO_TYPE = 2;
-	JSSDK_TIME = '<?=$jssdk_time?>';
-	JSSDK_SIGN = '<?=$jssdk_sign?>';
-</script>
-<!--{else}-->
-<script type="text/javascript">
-	TAO_TYPE = 1;
-	JSSDK_TIME = 0;
-	JSSDK_SIGN = '';
-	$LAB.script('plugin.php?id=dps_xtao:getkeysign');
-</script>
-<!--{/if}-->
-
-<div class="shopit_txt">
-	<ul>
-		<li><a href="<?= u('tao', 'jiu') ?>">九元购包邮</a></li>
-	</ul>
-	<div class="shopit_txt_ms">
-		<script>iframe('<?=DD_YUN_URL?>/index.php?m=shuju&a=jiu&ad=1&cid=<?=$goods['cid']?>&url=<?=urlencode(u('tao','view',array('iid'=>99999999)))?>', 720, 260)</script>
-	</div>
-</div>
 <div class="shopit_txt" id="shopit_txt">
 	<ul>
-		<?php if(WEBTYPE == 1) { ?>
+		<!--{if $_C['page_description']}-->
 		<li><a do='desc'>宝贝描述</a></li>
-		<?php } ?>
-		<?php if($webset['taoapi']['goods_comment'] == 1) { ?>
+		<!--{/if}-->
+		<!--{if $_C['goods_comment']}-->
 		<li class="shopit_xz"><a id="pjan" do="comment" url="">商品评价</a></li>
-		<?php } ?>
+		<!--{/if}-->
 	</ul>
-	<div class="shopit_txt_ms" style="display:none"><?= $goods['desc'] ?></div>
+	<div class="shopit_txt_ms" style="display:none"><!--{$goods->desc}--></div>
 </div>
 <div class="goodscomment" style=" display:none">
 	<div class="pjdf">
@@ -368,11 +346,11 @@
 						<font class="ajaxpjdf" style="font-size:24px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; color:#FF6600">5.0</font> 分
 					</div>
 					<div style="float:left">
-						<DIV class=xx3 style="padding-top:5px">
-							<DIV class="bg5bx">
-								<DIV class="ov5hx" style="WIDTH: 100px;"></DIV>
-							</DIV>
-						</DIV>
+						<div class="xx3" style="padding-top:5px">
+							<div class="bg5bx">
+								<div class="ov5hx" style="width: 100px;"></div>
+							</div>
+						</div>
 					</div>
 					<div style="clear:both"></div>
 				</li>
@@ -381,13 +359,9 @@
 		</div>
 		<div class="pjright">
 			<ul>
-				<li style="width:380px; height:20px; margin-top:21px;">
-					<div id="biaochi" style="width:28px; height:21px; background:url(template/<?= MOBAN ?>/images/pjfs.gif); margin-left:370px; text-align:center;">
-						<font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font>
-					</div>
-				</li>
-				<li style="background:url(template/<?= MOBAN ?>/images/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
-				<li style=" width:420px; background:url(template/<?= MOBAN ?>/images/pjfssm.gif) no-repeat; height:45px;"></li>
+				<li style="width:380px; height:20px; margin-top:21px;"><div id="biaochi" style="width:28px; height:21px; background:url({$pluginpath}Image/pjfs.gif); margin-left:370px; text-align:center;"><font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font></div></li>
+				<li style="background:url({$pluginpath}Image/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
+				<li style=" width:420px; background:url({$pluginpath}Image/pjfssm.gif) no-repeat; height:45px;"></li>
 			</ul>
 		</div>
 	</div>
@@ -403,76 +377,17 @@
 		<div id="comment">
 		</div>
 		<div class="pingjia_more">
-			<a href="<?= $goods['jump'] ?>" target="_blank">更 多</a>
+			<a href="<?php// $goods['jump'] ?>" target="_blank">更 多</a>
 		</div>
 	</div>
 </DIV>
 </div>
 
 
-		<div class="shopit_txt">
-			<ul class="cl">
-				<li style="float: left;height: 30px;line-height: 30px;width: 100px;text-align: center;color: #FFFFFF;background-image: url(../../{$pluginpath}Image/tubiao.png);background-position: 0 -769px;margin: 0 5px 0 0;"><a href="http://tryanderror.cn/duoduo/index.php?mod=tao&amp;act=jiu" _hover-ignore="1">九元购包邮</a> </li>
-			</ul>
-			<div class="shopit_txt_ms">
-				<script>iframe('http://yun.duoduo123.com/index.php?m=shuju&a=jiu&ad=1&cid=1512&url=http%3A%2F%2Ftryanderror.cn%2Fduoduo%2Findex.php%3Fmod%3Dtao%26act%3Dview%26iid%3D99999999',720,260)</script><iframe id="testframe" scrolling="no" src="http://yun.duoduo123.com/index.php?m=shuju&amp;a=jiu&amp;ad=1&amp;cid=1512&amp;url=http%3A%2F%2Ftryanderror.cn%2Fduoduo%2Findex.php%3Fmod%3Dtao%26act%3Dview%26iid%3D99999999" width="720" height="260" frameborder="0"></iframe>
-			</div>
-		</div>
 
-
-		<div class="shopit_txt" id="shopit_txt">
-			<ul>
-			</ul>
-			<div class="shopit_txt_ms" style=""></div>
-		</div>
-		<div class="goodscomment" style=" display:none">
-
-			<div class="pjdf">
-				<div class="pjleft"><ul>
-					<li class="pjfs">店铺的“宝贝与描述相符”得分</li>
-					<li class="pjfs2">
-						<div style="float:left"><font class="ajaxpjdf" style="font-size:24px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; color:#FF6600">5.0</font> 分</div>
-						<div style="float:left">
-							<div class="xx3" style="padding-top:5px">
-								<div class="bg5bx">
-									<div class="ov5hx" style="WIDTH: 100px;"></div>
-								</div>
-							</div>
-						</div>
-						<div style="clear:both"></div>
-					</li>
-					<li class="gdf">(共打分 <font id="pjdfnum" color="#FF6600">100</font> 次)</li>
-				</ul>
-				</div>
-				<div class="pjright">
-					<ul>
-						<li style="width:380px; height:20px; margin-top:21px;"><div id="biaochi" style="width:28px; height:21px; background:url({$pluginpath}Image/pjfs.gif); margin-left:370px; text-align:center;"><font class="ajaxpjdf" style="font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#fff">4.5</font></div></li>
-						<li style="background:url({$pluginpath}Image/rate_scroller_bar.png) no-repeat; width:400px; height:20px;"></li>
-						<li style=" width:420px; background:url({$pluginpath}Image/pjfssm.gif) no-repeat; height:45px;"></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="pingjia">
-				<div class="pingjia_bt">
-					<div class="pingjia_bt_l">
-						评论
-					</div>
-					<div class="pingjia_bt_r">
-						评价人
-					</div>
-				</div>
-				<div id="comment">
-
-				</div>
-				<div class="pingjia_more">
-					<a href="http://item.taobao.com/item.htm?id=16393723229" target="_blank">更 多</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 </div>
+
 <style type="text/css">
 .shoptxt-dt .title {float:left;}
 .shopleft { width: 250px; float: left; margin: 10px 0 0 0; padding: 0; }
@@ -487,7 +402,7 @@
 .shopleft .shopmessage .shoptxt .shoptxt-img { vertical-align: bottom; }
 .shopleft .shopmessage .shoptxt b { font-size: 12px; margin: 5px 0 5px 0; display: block; }
 .shopleft .shopmessage .shoptxt .shoptxt-dt { width: 228px; clear: both; height: 25px; }
-.xx3 {padding-top: 6px;}
+.xx3 { padding-top: 6px; }
 .xx3 .bg5bx { WIDTH: 100px; BACKGROUND: url(../../{$pluginpath}Image/5bx.gif) no-repeat 0px 0px; FLOAT: left; HEIGHT: 19px }
 .xx3 .ov5hx { BACKGROUND: url(../../{$pluginpath}Image/5hx.gif) 0px 0px; HEIGHT: 19px }
 .shopleft .shopmessage .shoptxt .title { float: left; }
@@ -502,36 +417,35 @@
 .shopleft .shopxiangguan ul li p b { color: #329900; }
 .shopleft .shopxiangguan ul { margin: 0 0 20px 0; }
 .shopleft .shopxiangguan ul li img:hover { border: 1px solid #D0210C; }
-.shopright { width: 750px; float: right; margin: 10px 0 0 0; padding: 0; }
-.shopright .shoplist { text-align: left; width: 740px; margin: 0 0 0 8px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
-.shopright .shoplist .shoplist_top { margin: 18px 0 0 10px; padding: 0; width: 720px; overflow: auto; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #EAEAEA; height: 25px; }
-.shopright .shoplist .shoplist_hot { margin: 0px; padding: 0; width: 660px; float: left; overflow: auto; height: 20px; overflow: hidden; }
-.shopright .shoplist .shoplist_hot h3 { font-size: 14px; }
-.shopright .shoplist .shoplist_hot ul { width: 660px; }
-.shopright .shoplist .shoplist_hot li { float: left; padding: 0 10px 10px 0; }
-.shopright .shoplist .shoplist_hot li a { font-size: 14px; color: #FF3300; }
-.shopright .shoplist .shoplist_xs { margin: 0px; padding: 0; width: 40px; float: right; overflow: auto; }
-.shopright .shoplist .shoplist_xs_1 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -622px; cursor: pointer; float: left; }
-.shopright .shoplist .shoplist_xs_2 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: -16px -622px; cursor: pointer; float: right; }
-.shopright .shoplist .shoplist_main { margin: 10px 0 0 10px; padding: 0; width: 720px; overflow: auto; }
-.shopright .shoplist .shoplist_main ul { margin: 10px 0 20px 0; }
-.shopright .shoplist .shoplist_main li { height: 115px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: #CCCCCC; margin: 0 0 15px 0; }
-.shopright .shoplist .shoplist_main .shoplist_main_left { width: 430px; float: left; color: #666666; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img { float: left; width: 110px; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img img { border: 0; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_bt a { font-size: 14px; line-height: 22px; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell { margin: 14px 0 0 0; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell img { vertical-align: bottom; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell span { color: #FF0000; font-weight: bold; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller { margin: 8px 0 0 0; }
-.shopright .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller img { vertical-align: middle; border: 0; }
-.shopright .shoplist .shoplist_main .shoplist_main_right { width: 290px; float: right; }
-.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price { float: right; margin: 3px 0 0 0; height: 30px; }
-.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price p { float: left; margin: 0 0 0 10px; }
-.shopright .shoplist p span { color: #FF3300; font-size: 14px; font-weight: bold; }
-.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price a:link { color: #FF6600; font-size: 12px; font-weight: bold; }
-.shopright .shoplist .greenfont { color: #4EA205; font-weight: bold; font-size: 14px; }
-.shopright .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_tb { float: right; margin: 45px 0 0 0; }
+.mn .shoplist { text-align: left; width: 740px; margin: 0 0 0 8px; padding: 0; background-color: #ffffff; border: 1px solid #D0210C; }
+.mn .shoplist .shoplist_top { margin: 18px 0 0 10px; padding: 0; width: 720px; overflow: auto; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #EAEAEA; height: 25px; }
+.mn .shoplist .shoplist_hot { margin: 0px; padding: 0; width: 660px; float: left; overflow: auto; height: 20px; overflow: hidden; }
+.mn .shoplist .shoplist_hot h3 { font-size: 14px; }
+.mn .shoplist .shoplist_hot ul { width: 660px; }
+.mn .shoplist .shoplist_hot li { float: left; padding: 0 10px 10px 0; }
+.mn .shoplist .shoplist_hot li a { font-size: 14px; color: #FF3300; }
+.mn .shoplist .shoplist_xs { margin: 0px; padding: 0; width: 40px; float: right; overflow: auto; }
+.mn .shoplist .shoplist_xs_1 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -622px; cursor: pointer; float: left; }
+.mn .shoplist .shoplist_xs_2 { margin: 0; padding: 0; width: 16px; height: 16px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: -16px -622px; cursor: pointer; float: right; }
+.mn .shoplist .shoplist_main { margin: 10px 0 0 10px; padding: 0; width: 720px; overflow: auto; }
+.mn .shoplist .shoplist_main ul { margin: 10px 0 20px 0; }
+.mn .shoplist .shoplist_main li { height: 115px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: #CCCCCC; margin: 0 0 15px 0; }
+.mn .shoplist .shoplist_main .shoplist_main_left { width: 430px; float: left; color: #666666; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img { float: left; width: 110px; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_img img { border: 0; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_bt a { font-size: 14px; line-height: 22px; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell { margin: 14px 0 0 0; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell img { vertical-align: bottom; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_sell span { color: #FF0000; font-weight: bold; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller { margin: 8px 0 0 0; }
+.mn .shoplist .shoplist_main .shoplist_main_left .shoplist_main_left_seller img { vertical-align: middle; border: 0; }
+.mn .shoplist .shoplist_main .shoplist_main_right { width: 290px; float: right; }
+.mn .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price { float: right; margin: 3px 0 0 0; height: 30px; }
+.mn .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price p { float: left; margin: 0 0 0 10px; }
+.mn .shoplist p span { color: #FF3300; font-size: 14px; font-weight: bold; }
+.mn .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_price a:link { color: #FF6600; font-size: 12px; font-weight: bold; }
+.mn .shoplist .greenfont { color: #4EA205; font-weight: bold; font-size: 14px; }
+.mn .shoplist .shoplist_main .shoplist_main_right .shoplist_main_right_tb { float: right; margin: 45px 0 0 0; }
 .shoplist_main_right_bj { width: 75px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -644px; float: left; margin: 0 10px 0 0; }
 .shoplist_main_right_buy { width: 83px; height: 25px; display: block; background: url(../../{$pluginpath}Image/tubiao.png); background-repeat: no-repeat; background-position: 0px -669px; float: left; }
  .shoplist_main_2 { margin: 10px 0 20px 12px; padding: 0; width: 728px; overflow: auto; }
@@ -554,7 +468,7 @@
  .shopitem_main .shopitem_main_r { float: left; margin: 0 0 0 3px; width: 410px; overflow: hidden }
  .shopitem_main .shopitem_main_r .shopitem_main_r_2 { height: 30px; line-height: 30px; margin: 10px 0 0 15px; }
  .shopitem_main .shopitem_main_r .shopitem_main_r_2 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
- .shopitem_main .shopitem_main_r .shopitem_main_r_3 .price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
+ .shopitem_main .shopitem_main_r .shopitem_main_r_3>.price { color: #FF3300; font-size: 20px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold }
  .shopitem_main .shopitem_main_r .shopitem_main_r_3 { height: 29px; line-height: 29px; margin: 0 0 0 15px; }
 .shopitem_main_r_3_share a { float: left; margin: 0 4px 0 0; filter: alpha(opacity=50); }
  .shopitem_main .shopitem_main_r .shopitem_main_r_3 img { border: 0; vertical-align: middle; }
@@ -762,26 +676,6 @@ h3 { font-family: "黑体"; font-size: 13px; }
 .loginWays1 #menu_usernav ul li { width: 80px; margin-bottom: 5px; border-bottom: #CCC dashed 1px; line-height: 24px }
 .loginWays1 #menu_usernav ul li a:link { color: #666 }
 .loginWays1 #menu_usernav ul li a:hover { text-decoration: underline; color: #F60 }
-.topleftA .fl { float: left }
-	/*template/default/css/hf.css*//*广告位*/
-#ad1 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad2 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad3 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad4 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad5 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad6 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad7 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad8 { width: 248px; height: auto; overflow: hidden; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad9 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-bottom: 10px; }
-#ad10 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; margin-bottom: 5px; }
-#ad11 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 3px; margin-bottom: 5px; }
-#ad12 { width: 950px; height: auto; overflow: hidden; margin: auto; margin-top: 0px; }
-#ad13 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad14 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad15 { width: 998px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; border: 1px solid #D0210C; text-align: center; background: #FFF }
-#ad16 { width: 290px; height: auto; overflow: hidden; margin: auto; margin-top: 5px; }
-#ad108 { width: 1000px; height: auto; overflow: hidden; margin: auto; margin-top: 10px; }
-	/*其他*/
 body { height: 100% }
 ul { list-style: none; }
 li { list-style-type: none; PADDING: 0px; MARGIN: 0px; }
@@ -941,20 +835,12 @@ form label.validate_right { padding-left: 12px; background: transparent url(../.
 #shareContain .shareform #dopic .main .main1 #tao_url { width: 324px; height: 20px; border: 1px solid #CFCFCF; background: #FFF; line-height: 20px }
 #shareContain .shareform #dopic .main .main1 #get_tao_img { border: 1px solid #CFCFCF; background: #F7F7F7; width: 40px; height: 23px; text-align: center; line-height: 21px; color: #000; cursor: pointer }
 	/*template/default/css/common.css*/
-@charset "utf-8";
-* { margin: 0px; padding: 0px }
-img { border: 0px }
-:focus { outline: 0 none }
-ul, li { list-style: none }
-.clear { clear: both }
 .red { color: #f00 }
 .org { color: #F50 }
 .bla { color: #000 }
 .whi { color: #fff }
 .block { display: block }
 .none { display: none }
-.fl { float: left }
-.fr { float: right }
 .head a:hover { text-decoration: none }
 .green { color: #139C00 }
 .blue { color: #0063DC }
