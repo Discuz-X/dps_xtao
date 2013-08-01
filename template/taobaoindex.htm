@@ -8,12 +8,14 @@
 <div class="z">
 <a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a>
 <em>&raquo;</em><a href="plugin.php?id=dps_xtao:taobaoindex">$plugintitle</a>
-<em>&raquo;</em>$thisnav
+<em>&raquo;</em><input class="keyword" type="text" readonly="readonly" value="$thisnav"
+					   onfocus="var _this = this;setTimeout(function(){_this.select();},50);" onblur="this.select()" />
 </div>
 </div>
 
 <style type="text/css">
 div { margin: 0; padding: 0; }
+.keyword {width: 800px; cursor: text;}
 #container { height: 30px; line-height: 30px; margin: 10px 0; border: 0px solid #CCCCCC; }
 #container .right { float: left; margin-left: 10px; }
 #container .left { float: left; }
