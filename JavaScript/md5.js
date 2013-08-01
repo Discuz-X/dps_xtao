@@ -1,3 +1,4 @@
+(function(w){
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.
@@ -23,6 +24,34 @@ function str_md5(s){ return binl2str(core_md5(str2binl(s), s.length * chrsz));}
 function hex_hmac_md5(key, data) { return binl2hex(core_hmac_md5(key, data)); }
 function b64_hmac_md5(key, data) { return binl2b64(core_hmac_md5(key, data)); }
 function str_hmac_md5(key, data) { return binl2str(core_hmac_md5(key, data)); }
+
+var md5 = {
+	hex:hex_md5,
+	b64:b64_md5,
+	str:str_md5,
+	hex_hmac:hex_hmac_md5,
+	b64_hmac:b64_hmac_md5,
+	str_hmac:str_hmac_md5
+};
+//封装函数库
+if ( typeof module === "object" && module && typeof module.exports === "object" ) {
+	// Expose jQuery as module.exports in loaders that implement the Node
+	// module pattern (including browserify). Do not create the global, since
+	// the user will be storing it themselves locally, and globals are frowned
+	// upon in the Node module world.
+	module.exports = md5;
+} else if ( typeof define === "function" && define.amd ) {
+	// Register as a named AMD module, since jQuery can be concatenated with other
+	// files that may use define, but not via a proper concatenation script that
+	// understands anonymous AMD modules. A named AMD is safest and most robust
+	// way to register. Lowercase jquery is used because AMD module names are
+	// derived from file names, and jQuery is normally delivered in a lowercase
+	// file name. Do this after creating the global so that if an AMD module wants
+	// to call noConflict to hide this version of jQuery, it will work.
+	define( "md5", [], function () { return md5; } );
+} else {
+	window.md5 = md5;
+}
 /*
  * Perform a simple self-test to see if the VM is working
  */
@@ -84,3 +113,4 @@ function binl2hex(binarray) { var hex_tab = hexcase ? "0123456789ABCDEF" : "0123
  */
 function binl2b64(binarray) { var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", str = ""; for(var i = 0; i < binarray.length * 4; i += 3) { var triplet = (((binarray[i>>2]>>8 * ( i % 4)) & 0xFF)<<16) | (((binarray[i + 1>>2]>>8 * ((i + 1) % 4)) & 0xFF)<<8 ) | ((binarray[i + 2>>2]>>8 * ((i + 2) % 4)) & 0xFF); for(var j = 0; j < 4; j++) { if(i * 8 + j * 6 > binarray.length * 32) str += b64pad; else str += tab.charAt((triplet>>6 * (3 - j)) & 0x3F); } } return str; }
 /*js/md5.js*/
+})(window);
