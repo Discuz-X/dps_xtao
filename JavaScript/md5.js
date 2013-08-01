@@ -31,7 +31,8 @@ var md5 = {
 	str:str_md5,
 	hex_hmac:hex_hmac_md5,
 	b64_hmac:b64_hmac_md5,
-	str_hmac:str_hmac_md5
+	str_hmac:str_hmac_md5,
+	test:md5_vm_test
 };
 //封装函数库
 if ( typeof module === "object" && module && typeof module.exports === "object" ) {
