@@ -3,6 +3,15 @@
 <link rel="stylesheet" type="text/css" href="{$pluginpath}CSS/style.css"/>
 <script src="{$pluginpath}JavaScript/shop.js"></script>
 <script src="{$pluginpath}JavaScript/base64.js"></script>
+<script type="text/javascript">
+requirejs.config({
+	enforceDefine: true,
+	paths: {
+		md5:'{$pluginpath}JavaScript/md5',
+		jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min'
+	}
+});
+</script>
 <script src="{$pluginpath}JavaScript/func.js"></script>
 <div id="pt" class="bm cl">
 <div class="z">
