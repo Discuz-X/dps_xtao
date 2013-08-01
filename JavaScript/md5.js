@@ -26,9 +26,7 @@ function str_hmac_md5(key, data) { return binl2str(core_hmac_md5(key, data)); }
 /*
  * Perform a simple self-test to see if the VM is working
  */
-function md5_vm_test() {
-	return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
-}
+function md5_vm_test() { return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72"; }
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length
  */
