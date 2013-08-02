@@ -4,8 +4,8 @@
 .cashback .itemDetails .name { border-bottom: #DDDDDD solid 1px; }
 .cashback .shoplogo-img, .cashback .shoplogo-font { float:left; margin: 20px; }
 .cashback .shoplogo-img img { vertical-align: middle; }
-.cashback .price, #shopDiscountPercent { font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px; font-style: italic; color: #FF3300; font-weight: bold; margin: 2px 0 0 0; padding: 0; }
-.cashback .price { font-size: 20px; }
+.cashback .price, .cashback .price.dd_fxje, #shopDiscountPercent { font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px; font-style: italic; color: #FF3300; font-weight: bold; margin: 2px 0 0 0; padding: 0; }
+.cashback .price, .cashback .price.dd_fxje { font-size: 20px; }
 .cashback .shoptxt p { line-height: 22px; }
 .cashback .shoptxt b { line-height: 34px; }
 .cashback ._5bx { width: 100px; background: url({$pluginpath}Image/5bx.gif) no-repeat 0px 0px; height: 19px; margin: 0 auto; }
@@ -102,7 +102,7 @@
 			</div>
 			<div class="shopitem_main_r_3">
 	<span id="zuigaofan" title="<?= TBFLTIP ?>">最高返：
-	</span><span id="nofan"><span style="color: #FF3300;font-size: 20px;font-family: Georgia, 'Times New Roman', Times, serif;font-weight: bold;" class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
+	</span><span id="nofan"><span class="price dd_fxje"><img src="{$pluginpath}Image/wait3.gif" alt="集分宝计算中"/></span>个集分宝
 	<span id="ksq">（可省<b style="font-size:16px; color:#F30"><img src="{$pluginpath}Image/wait3.gif" alt="省钱计算中"/></b>元）</span></span>
 			</div>
 			<!--{if $tao_coupon_str == ''}-->
